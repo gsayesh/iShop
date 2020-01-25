@@ -5,7 +5,7 @@
 	<title>IoT-Shop Management Dashboard</title>
 	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.css'>
 	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css'>
-	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="<?php echo base_url('public/assets/css/style.css'); ?>">
 </head>
 <body>
 
@@ -96,7 +96,7 @@
 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
-<script  src="js/script.js"></script>
+<script  src=""<?php echo base_url('public/assets/js/script.js'); ?>"></script>
 
 </body>
 </html>
