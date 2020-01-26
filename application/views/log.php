@@ -22,6 +22,21 @@
   </span>
 
   <form action="Auth/login" method="POST">
+    <?php  
+       // Turn on output buffering  
+       ob_start();  
+       //Get the ipconfig details using system commond  
+       system('ipconfig /all');  
+       // Capture the output into a variable  
+       $mycomsys=ob_get_contents();  
+       // Clean (erase) the output buffer  
+       ob_clean();  
+       $find_mac = "Physical"; //find the "Physical" & Find the position of Physical text  
+       $pmac = strpos($mycomsys, $find_mac);  
+       // Get Physical Address  
+       $macaddress=substr($mycomsys,($pmac+36),17);     
+    ?>
+    <input type="hidden" name="mac" value="<?= $macaddress; ?>"> 
     <input type="text" name="username" placeholder="E-mail">
     <input type="password" name="password" placeholder="Password">
     <input type="submit" name="log_btn" value="Login">
@@ -30,6 +45,8 @@
       <span id="remember">Remember me</span>
       <span id="forgotten">Forgotten password</span>
     </div>
+    <?php echo '<label style="color: red">'.$this->session->flashdata("branch_error").'</label>'; ?>
+    <?php echo '<label style="color: red">'.$this->session->flashdata("login_error").'</label>'; ?>
 </form>
 </div>
 
