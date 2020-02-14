@@ -23,8 +23,7 @@ class Auth extends CI_Controller {
                     $this->session->set_userdata('user_id', $result['user_id']);
                     $this->session->set_userdata('username', $result['first_name']);
 
-                    $this->load->view('includes/header');
-                    $this->load->view('admin/a_main');
+                    $this->load->view('admin/admin');
 
                 }else if($result['position'] == 'Cashier'){
                     //Check the Login Device
@@ -34,8 +33,7 @@ class Auth extends CI_Controller {
                         $this->session->set_userdata('branch_id', $branch_res['branch_id']);
                         $this->session->set_userdata('branch_name', $branch_res['branch_name']);
 
-                        $this->load->view('includes/header');
-                        $this->load->view('cashier/c_main');
+                        $this->load->view('cashier/cashier');
                     }else{
                         $this->session->set_flashdata('branch_error','Invalid Device');
                         redirect('Welcome');
@@ -47,7 +45,6 @@ class Auth extends CI_Controller {
                     $this->session->set_userdata('branch_id', $branch_res['branch_id']);
                     $this->session->set_userdata('branch_name', $branch_res['branch_name']);
 
-                    $this->load->view('includes/header');
                     $this->load->view('stock/s_main');
                     }else{
                         $this->session->set_flashdata('branch_error','Invalid Device');
