@@ -5,7 +5,7 @@
   <title>IoT-Shop Management Information System</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
-<link rel="stylesheet" href="<?php echo base_url();?>./style.css">
+<link rel="stylesheet" href="<?php echo base_url('public/assets/css/style.css'); ?>">
 
 </head>
 <body>
@@ -27,7 +27,7 @@
         <a href="#"><i class="fa fa-cogs" aria-hidden="true"> </i><p>Settings</p></a>
         <a href="#"><i class="fa fa-user" aria-hidden="true"> </i><p>Profile</p></a>
                   <!-- User Accounts // Add , remove user in this module -->
-        <a href="#"><i class="fa fa-sign-out" aria-hidden="true"> </i><p>Log Out</p></a>
+        <a href="<?= base_url().'Auth/logout'?>"><i class="fa fa-sign-out" aria-hidden="true"> </i><p>Log Out</p></a>
     </nav>
     <div class="side-info">
       <div class="date">
