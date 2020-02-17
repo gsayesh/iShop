@@ -31,12 +31,12 @@
     </nav>
     <div class="side-info">
       <div class="date">
-        <p>10 Feb, Monday</p>
+        <p id="dt"></p>
       </div>
       <div class="time-container">
         <div class="time">
-          <p>8:00</p>
-          <p>pm</p>
+          <p id="tm"></p>
+          <p id="apm"></p>
         </div>
       </div>
     </div>
@@ -68,7 +68,25 @@
   </div>
 </body>
 <!-- partial -->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js'></script><script  src="./script.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js'></script>
+  <script  src="<?php echo base_url('public/assets/js/script.js'); ?>"></script>
+  <script type="text/javascript">
+          setInterval(function(){
+          var dt = new Date();
 
+          //print the current date   
+          var weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+          var months    = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+          var day = weekdays[dt.getDay()];
+          var month = months[dt.getMonth()];
+          document.getElementById("dt").innerHTML = (("0"+dt.getDate()).slice(-2)) +" "+ month + ", "+ day;
+
+          //print the current time  
+          var amOrPm = (dt.getHours() < 12) ? "AM" : "PM";
+          var hour = (dt.getHours() < 12) ? dt.getHours() : dt.getHours() - 12;
+          document.getElementById("tm").innerHTML = hour + ':' + ("0"+dt.getMinutes()).slice(-2);
+          document.getElementById("apm").innerHTML = amOrPm;
+          }, 1000);
+  </script>
 </body>
 </html>

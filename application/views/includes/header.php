@@ -23,7 +23,7 @@
                       <li><a href="#"><span class="fa fa-user"></span>My Profile</a></li>
                       <li><a href="#"><span class="fa fa-gear"></span>Settings</a></li>
                       <li class="divider"></li>
-                      <li><a href="<?= base_url().'Auth/logout'?>"><span class="fa fa-power-off"></span>Logout</a></li>
+                      <li><a href="<?= base_url('Auth/logout') ?>"><span class="fa fa-power-off"></span>Logout</a></li>
                   </ul>
               </li>
 

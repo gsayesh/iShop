@@ -7,64 +7,72 @@ class Auth extends CI_Controller {
 
 		try {
 
-            $userid = ($this->input->post('username')) ? $this->input->post('username') : '';
-			$password = ($this->input->post('password')) ? $this->input->post('password') : '';
-            $mac = ($this->input->post('mac')) ? $this->input->post('mac') : '';
-            
-            //Send & Receive Userinfo from the Model
-            $result = $this->Auth_Model->login_user($userid, $password);
+			$userid = $this->input->post('username');
+			$password = $this->input->post('password');
+			$mac = ($this->input->post('em')) ? $this->input->post('em') : '';
+			$encPassowrd = md5($password);
 
-            //Send & Receive Bracnhinfo from the Model
-            $branch_res = $this->Auth_Model->branch($mac);
+			$this->form_validation->set_rules('username','Username','trim|required|xss_clean');
+			$this->form_validation->set_rules('password','Password','trim|required|xss_clean');
 
-            if ($result) {
-                //Navigate User to Related View
-                if($result['position'] == 'Admin'){
-                    $this->session->set_userdata('user_id', $result['user_id']);
-                    $this->session->set_userdata('username', $result['first_name']);
+			if($this->form_validation->run() == FALSE){
+				$this->load->view('log');
+			}else{
+			   //Send & Receive Userinfo from the Model
+				$result = $this->Auth_Model->login_user($userid, $encPassowrd);
 
-                    $this->load->view('admin/admin');
+				//Send & Receive Bracnhinfo from the Model
+				$branch_res = $this->Auth_Model->branch($mac);
 
-                }else if($result['position'] == 'Cashier'){
-                    //Check the Login Device
-                    if($branch_res){
-                        $this->session->set_userdata('user_id', $result['user_id']);
-                        $this->session->set_userdata('username', $result['first_name']);
-                        $this->session->set_userdata('branch_id', $branch_res['branch_id']);
-                        $this->session->set_userdata('branch_name', $branch_res['branch_name']);
+				if ($result) {
+				//Navigate User to Related View
+					if($result['position'] == 'Admin'){
+						$this->session->set_userdata('user_id', $result['user_id']);
+						$this->session->set_userdata('username', $result['first_name']);
+					//echo $encPassowrd;
+						$this->load->view('admin/admin');
 
-                        $this->load->view('cashier/cashier');
-                    }else{
-                        $this->session->set_flashdata('branch_error','Invalid Device');
-                        redirect('Welcome');
-                    }
-                }else if($result['position'] == 'Skeeper'){
-                    if($branch_res){
-                    $this->session->set_userdata('user_id', $result['user_id']);
-                    $this->session->set_userdata('username', $result['first_name']);
-                    $this->session->set_userdata('branch_id', $branch_res['branch_id']);
-                    $this->session->set_userdata('branch_name', $branch_res['branch_name']);
+					}else if($result['position'] == 'Cashier'){
+					//Check the Login Device
+						if($branch_res){
+							$this->session->set_userdata('user_id', $result['user_id']);
+							$this->session->set_userdata('username', $result['first_name']);
+							$this->session->set_userdata('branch_id', $branch_res['branch_id']);
+							$this->session->set_userdata('branch_name', $branch_res['branch_name']);
+						//echo $encPassowrd;
+							$this->load->view('cashier/cashier');
+						}else{
+							$this->session->set_flashdata('branch_error','Invalid Device');
+							redirect('Welcome');
+						}
+					}else if($result['position'] == 'Skeeper'){
+						if($branch_res){
+							$this->session->set_userdata('user_id', $result['user_id']);
+							$this->session->set_userdata('username', $result['first_name']);
+							$this->session->set_userdata('branch_id', $branch_res['branch_id']);
+							$this->session->set_userdata('branch_name', $branch_res['branch_name']);
+					//echo $encPassowrd;
+							$this->load->view('stock/s_main');
+						}else{
+							$this->session->set_flashdata('branch_error','Invalid Device');
+							redirect('Welcome');
+						}
 
-                    $this->load->view('stock/s_main');
-                    }else{
-                        $this->session->set_flashdata('branch_error','Invalid Device');
-                        redirect('Welcome');
-                    }
-
-                }
-            } else {
-                $this->session->set_flashdata('login_error','Invalid Username or Password');
-                redirect('Welcome');
-            }
-        } catch (Exception $exc) {
-            echo $exc->getTraceAsString();
-        }
+					}
+				} else {
+					$this->session->set_flashdata('login_error','Invalid Username or Password');
+					redirect('Welcome');
+				}
+			}
+		} catch (Exception $exc) {
+			echo $exc->getTraceAsString();
+		}
 	}
 
-    public function logout(){
-        $this->session->unset_userdata('user_id');
-        redirect(base_url().'Welcome');
-    }
+	public function logout(){
+		$this->session->unset_userdata('user_id');
+		redirect(base_url().'Welcome');
+	}
 
 }
 ?>

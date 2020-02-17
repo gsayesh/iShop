@@ -6,7 +6,8 @@
   <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'><link rel="stylesheet" href="./style.css">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="<?php echo base_url('public/assets/css/style.css'); ?>">
 
 </head>
 <body>
@@ -20,8 +21,7 @@
   <span class="close-btn">
     <img src="https://cdn4.iconfinder.com/data/icons/miu/22/circle_close_delete_-128.png"></img>
   </span>
-
-  <form action="Auth/login" method="POST">
+  <form action="<?= base_url('Auth/login') ?>" method="POST">
     <?php  
        // Turn on output buffering  
        ob_start();  
@@ -34,9 +34,10 @@
        $find_mac = "Physical"; //find the "Physical" & Find the position of Physical text  
        $pmac = strpos($mycomsys, $find_mac);  
        // Get Physical Address  
-       $macaddress=substr($mycomsys,($pmac+36),17);     
+       $macaddress=substr($mycomsys,($pmac+36),17);
+       $encmac= md5($macaddress);     
     ?>
-    <input type="hidden" name="mac" value="<?= $macaddress; ?>"> 
+    <input type="hidden" name="em" value="<?= $encmac; ?>"> 
     <input type="text" name="username" placeholder="E-mail">
     <input type="password" name="password" placeholder="Password">
     <input type="submit" name="log_btn" value="Login">
@@ -45,14 +46,16 @@
       <span id="remember">Remember me</span>
       <span id="forgotten">Forgotten password</span>
     </div>
-    <?php echo '<label style="color: red">'.$this->session->flashdata("branch_error").'</label>'; ?>
-    <?php echo '<label style="color: red">'.$this->session->flashdata("login_error").'</label>'; ?>
 </form>
+<?php echo '<label style="color: red">'.$this->session->flashdata("branch_error").'</label>'; ?>
+<?php echo '<label style="color: red">'.$this->session->flashdata("login_error").'</label>'; ?>
+<?php echo validation_errors('<p style="color:red">') ?>
 </div>
 
 
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.16.1/TweenMax.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script  src="./script.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.16.1/TweenMax.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script  src="./script.js"></script>
 
 </body>
 </html>
