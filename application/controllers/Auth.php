@@ -29,6 +29,20 @@ class Auth extends CI_Controller {
 					if($result['position'] == 'Admin'){
 						$this->session->set_userdata('user_id', $result['user_id']);
 						$this->session->set_userdata('username', $result['first_name']);
+						//remember me
+						if ($this->input->post("remember"))
+						{
+							$this->input->set_cookie('uid', $userid, 86500); /* Create cookie for store emailid */
+							$this->input->set_cookie('upass', $password, 86500); /* Create cookie for password */
+							//echo "<script>alert('Login Success, Cookies Enabled..!');</script>";
+						}
+						else
+						{
+							delete_cookie('uid'); /* Delete email cookie */
+							delete_cookie('upass'); /* Delete password cookie */
+							//echo "<script>alert('Login Success..!');</script>";
+						}
+
 					//echo $encPassowrd;
 						$this->load->view('admin/admin');
 
@@ -39,6 +53,19 @@ class Auth extends CI_Controller {
 							$this->session->set_userdata('username', $result['first_name']);
 							$this->session->set_userdata('branch_id', $branch_res['branch_id']);
 							$this->session->set_userdata('branch_name', $branch_res['branch_name']);
+							//remember me
+							if ($this->input->post("remember"))
+							{
+								$this->input->set_cookie('uid', $userid, 86500); /* Create cookie for store emailid */
+								$this->input->set_cookie('upass', $password, 86500); /* Create cookie for password */
+							//echo "<script>alert('Login Success, Cookies Enabled..!');</script>";
+							}
+							else
+							{
+								delete_cookie('uid'); /* Delete email cookie */
+								delete_cookie('upass'); /* Delete password cookie */
+							//echo "<script>alert('Login Success..!');</script>";
+							}
 						//echo $encPassowrd;
 							$this->load->view('cashier/cashier');
 						}else{
@@ -51,6 +78,19 @@ class Auth extends CI_Controller {
 							$this->session->set_userdata('username', $result['first_name']);
 							$this->session->set_userdata('branch_id', $branch_res['branch_id']);
 							$this->session->set_userdata('branch_name', $branch_res['branch_name']);
+							//remember me
+							if ($this->input->post("remember"))
+							{
+								$this->input->set_cookie('uid', $userid, 86500); /* Create cookie for store emailid */
+								$this->input->set_cookie('upass', $password, 86500); /* Create cookie for password */
+							//echo "<script>alert('Login Success, Cookies Enabled..!');</script>";
+							}
+							else
+							{
+								delete_cookie('uid'); /* Delete email cookie */
+								delete_cookie('upass'); /* Delete password cookie */
+							//echo "<script>alert('Login Success..!');</script>";
+							}
 					//echo $encPassowrd;
 							$this->load->view('stock/s_main');
 						}else{

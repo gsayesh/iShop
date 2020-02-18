@@ -82,7 +82,7 @@
 
           //print th current time  
           var amOrPm = (dt.getHours() < 12) ? "AM" : "PM";
-          var hour = (dt.getHours() < 12) ? dt.getHours() : dt.getHours() - 12;
+          var hour = (dt.getHours() <= 12) ? dt.getHours() : dt.getHours() - 12;
           document.getElementById("tm").innerHTML = hour + ':' + ("0"+dt.getMinutes()).slice(-2);
           document.getElementById("apm").innerHTML = amOrPm;
           }, 1000);

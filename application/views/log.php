@@ -38,14 +38,14 @@
        $encmac= md5($macaddress);     
     ?>
     <input type="hidden" name="em" value="<?= $encmac; ?>"> 
-    <input type="text" name="username" placeholder="E-mail">
-    <input type="password" name="password" placeholder="Password">
-    <input type="submit" name="log_btn" value="Login">
+    <input type="text" name="username" placeholder="E-mail" value="<?php if (get_cookie('uid')) { echo get_cookie('uid'); } ?>">
+    <input type="password" name="password" placeholder="Password" value="<?php if (get_cookie('upass')) { echo get_cookie('upass'); } ?>">
     <div id="remember-container">
-      <input type="checkbox" id="checkbox-2-1" class="checkbox" checked="checked"/>
-      <span id="remember">Remember me</span>
-      <span id="forgotten">Forgotten password</span>
+      <input type="checkbox" name="remember" <?php if (get_cookie('uid')) { ?> checked="checked" <?php } ?>>
+      <span>Remember me</span>
     </div>
+    <input type="submit" name="log_btn" value="Login">
+    
 </form>
 <?php echo '<label style="color: red">'.$this->session->flashdata("branch_error").'</label>'; ?>
 <?php echo '<label style="color: red">'.$this->session->flashdata("login_error").'</label>'; ?>
