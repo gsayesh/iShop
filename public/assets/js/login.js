@@ -1,11 +1,12 @@
 var data = [
   {
-    LoginPageHeader: "<span>Welcome to IoT-Shop terminal.<br/>This is a terminal you can check if you have sign up or not.<br/>2020 - University of Ruhuna.</span><br/><br/><span>Who are you?</span><br/>"
+    LoginPageHeader: "<span>Welcome to IoT-Shop terminal.<br/>This is a terminal you can check if you have sign up or not.<br/>2020 - University of Ruhuna.</span><br/><br/><span>Who are you?</span><br/>"  
   }
 ];
 
 var allElements = document.getElementsByClassName("typeing");
-for (var j = 0; j < allElements.length; j++) {
+
+if(for (var j = 0; j < allElements.length; j++) {
   var currentElementId = allElements[j].id;
   var currentElementIdContent = data[0][currentElementId];
   var element = document.getElementById(currentElementId);
@@ -23,4 +24,13 @@ for (var j = 0; j < allElements.length; j++) {
     if (isTag) return type();
     setTimeout(type, 60);
   })();
+}){
+
+$(function() {
+
+  // Initialize a new terminal object
+  var term = new Terminal('#input-line .cmdline', '#container output');
+  term.init();
+  
+});
 }

@@ -9,7 +9,8 @@ background: linear-gradient(to right, #FFCF1B 0%, #EA4D2C 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 
-   font-family: courier-new, courier, monospace;
+    font-family: courier-new, courier, monospace;
+    font-size: 100px;
     font-feature-settings: "liga" 0;
     position: relative;
     user-select: none;
@@ -31,3 +32,9 @@ background: linear-gradient(to right, #FFCF1B 0%, #EA4D2C 100%);
     visibility: hidden; 
   }
 }
+
+
+
+
+
+
