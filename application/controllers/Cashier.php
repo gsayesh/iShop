@@ -4,6 +4,10 @@ class Cashier extends CI_Controller
 {
 
 // Start the Item Section
+	function first_view(){
+		$this->load->view('cashier/item-stock');
+	}
+
 
 	//Start Stock Handling
 		//At the first time open the page search_product

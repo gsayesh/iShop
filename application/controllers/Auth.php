@@ -34,7 +34,7 @@ class Auth extends CI_Controller {
 					if($result['position'] == 'Admin'){
 						$this->session->set_userdata('user_id', $result['user_id']);
 						$this->session->set_userdata('username', $result['first_name']);
-<<<<<<< Updated upstream
+
 						//remember me
 						if ($this->input->post("remember"))
 						{
@@ -50,9 +50,6 @@ class Auth extends CI_Controller {
 						}
 
 					//echo $encPassowrd;
-=======
-					
->>>>>>> Stashed changes
 						$this->load->view('admin/admin');
 
 					}else if($result['position'] == 'Cashier'){
@@ -76,7 +73,7 @@ class Auth extends CI_Controller {
 							//echo "<script>alert('Login Success..!');</script>";
 							}
 						//echo $encPassowrd;
-							$this->load->view('cashier/cashier');
+							$this->load->view('cashier/item-stock');
 						}else{
 							$this->session->set_flashdata('branch_error','Invalid Device');
 							redirect('Welcome');

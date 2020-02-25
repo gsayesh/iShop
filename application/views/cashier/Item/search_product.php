@@ -5,7 +5,7 @@
   <title>IoT-Shop Management Information System</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
-  <link rel="stylesheet" href="<?= base_url('assest/css/style.css'); ?>">
+  <link rel="stylesheet" href="<?= base_url('public/assets/css/style.css'); ?>">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
