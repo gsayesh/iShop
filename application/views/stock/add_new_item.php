@@ -45,7 +45,7 @@
 
   <div class="main-panel">
     <div class="header">
-      <p>Welcome back, Stock Manager Name</p>
+      <p>Welcome back, <?=$this->session->userdata('username'); ?></p>
     </div>
     <div class="main-panel-content">
       <!-- <div class="summary-container">

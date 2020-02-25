@@ -7,9 +7,10 @@
     	}
 
         public function item_last_id(){
-            $this->db->insert_id();
+            $this->db->select('*');
             $this->db->from('item');
             $this->db->where('status','active');
+            $this->db->like('item_code','PRCM%');
             $this->db->order_by('item_code','DESC');
             $this->db->limit('1');
             if($query = $this->db->get()){

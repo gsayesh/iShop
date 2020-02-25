@@ -125,55 +125,6 @@ class Stock_Actions extends CI_Controller {
 		//$this->one_item($id);
 	}
 
-	public function profile_stk()
-	{
-		$uid = $this->session->userdata('user_id');
-		$results = $this->Stock_Model->view_profile($uid);
-		$this->load->view('stock/stk_profile',['result'=>$results]);
-	}
-
-	public function edited_profile($uid)
-	{
-
-		$pass = $this->input->post('pass');
-		$cpass = $this->input->post('cpass');
-		if($pass == '' && $cpass == ''){
-		$data = array(
-			'first_name' => $this->input->post('userfname'),
-			'last_name' => $this->input->post('userlname'),
-			'nic' => $this->input->post('usernic'),
-			'address' => $this->input->post('address'), 
-			'gender' => $this->input->post('gender'),
-			'email' => $this->input->post('email'),
-			'contact_no' => $this->input->post('telno'));
-			
-		$this->Stock_Model->profile_update($uid,$data);
-		$this->session->set_flashdata('update_success','Profile Updated Successfully..!');
-		redirect('Stock_Actions/profile_stk');
-		//$this->one_item($id);
-		}else if($pass == $cpass){
-		$enccpass = md5($cpass);
-		$data = array(
-			'first_name' => $this->input->post('userfname'),
-			'last_name' => $this->input->post('userlname'),
-			'nic' => $this->input->post('usernic'),
-			'address' => $this->input->post('address'), 
-			'gender' => $this->input->post('gender'),
-			'email' => $this->input->post('email'),
-			'contact_no' => $this->input->post('telno'),
-			'password' => $enccpass);
-	
-		$this->Stock_Model->profile_update($uid,$data);
-		$this->session->set_flashdata('password_success','Password matched ..!');
-		$this->session->set_flashdata('update_success','Profile Updated Successfully..!');
-		redirect('Stock_Actions/profile_stk');	
-		}else if($pass != $cpass){
-		$this->session->set_flashdata('password_fail','Password does not matched ..!');
-		redirect('Stock_Actions/profile_stk');	
-		}
-	}
-
-
 	function stock_search()
 	{
 		$output = '';
