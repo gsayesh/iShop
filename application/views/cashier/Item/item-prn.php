@@ -5,7 +5,7 @@
   <title>IoT-Shop Management Information System</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
-<link rel="stylesheet" href="<?php echo base_url('public/assets/css/style.css'); ?>">
+<link rel="stylesheet" href="./style.css">
 
 </head>
 <body>
@@ -27,16 +27,16 @@
         <a href="#"><i class="fa fa-cogs" aria-hidden="true"> </i><p>Settings</p></a>
         <a href="#"><i class="fa fa-user" aria-hidden="true"> </i><p>Profile</p></a>
                   <!-- User Accounts // Add , remove user in this module -->
-        <a href="<?= base_url().'Auth/logout'?>"><i class="fa fa-sign-out" aria-hidden="true"> </i><p>Log Out</p></a>
+        <a href="#"><i class="fa fa-sign-out" aria-hidden="true"> </i><p>Log Out</p></a>
     </nav>
     <div class="side-info">
       <div class="date">
-        <p id="dt"></p>
+        <p>10 Feb, Monday</p>
       </div>
       <div class="time-container">
         <div class="time">
-          <p id="tm"></p>
-          <p id="apm"></p>
+          <p>8:00</p>
+          <p>pm</p>
         </div>
       </div>
     </div>
@@ -54,11 +54,16 @@
       <div class="container">
         <div class="card" id="sales-summary">
           <div class="title">
-            <h2>Sales Summary - Feb 2020</h2>
-            <p class="subtitle">Sales Performance for the Month</p>
+<!--             <h2>Search in shop</h2>
+            <p class="subtitle"> </p>
+            <input type="text" class="text_box_control" name="" value="skdjvjsdl">
+            <input type="submit" name="" value="Search" style="button glass green-a"> -->
           </div>
+
           <div class="content">
 
+            <!-- INCLUDE PHP -->
+            
           </div>
         </div>
       </div>
@@ -68,25 +73,7 @@
   </div>
 </body>
 <!-- partial -->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js'></script>
-  <script  src="<?php echo base_url('public/assets/js/script.js'); ?>"></script>
-  <script type="text/javascript">
-          setInterval(function(){
-          var dt = new Date();
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js'></script><script  src="./script.js"></script>
 
-          //print the current date   
-          var weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-          var months    = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-          var day = weekdays[dt.getDay()];
-          var month = months[dt.getMonth()];
-          document.getElementById("dt").innerHTML = (("0"+dt.getDate()).slice(-2)) +" "+ month + ", "+ day;
-
-          //print the current time  
-          var amOrPm = (dt.getHours() < 12) ? "AM" : "PM";
-          var hour = (dt.getHours() <= 12) ? dt.getHours() : dt.getHours() - 12;
-          document.getElementById("tm").innerHTML = hour + ':' + ("0"+dt.getMinutes()).slice(-2);
-          document.getElementById("apm").innerHTML = amOrPm;
-          }, 1000);
-  </script>
 </body>
 </html>

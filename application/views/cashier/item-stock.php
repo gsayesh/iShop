@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>IoT-Shop Management Information System</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
-<link rel="stylesheet" href="./style.css">
+<link rel="stylesheet" href="<?= base_url('assest/css/style.css'); ?>">
 
 </head>
 <body>
@@ -44,7 +44,7 @@
 
   <div class="main-panel">
     <div class="header">
-      <p>Welcome back, Cashier Name - Here are the reports...</p>
+      <p>Welcome back, Admin Name - Here are the reports...</p>
     </div>
     <div class="main-panel-content">
       <!-- <div class="summary-container">
@@ -54,14 +54,34 @@
       <div class="container">
         <div class="card" id="sales-summary">
           <div class="title">
-            <h2>Sales Summary - Feb 2020</h2>
-            <p class="subtitle">Sales Performance for the Month</p>
+            <h2>Item search</h2>
+            <p class="subtitle">Select and search</p>
           </div>
           <div class="content">
 
           </div>
         </div>
       </div>
+
+      <!-- Users -->
+  <div class="container">
+    <div class="row">
+      <div class="panel cashStock col-md-3">
+        <a href="<?= base_url('Cashier/first_load_search_product'); ?>"><span class="fa fa-search" aria-hidden="true"></span>Search</a>
+      </div>
+      <div class="panel cashStock col-md-3">
+        <a href="<?= base_url('Cashier/first_load_insert_product'); ?>"><span class="fa fa-file-code-o" aria-hidden="true"> </span>Item GRN</a>
+      </div>
+      <div class="panel cashStock col-md-3">
+        <a href=""><span class="fa fa-file-code-o" aria-hidden="true"></span>Item PRN</a>
+      </div>
+      <div class="panel cashStock col-md-3">
+        <a href=""><span class="fa fa-microchip" aria-hidden="true"></span>Item request</a>
+      </div>
+    </div>
+      
+</div>
+
 
     </div>
     <div class="footer">&copy; 2020 Group 7 | University of Ruhuna</div>

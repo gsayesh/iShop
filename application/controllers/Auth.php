@@ -12,6 +12,9 @@ class Auth extends CI_Controller {
 			$mac = ($this->input->post('em')) ? $this->input->post('em') : '';
 			$encPassowrd = md5($password);
 
+			//echo $encPassowrd;
+			//$this->load->view('log');
+
 			$this->form_validation->set_rules('username','Username','trim|required|xss_clean');
 			$this->form_validation->set_rules('password','Password','trim|required|xss_clean');
 
@@ -31,6 +34,7 @@ class Auth extends CI_Controller {
 					if($result['position'] == 'Admin'){
 						$this->session->set_userdata('user_id', $result['user_id']);
 						$this->session->set_userdata('username', $result['first_name']);
+<<<<<<< Updated upstream
 						//remember me
 						if ($this->input->post("remember"))
 						{
@@ -46,6 +50,9 @@ class Auth extends CI_Controller {
 						}
 
 					//echo $encPassowrd;
+=======
+					
+>>>>>>> Stashed changes
 						$this->load->view('admin/admin');
 
 					}else if($result['position'] == 'Cashier'){
