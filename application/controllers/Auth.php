@@ -22,7 +22,9 @@ class Auth extends CI_Controller {
 				$result = $this->Auth_Model->login_user($userid, $encPassowrd);
 
 				//Send & Receive Bracnhinfo from the Model
-				$branch_res = $this->Auth_Model->branch($mac);
+				$branch_res = $this->Auth_Model->branch();
+				$cbranch_res = $this->Auth_Model->cbranch();
+
 
 				if ($result) {
 				//Navigate User to Related View
@@ -32,7 +34,7 @@ class Auth extends CI_Controller {
 						//remember me
 						if ($this->input->post("remember"))
 						{
-							$this->input->set_cookie('uid', $userid, 86500); /* Create cookie for store emailid */
+							$this->input->set_cookie('uid', $userid, 86500); /* Create cookie for store userid */
 							$this->input->set_cookie('upass', $password, 86500); /* Create cookie for password */
 							//echo "<script>alert('Login Success, Cookies Enabled..!');</script>";
 						}
@@ -48,7 +50,7 @@ class Auth extends CI_Controller {
 
 					}else if($result['position'] == 'Cashier'){
 					//Check the Login Device
-						if($branch_res){
+						if($branch_res['mac'] == $cbranch_res['s_mac']){
 							$this->session->set_userdata('user_id', $result['user_id']);
 							$this->session->set_userdata('username', $result['first_name']);
 							$this->session->set_userdata('branch_id', $branch_res['branch_id']);
@@ -56,7 +58,7 @@ class Auth extends CI_Controller {
 							//remember me
 							if ($this->input->post("remember"))
 							{
-								$this->input->set_cookie('uid', $userid, 86500); /* Create cookie for store emailid */
+								$this->input->set_cookie('uid', $userid, 86500); /* Create cookie for store userid */
 								$this->input->set_cookie('upass', $password, 86500); /* Create cookie for password */
 							//echo "<script>alert('Login Success, Cookies Enabled..!');</script>";
 							}
@@ -72,8 +74,8 @@ class Auth extends CI_Controller {
 							$this->session->set_flashdata('branch_error','Invalid Device');
 							redirect('Welcome');
 						}
-					}else if($result['position'] == 'Skeeper'){
-						if($branch_res){
+					}else if($result['position'] == 'SManager'){
+						if($branch_res['mac'] == $cbranch_res['s_mac']){
 							$this->session->set_userdata('user_id', $result['user_id']);
 							$this->session->set_userdata('username', $result['first_name']);
 							$this->session->set_userdata('branch_id', $branch_res['branch_id']);
@@ -81,7 +83,7 @@ class Auth extends CI_Controller {
 							//remember me
 							if ($this->input->post("remember"))
 							{
-								$this->input->set_cookie('uid', $userid, 86500); /* Create cookie for store emailid */
+								$this->input->set_cookie('uid', $userid, 86500); /* Create cookie for store userid */
 								$this->input->set_cookie('upass', $password, 86500); /* Create cookie for password */
 							//echo "<script>alert('Login Success, Cookies Enabled..!');</script>";
 							}
@@ -92,7 +94,8 @@ class Auth extends CI_Controller {
 							//echo "<script>alert('Login Success..!');</script>";
 							}
 					//echo $encPassowrd;
-							$this->load->view('stock/s_main');
+							//$this->load->view('stock/add_new_item');
+							redirect('Stock_Actions/item_stock_add');
 						}else{
 							$this->session->set_flashdata('branch_error','Invalid Device');
 							redirect('Welcome');

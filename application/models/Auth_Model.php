@@ -10,7 +10,7 @@
             $this->db->from('user');
             $this->db->where('user_id', $userid);
             $this->db->where('password', $encPassword);
-
+            $this->db->where('status', 'active');
             if ($query = $this->db->get()) {
                 return $query->row_array();
             } else {
@@ -20,17 +20,24 @@
     	}
 
         //Retrieve Branchinfo from the Database
-        public function branch($mac){
+        public function branch(){
             $this->db->select('*');
             $this->db->from('branch');
-            $this->db->where('mac', $mac);
-
             if ($query = $this->db->get()) {
                 return $query->row_array();
             } else {
                 return false;
-            }
+            }        
+        }
 
+        public function cbranch(){
+            $this->db->select('*');
+            $this->db->from('shop_mac');
+            if ($query = $this->db->get()) {
+                return $query->row_array();
+            } else {
+                return false;
+            }        
         }
 	}
 ?>
