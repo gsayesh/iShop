@@ -39,13 +39,13 @@ class Auth extends CI_Controller {
 						if ($this->input->post("remember"))
 						{
 							$this->input->set_cookie('uid', $userid, 86500); /* Create cookie for store userid */
-							$this->input->set_cookie('upass', $password, 86500); /* Create cookie for password */
+							//$this->input->set_cookie('upass', $password, 86500); /* Create cookie for password */
 							//echo "<script>alert('Login Success, Cookies Enabled..!');</script>";
 						}
 						else
 						{
 							delete_cookie('uid'); /* Delete email cookie */
-							delete_cookie('upass'); /* Delete password cookie */
+							//delete_cookie('upass'); /* Delete password cookie */
 							//echo "<script>alert('Login Success..!');</script>";
 						}
 
@@ -63,13 +63,13 @@ class Auth extends CI_Controller {
 							if ($this->input->post("remember"))
 							{
 								$this->input->set_cookie('uid', $userid, 86500); /* Create cookie for store userid */
-								$this->input->set_cookie('upass', $password, 86500); /* Create cookie for password */
+								//$this->input->set_cookie('upass', $password, 86500); /* Create cookie for password */
 							//echo "<script>alert('Login Success, Cookies Enabled..!');</script>";
 							}
 							else
 							{
 								delete_cookie('uid'); /* Delete email cookie */
-								delete_cookie('upass'); /* Delete password cookie */
+								//delete_cookie('upass'); /* Delete password cookie */
 							//echo "<script>alert('Login Success..!');</script>";
 							}
 						//echo $encPassowrd;
@@ -88,13 +88,13 @@ class Auth extends CI_Controller {
 							if ($this->input->post("remember"))
 							{
 								$this->input->set_cookie('uid', $userid, 86500); /* Create cookie for store userid */
-								$this->input->set_cookie('upass', $password, 86500); /* Create cookie for password */
+								//$this->input->set_cookie('upass', $password, 86500); /* Create cookie for password */
 							//echo "<script>alert('Login Success, Cookies Enabled..!');</script>";
 							}
 							else
 							{
 								delete_cookie('uid'); /* Delete email cookie */
-								delete_cookie('upass'); /* Delete password cookie */
+								//delete_cookie('upass'); /* Delete password cookie */
 							//echo "<script>alert('Login Success..!');</script>";
 							}
 					//echo $encPassowrd;

@@ -134,7 +134,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-key"></i></span>
               </div>
-              <input type="password" class="form-control" name="password" placeholder="Password" value="<?php if (get_cookie('upass')) { echo get_cookie('upass'); } ?>">
+              <input type="password" class="form-control" name="password" placeholder="Password">
             </div>
             <div class="row align-items-center remember">
               <input type="checkbox"  name="remember" <?php if (get_cookie('uid')) { ?> checked="checked" <?php } ?>>Remember Me
