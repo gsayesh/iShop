@@ -19,26 +19,24 @@
       <a href="#">iShop</a>
     </header>
     <ul class="nav">
-      <li>
-        <a href="#">
-          <i class="fa fa-tachometer" aria-hidden="true"> </i> Dashboard
-        </a>
-      </li>
-      <li>
-        <a href="#"><i class="fa fa-file-text" aria-hidden="true"> </i><p>Bill</p></a>
-      </li>
-      <li>
-       <a href="#"><i class="fa fa-handshake-o" aria-hidden="true"> </i><p>Customers</p></a>
-      </li>
-      <li>
-      <a class="active" href="#"><i class="fa fa-area-chart" aria-hidden="true"> </i><p>Stocks</p></a>
-      </li>
-      <li>
-      <a href="#"><i class="fa fa-users" aria-hidden="true"> </i><p>Creditors</p></a>
-      </li>
-      <li>
+		<li>
+	        	<a href="#"> <i class="fa fa-tachometer" aria-hidden="true"> </i><p>Dashboard</p></a>
+	      </li>
+	      <li>
+	        	<a href="#"><i class="fa fa-cart-arrow-down" aria-hidden="true"> </i><p>Products</p></a>      </li>
+	      <li>
+	        	<a class="active" href="#"><i class="fa fa-sitemap" aria-hidden="true"> </i><p>Branches</p></a>
+	      </li>
+	      <li>
+	            <a href="#"><i class="fa fa-truck" aria-hidden="true"> </i><p>Suppliers</p></a>
+	      </li>
+	      <li>
+	      		<a href="#"><i class="fa fa-users" aria-hidden="true"> </i><p>Users</p></a>
+	      </li>
+
+      
       	<hr>
-      <li>
+
       <li>
         <a href="#"><i class="fa fa-cogs" aria-hidden="true"> </i><p>Settings</p></a>
       </li>
@@ -90,20 +88,20 @@
 	            <p class="subtitle">Sales Performance for the Month</p>
 	          </div>
 	          <div class="content">
-			  	<div class="row">
-			      <div class="panel cashStock col-md-3">
-			        <a href="<?= base_url('Cashier/first_load_search_product'); ?>"><span class="fa fa-search" aria-hidden="true"></span>Search</a>
-			      </div>
-			      <div class="panel cashStock col-md-3">
-			        <a href="<?= base_url('Cashier/first_load_insert_product'); ?>"><span class="fa fa-file-code-o" aria-hidden="true"> </span>Item GRN</a>
-			      </div>
-			      <div class="panel cashStock col-md-3">
-			        <a href="javascript:void();"><span class="fa fa-file-code-o" aria-hidden="true"></span>Item PRN</a>
-			      </div>
-			      <div class="panel cashStock col-md-3">
-			        <a href="javascript:void();"><span class="fa fa-microchip" aria-hidden="true"></span>Item request</a>
-			      </div>
-			    </div>
+	             <div class="row">
+                  <div class="panel branches">
+                    <a href="javascript:void();"><span>MT1 </span>Matara</a>
+                  </div>
+                  <div class="panel branches">
+                    <a href="javascript:void();"><span>HK1 </span>Hakmana</a>
+                  </div>
+                  <div class="panel branches">
+                    <a href="javascript:void();"><span>WL1 </span>Walasmulla</a>
+                  </div>
+                  <div class="panel branchesAdd">
+                    <a href="javascript:void();"><span>+ </span>Add User</a>
+                  </div>
+                </div>
 	          </div>
 	        </div>
 	      </div>
