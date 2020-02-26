@@ -19,16 +19,16 @@
       <p>IoT Logo</p>
     </div>
     <nav>
-      <a  href="#"> <i class="fa fa-tachometer" aria-hidden="true"> </i><p>Overview</p></a>
-      <a href="#"><i class="fa fa-file-text" aria-hidden="true"> </i><p>Bill</p></a>
-      <a href="#"><i class="fa fa-handshake-o" aria-hidden="true"> </i><p>Customers</p></a>
-      <a class="active" href="#"><i class="fa fa-area-chart" aria-hidden="true"> </i><p>Stocks</p></a>
-      <a href="#"><i class="fa fa-users" aria-hidden="true"> </i><p>Creditors</p></a>
+      <a href="#"> <i class="fa fa-tachometer" aria-hidden="true"> </i><p>Overview</p></a>
+      <a href="<?=base_url('Stock_Actions/new_item'); ?>"><i class="fa fa-file-text" aria-hidden="true"> </i><p>Add Product</p></a>
+      <a class="active" href="<?=base_url('Stock_Actions/all_item_view'); ?>"><i class="fa fa-handshake-o" aria-hidden="true"> </i><p>View Product</p></a>
+      <a href="<?=base_url('Stock_Actions/item_stock_add'); ?>"><i class="fa fa-area-chart" aria-hidden="true"> </i><p>Add Stocks</p></a>
+      <a href="<?=base_url('Stock_Actions/all_stock_view'); ?>"><i class="fa fa-users" aria-hidden="true"> </i><p>View Stocks</p></a>
 
         <!-- <p>Stock</p></a> -->
         <hr/>
         <a href="#"><i class="fa fa-cogs" aria-hidden="true"> </i><p>Settings</p></a>
-        <a href="#"><i class="fa fa-user" aria-hidden="true"> </i><p>Profile</p></a>
+        <a href="<?=base_url('Stock_Actions/profile_stk'); ?>"><i class="fa fa-user" aria-hidden="true"> </i><p>Profile</p></a>
                   <!-- User Accounts // Add , remove user in this module -->
         <a href="<?= base_url().'Auth/logout'?>"><i class="fa fa-sign-out" aria-hidden="true"> </i><p>Log Out</p></a>
     </nav>
