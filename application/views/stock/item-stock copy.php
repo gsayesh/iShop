@@ -5,9 +5,9 @@
   <title>iShop</title>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
 <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
-<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="<?php echo base_url('public/assets/css/style.css'); ?>">
 
-<script  src="../script.js"></script>
+<script  src="<?php echo base_url('public/assets/js/script.js'); ?>"></script>
 
 </head>
 <body>
@@ -92,10 +92,10 @@
 	          <div class="content">
 			  	<div class="row">
 			      <div class="panel cashStock col-md-3">
-			        <a href="javascript:void();"><span class="fa fa-search" aria-hidden="true"></span>Search</a>
+			        <a href="<?= base_url('Cashier/first_load_search_product'); ?>"><span class="fa fa-search" aria-hidden="true"></span>Search</a>
 			      </div>
 			      <div class="panel cashStock col-md-3">
-			        <a href="javascript:void();"><span class="fa fa-file-code-o" aria-hidden="true"> </span>Item GRN</a>
+			        <a href="<?= base_url('Cashier/first_load_insert_product'); ?>"><span class="fa fa-file-code-o" aria-hidden="true"> </span>Item GRN</a>
 			      </div>
 			      <div class="panel cashStock col-md-3">
 			        <a href="javascript:void();"><span class="fa fa-file-code-o" aria-hidden="true"></span>Item PRN</a>

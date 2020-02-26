@@ -29,6 +29,24 @@ class Cashier extends CI_Controller
 		$this->load->view('cashier/Item/insert_product',[ 'data'=>$grnValue , 'new_grn_no'=>$new_grn_no ]);
 	}
 
+
+	//At the first time open the page request_product
+	function first_load_request_product(){
+
+		$branch = "branch1";
+
+		$grnValue = $this->Cashier_Model->get_temp_request_table();
+
+
+		//Need to change to the request count
+		$current_grn_no = $this->Cashier_Model->get_grn_no($branch);
+
+		$new_grn_no = array();
+		array_push($new_grn_no, $current_grn_no);
+
+		$this->load->view('cashier/Item/request_product',[ 'data'=>$grnValue , 'new_grn_no'=>$new_grn_no ]);
+	}
+
 		//Show search item
 	function search_product()
 	{
@@ -225,6 +243,108 @@ class Cashier extends CI_Controller
 
 		$pdf->Output();
 
+	}
+
+
+
+	function search_product_request()
+	{
+		  $output = '';
+		  $query = '';
+		  $data = '';
+
+		  if($this->input->post('query'))
+		  {
+		   $query = $this->input->post('query');
+		  }
+		  
+
+		  $data = $this->Cashier_Model->search_in_items($query);
+
+		  $output .= '
+		  <div class="table-responsive">
+		     <table class="table table-bordered table-striped">
+		      <tr>
+		       <th>#</th>
+		       <th>Product Code</th>
+		       <th>Name</th>
+		       <th>Description</th>
+		       <th>Whole Sale Price</th>
+		       <th>Retail Price</th>
+		       <th>Option</th>
+		      </tr>
+		  ';
+		  if($data->num_rows() > 0)
+		  {
+
+		  	$counter = 1;
+
+		   foreach($data->result() as $row)
+		   {
+		    $output .= '
+		      <tr>
+		       <td>'.$counter++.'</td>
+		       <td>'.$row->item_code.'</td>
+		       <td>'.$row->item_name.'</td>
+		       <td>'.$row->item_description.'</td>
+		       <td>'.$row->whole_sale_price.'</td>
+		       <td>'.$row->retail_price.'</td>
+		       <td><a href="add_request_table?code='.$row->item_code.'" class="btn btn-info">ADD</a></td>
+		      </tr>
+		    ';
+		   }
+		  }
+		  else
+		  {
+		   $output .= '<tr>
+		       <td colspan="8">No Data Found</td>
+		      </tr>';
+		  }
+		  $output .= '</table> ';
+		  echo $output;
+	}
+
+	//End
+
+
+
+	public function request_item()
+	{
+
+		$grn_data = $this->input->post('data_table');
+		$basic_data = $this->input->post('basic_data');
+
+		$status = $this->Cashier_Model->add_request_item($grn_data, $basic_data);
+
+		$this->output->set_content_type('application/json');
+		echo json_encode(array('status' => $status));
+
+						
+	}
+
+
+	function add_request_table()
+	{
+
+		$branch = "branch1";
+		$code = $_GET['code'];
+		$datas = $this->Cashier_Model->get_request_data($code);
+
+		foreach ($datas as $data) {
+			$value = array (
+			'item_code'=>$data->item_code,
+			'item_name'=>$data->item_name,
+			'item_description'=>$data->item_description,
+			'whole_sale_price'=>$data->whole_sale_price,
+			'retail_price'=>$data->retail_price,
+			'branch'=>$branch
+			);
+		}
+
+		$this->Cashier_Model->add_request_table($value);
+
+		redirect('Cashier/first_load_request_product');
+				
 	}
 
 

@@ -101,7 +101,7 @@
 			        <a href="javascript:void();"><span class="fa fa-file-code-o" aria-hidden="true"></span>Item PRN</a>
 			      </div>
 			      <div class="panel cashStock col-md-3">
-			        <a href="javascript:void();"><span class="fa fa-microchip" aria-hidden="true"></span>Item request</a>
+			        <a href="<?= base_url('Cashier/first_load_request_product'); ?>"><span class="fa fa-microchip" aria-hidden="true"></span>Item request</a>
 			      </div>
 			    </div>
 	          </div>

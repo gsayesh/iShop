@@ -275,6 +275,84 @@ class Cashier_Model extends CI_Model
 	//End
 
 
+	//Start put temp_request in table
+	function get_temp_request_table()
+	{
+
+		return $this->db->get('temp_request')->result();
+
+	}
+	//End
+
+
+	public function add_request_item($table_data, $basic_data)
+	{
+
+		$branch = $basic_data['branch'];
+		$grn_no = $basic_data['grn_no'];
+		$user = $basic_data['user'];
+
+		$grn_details = array(
+			'grn_no' => $grn_no,
+			'user_id' => $user,
+			'branch' => $branch
+		);
+
+		for ($i=0; $i < count($table_data); $i++) { 
+			$data[] = array(
+				'code' => $table_data[$i]['code'],
+				'name' => $table_data[$i]['name'],
+				'description' => $table_data[$i]['description'],
+				'whole_sale' => $table_data[$i]['whole_sale'],
+				'retail' => $table_data[$i]['retail'],
+				'qty' => $table_data[$i]['qty'],
+				'request_no' => $grn_no,
+				'branch_name' => $branch
+			);
+		}
+
+
+		try{
+
+			//Inser data to grn_item table
+			for ($i=0; $i < count($table_data); $i++) { 
+				
+				$this->db->insert('request_item',$data[$i]);
+
+			}
+
+			return 'success';
+
+		}
+		catch(Exception $e){
+			return 'failed';
+		}
+
+	}
+	//End
+
+
+	//Start get grn item table
+	function get_request_data($query)
+	{
+
+		return $this->db->get_where('item',['item_code'=>$query])->result();
+
+	}
+	//End
+
+
+	//Start put grn in table
+	function add_request_table($value)
+	{
+
+		return $this->db->insert('temp_request',$value);
+
+	}
+	//End
+
+
+
 //End of the Item section
 
 
