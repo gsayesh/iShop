@@ -6,18 +6,19 @@
     		$this->db->insert('item',$data);
     	}
 
-        public function item_last_id(){
+        public function item_last_id($type){
+
+            $category = $type;
+
             $this->db->select('*');
             $this->db->from('item');
             $this->db->where('status','active');
-            $this->db->like('item_code','PRCM%');
-            $this->db->order_by('item_code','DESC');
-            $this->db->limit('1');
-            if($query = $this->db->get()){
-                return $query->result();
-            }else{
-                return false;
-            }
+            $this->db->where('category', $category);
+            $query = $this->db->get();
+            $number = $query->num_rows();
+
+            return $number+1;
+
         }
 
         function search_data($query){

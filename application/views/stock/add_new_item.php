@@ -8,6 +8,35 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="<?php echo base_url('public/assets/css/style.css'); ?>">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+
+      <script>
+      $(document).ready(function(){
+
+      $("#category").change(function(){
+
+              var selectedStore = $(this).children("option:selected").val();
+              alert("You are going to search product in " + selectedStore);
+
+              load_data(selectedStore);
+
+          });
+
+      });
+
+
+       function load_data(data)
+       {
+
+          var type = $('#category').val();
+
+          window.location.href = "<?php echo base_url('Stock_Actions/new_item');?>?type="+type;
+
+       }
+
+      </script>
+
 </head>
 <body>
 
@@ -61,17 +90,61 @@
           <div class="content">
             <?php echo validation_errors('<p style="color:red">') ?>
             <?php echo '<label style="color: green">'.$this->session->flashdata("submit_success").'</label>'; ?>
-            <form action="<?= base_url('Stock_Actions/new_item_add') ?>" method="POST">
+            <form action="<?= base_url('Stock_Actions/new_item_add') ?>" method="POST"> 
               <div class="form-group">
-                <label for="lastitemcode">Last Item Code</label>
-                <?php foreach($result as $res) : ?>
-                <input type="text" class="form-control" name="itemcode" value="<?= $res->item_code ?>" disabled="disabled">
-              <?php endforeach; ?>
-              </div>
+                
+                <select class="form-control" id="category">
+                  <option>Select Category</option>
+                  <option>mobile</option>
+                  <option>computer</option>
+                </select>
+
               <div class="form-group">
-                <label for="itemcode">New Item Code</label>
-                <input type="text" class="form-control" name="itemcode" placeholder="PR00000">
+
+
+              <?php  
+
+                $type = $results['type'];
+                $num = $results['code'];
+
+                $code = "";
+
+                if ($type == "mobile") {
+
+                  if ($num>=100) {
+                    $code = "PRMB".$num;
+                  }
+                  elseif ($num>=10) {
+                    $code = "PRMB0".$num;
+                  }
+                  elseif ($num<10) {
+                    $code = "PRMB00".$num;
+                  }
+
+                }
+                elseif ($type == "computer") {
+
+                  if ($num>=100) {
+                    $code = "PRCM".$num;
+                  }
+                  elseif ($num>=10) {
+                    $code = "PRCM0".$num;
+                  }
+                  elseif ($num<10) {
+                    $code = "PRCM00".$num;
+                  }
+
+                }
+
+                ?>
+                            
+                <label for="itemcode">Item Code</label>
+                <input type="text" class="form-control" name="itemcode" value="<?= $code; ?>" readonly="true">
+                <input type="hidden" class="form-control" name="cat" value="<?= $type; ?>" readonly="true">
+
               </div>
+
+
               <div class="form-group">
                 <label for="itemname">Name</label>
                 <input type="text" class="form-control" name="itemname" placeholder="Name">
@@ -93,6 +166,7 @@
                 <input type="text" class="form-control" name="itemrprice" placeholder="0000.00">
               </div>
               <button type="submit" class="btn btn-warning">Create</button>
+
             </form>
           </div>
         </div>

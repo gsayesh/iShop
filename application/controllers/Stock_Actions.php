@@ -5,9 +5,34 @@ class Stock_Actions extends CI_Controller {
 
 	public function new_item()
 	{
-		$results = $this->Stock_Model->item_last_id();
-		$this->load->view('stock/add_new_item',['result'=>$results]);
+
+		$type = "";
+
+		if ($this->input->get('type')) {
+			$type = $this->input->get('type');
+		}
+
+		$retrive_data = $this->Stock_Model->item_last_id($type);
+
+		$new_item_no = array();
+
+		$new_item_no['type'] = $type;
+		$new_item_no['code'] = $retrive_data;
+
+		$this->load->view('stock/add_new_item',['results'=>$new_item_no]);
 	}
+
+	// public function new_item_number(){
+
+		
+
+	// 	$results = $this->Stock_Model->item_last_id("mobile");
+
+	// 	$new_item_no = array();
+	// 	array_push($new_item_no, $results);
+
+	// 	redirect('stock/add_new_item');
+	// }
 
 	public function new_item_add(){
 		$data = array(
@@ -16,7 +41,8 @@ class Stock_Actions extends CI_Controller {
 			'item_description' => $this->input->post('itemdesc'),
 			'cost' => $this->input->post('itemcost'),
 			'whole_sale_price' => $this->input->post('itemwsprice'), 
-			'retail_price' => $this->input->post('itemrprice'), 
+			'retail_price' => $this->input->post('itemrprice'),
+			'category' => $this->input->post('cat'),  
 			'status' => 'active');
 
 		$this->form_validation->set_rules('itemcode','Item Code','trim|required|xss_clean');
