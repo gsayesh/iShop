@@ -299,7 +299,10 @@ class Stock_Actions extends CI_Controller {
 		$this->Stock_Model->temp_items_in($data);
 		$this->session->set_flashdata('add_success','Item Added Successfully..!');
 		$results = $this->Stock_Model->temp_items_view();
-		$this->load->view('stock/update_stock',['result'=>$results]);
+		$res_grn = $this->Stock_Model->grn_no();
+		$new_grn_no = array();
+		array_push($new_grn_no, $res_grn);
+		$this->load->view('stock/update_stock',['result'=>$results,'res'=>$new_grn_no]);
 	}
 
 	public function temp_main_del($id)
@@ -307,7 +310,10 @@ class Stock_Actions extends CI_Controller {
 		$this->Stock_Model->temp_item_remove($id);
 		$this->session->set_flashdata('remove_success','Item Remove Successfully..!');
 		$results = $this->Stock_Model->temp_items_view();
-		$this->load->view('stock/update_stock',['result'=>$results]);
+		$res_grn = $this->Stock_Model->grn_no();
+		$new_grn_no = array();
+		array_push($new_grn_no, $res_grn);
+		$this->load->view('stock/update_stock',['result'=>$results,'res'=>$new_grn_no]);
 	}
 
 	public function update_main_stock()

@@ -1,0 +1,40 @@
+body {
+  background: black;
+}
+
+span {
+/*  color: yellow;*/
+
+background: linear-gradient(to right, #FFCF1B 0%, #EA4D2C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+    font-family: courier-new, courier, monospace;
+    font-size: 25px;
+    font-feature-settings: "liga" 0;
+    position: relative;
+    user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
+
+.blinker {
+  opacity: 1;
+  margin-bottom: -2px;
+  height: 15px;
+  margin-left: -5px;
+  border-left: 7px solid #FFA62E;
+  animation: blinker 0.9s steps(2, start) infinite;
+}
+
+@keyframes blinker {
+  to { 
+    visibility: hidden; 
+  }
+}
+
+
+
+
+
+
