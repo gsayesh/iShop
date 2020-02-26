@@ -22,6 +22,10 @@ class Stock_Actions extends CI_Controller {
 		$this->load->view('stock/add_new_item',['results'=>$new_item_no]);
 	}
 
+
+	public function qr_view(){
+		$this->load->view('stock/qr_sample');
+	}
 	// public function new_item_number(){
 
 		
