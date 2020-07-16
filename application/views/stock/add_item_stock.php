@@ -38,7 +38,7 @@
       	<hr>
       <li>
       <li>
-        <a href="#"><i class="fa fa-cogs" aria-hidden="true"> </i><p>Settings</p></a>
+        <a href="#"><i class="fa fa-cogs" aria-hidden="true"> </i><p>Orders</p></a>
       </li>
       <li>
       	<a href="<?=base_url('Stock_Actions/profile_stk'); ?>"><i class="fa fa-user" aria-hidden="true"> </i><p>Profile</p></a>
@@ -90,7 +90,7 @@
 	          <div class="content">
 				  <input class="form-control" type="text" name="search_txt" id="search_txt" placeholder="Search" >
 				  <?php echo '<label style="color: green">'.$this->session->flashdata("add_success").'</label>'; ?><br>
-				  <a href="<?= base_url('Stock_Actions/temp_main_view') ?> "class="btn btn-outline-primary">Added Items</a>
+				  <a href="<?= base_url('Stock_Actions/temp_main_view') ?> "class="btn btn-primary">Added Items</a>
 				  <hr><div id="result"></div>
 	          </div>
 	        </div>

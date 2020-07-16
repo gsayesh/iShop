@@ -12,7 +12,7 @@
 
             $this->db->select('*');
             $this->db->from('item');
-            $this->db->where('status','active');
+            //$this->db->where('status','active');
             $this->db->where('category', $category);
             $query = $this->db->get();
             $number = $query->num_rows();
@@ -205,7 +205,7 @@
         function grn_no()
         {
 
-        $this->db->select('*');
+        $this->db->select('grn_no');
         $this->db->from('grn_main_data');
         $query = $this->db->get();
         $number = $query->num_rows();
@@ -214,12 +214,5 @@
 
         }
 
-        public function view_profile($uid){
-            return $this->db->get_where('user', ['user_id' => $uid])->result();
-        }
-
-        public function profile_update($uid,$data){
-            return $this->db->where(['user_id' => $uid])->update('user', $data);
-        }
     }
 ?>

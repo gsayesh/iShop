@@ -330,7 +330,7 @@ class Stock_Actions extends CI_Controller {
 	public function profile_stk()
 	{
 		$uid = $this->session->userdata('user_id');
-		$results = $this->Stock_Model->view_profile($uid);
+		$results = $this->Common_Model->view_profile($uid);
 		$this->load->view('stock/stk_profile',['result'=>$results]);
 	}
 
@@ -349,7 +349,7 @@ class Stock_Actions extends CI_Controller {
 			'email' => $this->input->post('email'),
 			'contact_no' => $this->input->post('telno'));
 			
-		$this->Stock_Model->profile_update($uid,$data);
+		$this->Common_Model->profile_update($uid,$data);
 		$this->session->set_flashdata('update_success','Profile Updated Successfully..!');
 		redirect('Stock_Actions/profile_stk');
 		//$this->one_item($id);
@@ -365,7 +365,7 @@ class Stock_Actions extends CI_Controller {
 			'contact_no' => $this->input->post('telno'),
 			'password' => $enccpass);
 	
-		$this->Stock_Model->profile_update($uid,$data);
+		$this->Common_Model->profile_update($uid,$data);
 		$this->session->set_flashdata('password_success','Password matched ..!');
 		$this->session->set_flashdata('update_success','Profile Updated Successfully..!');
 		redirect('Stock_Actions/profile_stk');	
@@ -374,5 +374,6 @@ class Stock_Actions extends CI_Controller {
 		redirect('Stock_Actions/profile_stk');	
 		}
 	}
+
 }
 ?>
