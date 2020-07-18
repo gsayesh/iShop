@@ -9,5 +9,10 @@
         	return $this->db->where(['user_id' => $uid])->update('user', $data);
     	}
     	
+    	public function stock_low(){
+    		$query = $this->db->query('SELECT * FROM stock where main<=50');
+            echo $query->num_rows();
+
+    	}
 	}
 ?>
