@@ -23,9 +23,7 @@ class Stock_Actions extends CI_Controller {
 	}
 
 
-	public function qr_view(){
-		$this->load->view('stock/qr_sample');
-	}
+	
 	// public function new_item_number(){
 
 		
@@ -39,6 +37,23 @@ class Stock_Actions extends CI_Controller {
 	// }
 
 	public function new_item_add(){
+		//to genetrate qrcode
+			$data['img_url']="";
+			$params['savename']="";
+			if($this->input->post('action') && $this->input->post('action') == "generate_qrcode")
+			{
+				$this->load->library('ciqrcode');
+				$qr_image=rand().'.png';
+				$params['data'] = $this->input->post('itemcode');
+				$params['level'] = 'H';
+				$params['size'] = 8;
+				$params['savename'] =FCPATH."public\assets\qr_image/".$qr_image;
+				if($this->ciqrcode->generate($params))
+				{
+					$data['img_url']=$qr_image;	
+				}
+			}
+		//save item to database	
 		$data = array(
 			'item_code' => $this->input->post('itemcode'),
 			'item_name' => $this->input->post('itemname'),
@@ -47,7 +62,8 @@ class Stock_Actions extends CI_Controller {
 			'whole_sale_price' => $this->input->post('itemwsprice'), 
 			'retail_price' => $this->input->post('itemrprice'),
 			'category' => $this->input->post('cat'),  
-			'status' => 'active');
+			'status' => 'active',
+			'qr_code' => $params['savename']);
 
 		$this->form_validation->set_rules('itemcode','Item Code','trim|required|xss_clean');
 		$this->form_validation->set_rules('itemname','Item Name','trim|required|xss_clean');
@@ -373,6 +389,12 @@ class Stock_Actions extends CI_Controller {
 		$this->session->set_flashdata('password_fail','Password does not matched ..!');
 		redirect('Stock_Actions/profile_stk');	
 		}
+	}
+
+	public function orders_pending()
+	{
+		//$results = $this->Stock_Model->new_items_view() view_item($id);
+		$this->load->view('stock/pending_orders');
 	}
 
 }

@@ -30,7 +30,7 @@
        <a href="<?=base_url('Stock_Actions/all_item_view'); ?>"><i class="fa fa-handshake-o" aria-hidden="true"> </i><p>View Product</p></a>
       </li>
       <li>
-      <a class="active" href="<?=base_url('Stock_Actions/item_stock_add'); ?>"><i class="fa fa-area-chart" aria-hidden="true"> </i><p>Add Stocks</p></a>
+      <a href="<?=base_url('Stock_Actions/item_stock_add'); ?>"><i class="fa fa-area-chart" aria-hidden="true"> </i><p>Add Stocks</p></a>
       <li>
       <a href="<?=base_url('Stock_Actions/all_stock_view'); ?>"><i class="fa fa-users" aria-hidden="true"> </i><p>View Stocks</p></a>
       </li>
@@ -38,7 +38,7 @@
       	<hr>
       <li>
       <li>
-        <a href="<?=base_url('Stock_Actions/orders_pending'); ?>"><i class="fa fa-cogs" aria-hidden="true"> </i><p>Orders</p></a>
+        <a class="active" href="<?=base_url('Stock_Actions/orders_pending'); ?>"><i class="fa fa-cogs" aria-hidden="true"> </i><p>Orders</p></a>
       </li>
       <li>
       	<a href="<?=base_url('Stock_Actions/profile_stk'); ?>"><i class="fa fa-user" aria-hidden="true"> </i><p>Profile</p></a>

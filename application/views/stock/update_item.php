@@ -37,7 +37,7 @@
       	<hr>
       <li>
       <li>
-        <a href="#"><i class="fa fa-cogs" aria-hidden="true"> </i><p>Orders</p></a>
+        <a href="<?=base_url('Stock_Actions/orders_pending'); ?>"><i class="fa fa-cogs" aria-hidden="true"> </i><p>Orders</p></a>
       </li>
       <li>
       	<a href="<?=base_url('Stock_Actions/profile_stk'); ?>"><i class="fa fa-user" aria-hidden="true"> </i><p>Profile</p></a>

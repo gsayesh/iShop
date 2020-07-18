@@ -37,7 +37,7 @@
       	<hr>
       <li>
       <li>
-        <a href="#"><i class="fa fa-cogs" aria-hidden="true"> </i><p>Orders</p></a>
+        <a href="<?=base_url('Stock_Actions/orders_pending'); ?>"><i class="fa fa-cogs" aria-hidden="true"> </i><p>Orders</p></a>
       </li>
       <li>
       	<a href="<?=base_url('Stock_Actions/profile_stk'); ?>"><i class="fa fa-user" aria-hidden="true"> </i><p>Profile</p></a>
@@ -139,7 +139,7 @@
                 <label for="itemcode">Item Code</label>
                 <input type="text" class="form-control" name="itemcode" value="<?= $code; ?>" readonly="true">
                 <input type="hidden" class="form-control" name="cat" value="<?= $type; ?>" readonly="true">
-
+                <input type="hidden" name="action" value="generate_qrcode">
               </div>
 
 
