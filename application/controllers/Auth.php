@@ -34,6 +34,7 @@ class Auth extends CI_Controller {
 					if($result['position'] == 'Admin'){
 						$this->session->set_userdata('user_id', $result['user_id']);
 						$this->session->set_userdata('username', $result['first_name']);
+						$this->session->set_userdata('usertype', $result['position']);
 
 						//remember me
 						if ($this->input->post("remember"))
@@ -50,7 +51,8 @@ class Auth extends CI_Controller {
 						}
 
 					//echo $encPassowrd;
-						$this->load->view('admin/admin');
+						// $this->load->view('admin/admin');
+						$this->load->view('admin/adminDashboard');
 
 					}else if($result['position'] == 'Cashier'){
 					//Check the Login Device
@@ -59,6 +61,7 @@ class Auth extends CI_Controller {
 							$this->session->set_userdata('username', $result['first_name']);
 							$this->session->set_userdata('branch_id', $branch_res['branch_id']);
 							$this->session->set_userdata('branch_name', $branch_res['branch_name']);
+							$this->session->set_userdata('usertype', $result['position']);
 							//remember me
 							if ($this->input->post("remember"))
 							{
@@ -73,7 +76,7 @@ class Auth extends CI_Controller {
 							//echo "<script>alert('Login Success..!');</script>";
 							}
 						//echo $encPassowrd;
-							$this->load->view('cashier/item-stock');
+							$this->load->view('cashier/CashUi');
 						}else{
 							$this->session->set_flashdata('branch_error','Invalid Device');
 							redirect('Welcome');
@@ -84,6 +87,7 @@ class Auth extends CI_Controller {
 							$this->session->set_userdata('username', $result['first_name']);
 							$this->session->set_userdata('branch_id', $branch_res['branch_id']);
 							$this->session->set_userdata('branch_name', $branch_res['branch_name']);
+							$this->session->set_userdata('usertype', $result['position']);
 							//remember me
 							if ($this->input->post("remember"))
 							{

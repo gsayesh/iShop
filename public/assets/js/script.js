@@ -14,3 +14,5 @@ setInterval(function(){
           document.getElementById("tm").innerHTML = hour + ':' + ("0"+dt.getMinutes()).slice(-2);
           document.getElementById("apm").innerHTML = amOrPm;
           }, 1000);
+
+
