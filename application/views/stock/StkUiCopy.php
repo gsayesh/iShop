@@ -8,25 +8,21 @@
   <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css'>
-<link rel="stylesheet" href="<?php echo base_url('public/assets/css/nav-style.css'); ?>">
-
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css'>  
 <!-- 
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'> -->
-<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
-<link rel="stylesheet" href="<?php echo base_url('public/assets/css/style.css'); ?>">
-
-<script  src="<?php echo base_url('public/assets/js/script.js'); ?>"></script>
-
-<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.min.css'>
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    
+    <link rel="stylesheet" href="<?php echo base_url('public/assets/css/nav-style.css'); ?>">
+    <link rel="stylesheet" href="<?php echo base_url('public/assets/css/style.css'); ?>">
+    <link rel="stylesheet" href="<?php echo base_url('public/assets/css/chat.css'); ?>">
+    <script  src="<?php echo base_url('public/assets/js/script.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo base_url('public/assets/scripts/jquery-3.2.1.min.js'); ?>"></script>
-  <script src="<?php echo base_url('public/assets/scripts/firebase-4.2.0.js'); ?>"></script>
-  <script src="<?php echo base_url('public/assets/scripts/firebase-initialize.js'); ?>"></script>
-
-
-  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css'>
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.min.css'>
-<link rel="stylesheet" href="<?php echo base_url('public/assets/css/chat.css'); ?>">
+    <script src="<?php echo base_url('public/assets/scripts/firebase-4.2.0.js'); ?>"></script>
+    <script src="<?php echo base_url('public/assets/scripts/firebase-initialize.js'); ?>"></script>
 
 </head>
 <body style="background: url('images/bg.png') no-repeat center center fixed; background-size: cover;">
@@ -43,20 +39,23 @@
                 <li class="nav-item">
                     <a class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
                 </li>
+                <li class="nav-">
+                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-cube"></i>Add Product</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0);"><i class="   fa fa-list-alt"></i>View Products</a>
+                </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-file-text"></i>Bill</a>
+                    <a class="nav-link" href="<?=base_url('Stock_Actions/item_stock_add'); ?>"><i class="fa fa-cart-plus"></i>Add Stocks</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-handshake-o"></i>Customers</a>
+                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-cubes"></i>View Stocks</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-area-chart"></i>Stocks</a>
+                    <a class="nav-link" href="javascript:void(0);"><i class="   fa fa-cart-arrow-down"></i>Request</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-users"></i>Creditors</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-user"></i>Profiles</a>
+                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-stack-exchange"></i>Orders</a>
                 </li>
             </ul>
         </div>
@@ -107,7 +106,7 @@
         <ul class="nav">
 
             <li>
-                <a href="<?=base_url('Common/profile_cas'); ?>"><i class="fa fa-user" aria-hidden="true"> </i><p>Profile</p></a>
+                <a href="<?=base_url('Common/profile_stk'); ?>"><i class="fa fa-user" aria-hidden="true"> </i><p>Profile</p></a>
             </li>
             <li>
                 <a href="<?= base_url().'Auth/logout'?>"><i class="fa fa-sign-out" aria-hidden="true"> </i><p>Log Out</p></a>
@@ -128,38 +127,71 @@
         </ul>
       </div>
     </nav>
-    <div class="container-fluid">
+    <div class="container-fluid my-scroll" >
 
-        <div class="main-panel">
+        <div class="main-panel" >
 
-        <div class="main-panel-content">
-
+        <div class="main-panel-content ">
 
             <div class="card" id="sales-summary">
               <div class="title">
-                <!-- <h2>Sales Summary - Feb 2020</h2>
-                <p class="subtitle">Sales Performance for the Month</p> -->
+                <h2>New Items to Main Stock</h2>
+                <p class="subtitle"></p>
               </div>
-              <div class="content">
-                
+
+              <div class="content " >
+                  <input class="form-control" type="text" name="search_txt" id="search_txt" placeholder="Search" >
+                  <?php echo '<label style="color: green">'.$this->session->flashdata("add_success").'</label>'; ?><br>
+                  <a href="<?= base_url('Stock_Actions/temp_main_view') ?> "class="btn btn-primary">Added Items</a>
+                  <hr><div id="result"></div>
               </div>
+
+            </div>
             </div>
           </div>
         
     </div>
   </div>
 </div>
+
 <!-- partial -->
-  <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+<script>
+    $(document).ready(function(){
+
+        load_data();
+
+        function load_data(query)
+        {
+            $.ajax({
+                url:"<?php echo base_url('Stock_Actions/item_search_stock'); ?>",
+                method:"POST",
+                data:{query:query},
+                success:function(data){
+                    $('#result').html(data);
+                }
+            })
+        }
+
+        $('#search_txt').keyup(function(){
+            var search = $(this).val();
+            if(search != '')
+            {
+                load_data(search);
+            }
+            else
+            {
+                load_data();
+            }
+        });
+
+    });
+</script>
+<script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
 <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
-<script  src="<?php echo base_url('public/assets/js/nav-script.js'); ?>"></script>
-
-
-<script type="text/javascript" src="<?php echo base_url('public/assets/scripts/scripts.js'); ?>"></script>
-
-
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.concat.min.js'></script>
+<script  src="<?php echo base_url('public/assets/js/nav-script.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('public/assets/scripts/scripts.js'); ?>"></script>
 <script  src="<?php echo base_url('public/assets/js/chat.js'); ?>"></script>
 </body>
 </html>

@@ -251,15 +251,17 @@ class Stock_Actions extends CI_Controller {
 		$output .= '
 		<div class="table-responsive">
 					<table class="table">
-						<tr class="thead-light">
-							<th class="col">#</th>
-							<th class="col">Item Code</th>
-							<th class="col">Item Name</th>
-							<th class="col">Description</th>
-							<th class="col">Whole Sale Price</th>
-							<th class="col">Retail Price</th>
-							<th class="col">Actions</th>
-						</tr>
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Item Code</th>
+								<th scope="col">Item Name</th>
+								<th scope="col">Description</th>
+								<th scope="col">Whole Sale Price</th>
+								<th scope="col">Retail Price</th>
+								<th scope="col">Actions</th>
+							</tr>
+						</thead>
 		';
 		if($data->num_rows() > 0)
 		{
@@ -295,7 +297,8 @@ class Stock_Actions extends CI_Controller {
 	public function item_stock_add()
 	{
 		//$results = $this->Stock_Model->new_items_view() view_item($id);
-		$this->load->view('stock/add_item_stock');
+		//$this->load->view('stock/add_item_stock');
+		$this->load->view('stock/StkUiCopy');
 	}
 
 	public function temp_main_view()
@@ -341,54 +344,6 @@ class Stock_Actions extends CI_Controller {
 
 		$this->output->set_content_type('application/json');
 		echo json_encode(array('status' => $status));
-	}
-
-	public function profile_stk()
-	{
-		$uid = $this->session->userdata('user_id');
-		$results = $this->Common_Model->view_profile($uid);
-		$this->load->view('stock/stk_profile',['result'=>$results]);
-	}
-
-	public function edited_profile($uid)
-	{
-
-		$pass = $this->input->post('pass');
-		$cpass = $this->input->post('cpass');
-		if($pass == '' && $cpass == ''){
-		$data = array(
-			'first_name' => $this->input->post('userfname'),
-			'last_name' => $this->input->post('userlname'),
-			'nic' => $this->input->post('usernic'),
-			'address' => $this->input->post('address'), 
-			'gender' => $this->input->post('gender'),
-			'email' => $this->input->post('email'),
-			'contact_no' => $this->input->post('telno'));
-			
-		$this->Common_Model->profile_update($uid,$data);
-		$this->session->set_flashdata('update_success','Profile Updated Successfully..!');
-		redirect('Stock_Actions/profile_stk');
-		//$this->one_item($id);
-		}else if($pass == $cpass){
-		$enccpass = md5($cpass);
-		$data = array(
-			'first_name' => $this->input->post('userfname'),
-			'last_name' => $this->input->post('userlname'),
-			'nic' => $this->input->post('usernic'),
-			'address' => $this->input->post('address'), 
-			'gender' => $this->input->post('gender'),
-			'email' => $this->input->post('email'),
-			'contact_no' => $this->input->post('telno'),
-			'password' => $enccpass);
-	
-		$this->Common_Model->profile_update($uid,$data);
-		$this->session->set_flashdata('password_success','Password matched ..!');
-		$this->session->set_flashdata('update_success','Profile Updated Successfully..!');
-		redirect('Stock_Actions/profile_stk');	
-		}else if($pass != $cpass){
-		$this->session->set_flashdata('password_fail','Password does not matched ..!');
-		redirect('Stock_Actions/profile_stk');	
-		}
 	}
 
 	public function orders_pending()

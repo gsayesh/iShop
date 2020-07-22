@@ -21,6 +21,7 @@ body {
 
 #content {
   width: 100%;
+  height: 100%;
   position: relative;
   margin-right: 0;
 }
@@ -621,4 +622,16 @@ i {
   color: rgba(0,0,0,.4);
 }
 
+@media (height: 768px) {
+  .my-scroll {
+    height: 600px;
+    overflow-y: scroll;
+  }
+}
 
+@media (height: 1024px) {
+  .my-scroll {
+    height: 800px;
+    overflow-y: scroll;
+  }
+}

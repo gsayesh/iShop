@@ -41,7 +41,7 @@
         <a href="#"><i class="fa fa-cogs" aria-hidden="true"> </i><p>Settings</p></a>
       </li>
       <li>
-      	<a href="#"><i class="fa fa-user" aria-hidden="true"> </i><p>Profile</p></a>
+      	<a href="<?=base_url('Common/profile_adn'); ?>"><i class="fa fa-user" aria-hidden="true"> </i><p>Profile</p></a>
       </li>
       <li>
 		<a href="#"><i class="fa fa-sign-out" aria-hidden="true"> </i><p>Log Out</p></a>

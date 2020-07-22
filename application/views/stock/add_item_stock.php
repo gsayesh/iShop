@@ -44,8 +44,8 @@
       	<a href="<?=base_url('Stock_Actions/profile_stk'); ?>"><i class="fa fa-user" aria-hidden="true"> </i><p>Profile</p></a>
       </li>
       <li>
-<a href="<?= base_url().'Auth/logout'?>"><i class="fa fa-sign-out" aria-hidden="true"> </i><p>Log Out</p></a>
-	  </li>
+        <a href="<?= base_url().'Auth/logout'?>"><i class="fa fa-sign-out" aria-hidden="true"> </i><p>Log Out</p></a>
+	   </li>
     </ul>
 
 
@@ -75,11 +75,11 @@
         </ul>
       </div>
     </nav>
-    <div class="container-fluid">
+    <div class="container-fluid ">
 
-    	<div class="main-panel">
+    	<div class="main-panel " >
 
-	    <div class="main-panel-content">
+	    <div class="main-panel-content" >
 
 
 	        <div class="card" id="sales-summary">
@@ -88,11 +88,11 @@
 	            <p class="subtitle"></p>
 	          </div>
 	          <div class="content">
-				  <input class="form-control" type="text" name="search_txt" id="search_txt" placeholder="Search" >
-				  <?php echo '<label style="color: green">'.$this->session->flashdata("add_success").'</label>'; ?><br>
-				  <a href="<?= base_url('Stock_Actions/temp_main_view') ?> "class="btn btn-primary">Added Items</a>
-				  <hr><div id="result"></div>
-	          </div>
+              <input class="form-control" type="text" name="search_txt" id="search_txt" placeholder="Search" >
+              <?php echo '<label style="color: green">'.$this->session->flashdata("add_success").'</label>'; ?><br>
+              <a href="<?= base_url('Stock_Actions/temp_main_view') ?> "class="btn btn-primary">Added Items</a>
+              <hr><div id="result"></div>
+            </div>
 	        </div>
 	      </div>
     	

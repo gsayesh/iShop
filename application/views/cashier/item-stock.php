@@ -31,7 +31,7 @@
        <a href="#"><i class="fa fa-handshake-o" aria-hidden="true"> </i><p>Customers</p></a>
       </li>
       <li>
-      <a class="active" href="#"><i class="fa fa-area-chart" aria-hidden="true"> </i><p>Stocks</p></a>
+      <a class="active" href="<?= base_url('Cashier/first_view'); ?>"><i class="fa fa-area-chart" aria-hidden="true"> </i><p>Stocks</p></a>
       </li>
       <li>
       <a href="#"><i class="fa fa-users" aria-hidden="true"> </i><p>Creditors</p></a>
@@ -43,7 +43,7 @@
         <a href="#"><i class="fa fa-cogs" aria-hidden="true"> </i><p>Orders</p></a>
       </li>
       <li>
-      	<a href="<?=base_url('Stock_Actions/profile_stk'); ?>"><i class="fa fa-user" aria-hidden="true"> </i><p>Profile</p></a>
+      	<a href="<?=base_url('Common/profile_cas'); ?>"><i class="fa fa-user" aria-hidden="true"> </i><p>Profile</p></a>
       </li>
       <li>
 		<a href="<?= base_url().'Auth/logout'?>"><i class="fa fa-sign-out" aria-hidden="true"> </i><p>Log Out</p></a>
