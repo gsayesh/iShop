@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500');
 
+
+
+
+html {
+    overflow: -moz-scrollbars-vertical; 
+    overflow-y: scroll;
+}
+
 body {
   font-family: "Roboto","Helvetica Neue",Arial,sans-serif;
   font-size: 16px;
@@ -12,6 +20,7 @@ body {
 /* Toggle Styles */
 
 #viewport {
+	  margin-top: 60px;
   padding-left: 250px;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -358,7 +367,6 @@ display: -webkit-box;
 
 body{
   font-family: 'Roboto', sans-serif;
-  height: 100%;
 }
 * {
   margin: 0;
@@ -379,6 +387,11 @@ i {
 .navbar-mainbg{
   background-color: #22242a;
   padding: 0px;
+   overflow: hidden;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+  z-index: 1001;
 }
 #navbarSupportedContent{
   overflow: hidden;
