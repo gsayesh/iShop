@@ -35,13 +35,13 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav ml-auto">
 				<div class="hori-selector"><div class="left"></div><div class="right"></div></div>
-				<li class="nav-item">
+				<li class="nav-item active">
 					<a class="nav-link" href="<?=base_url('Stock_Actions/dashboard'); ?>"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="<?=base_url('Stock_Actions/new_item'); ?>"><i class="fa fa-cube"></i>Add Product</a>
 				</li>
-				<li class="nav-item active">
+				<li class="nav-item">
 					<a class="nav-link" href="<?=base_url('Stock_Actions/all_item_view'); ?>"><i class="   fa fa-list-alt"></i>View Products</a>
 				</li>
 				<li class="nav-item">
@@ -132,18 +132,15 @@
 
 		<div class="main-panel-content ">
 
-			<div class="card" id="sales-summary">
-		 		<div class="title">
-					<h2>All Products</h2>
-					<!-- <p class="subtitle">Sales Performance for the Month</p> -->
-		  		</div>
-		  		<div class="content" id="cntent">
-					<input class="form-control" type="text" name="search_txt" id="search_txt" placeholder="Search" >
-					<?php echo '<label style="color: green">'.$this->session->flashdata("delete_success").'</label>'; ?>
-					<div id="result"></div>
-			 	</div>
-			</div>
-
+		<div class="card" id="sales-summary">
+		  	<div class="title">
+				<h2>Overview</h2>
+				<!-- <p class="subtitle">Sales Performance for the Month</p> -->
+		  	</div>
+		  	<div class="content">
+				
+		  	</div>
+		</div>
 		</div>
 		</div>
 		
@@ -152,37 +149,7 @@
 </div>
 
 <!-- partial -->
-<script>
-  $(document).ready(function(){
 
-   load_data();
-
-   function load_data(query)
-   {
-      $.ajax({
-        url:"<?php echo base_url('Stock_Actions/item_search'); ?>",
-        method:"POST",
-        data:{query:query},
-        success:function(data){
-          $('#result').html(data);
-        }
-      })
-    }
-
-    $('#search_txt').keyup(function(){
-      var search = $(this).val();
-      if(search != '')
-      {
-        load_data(search);
-      }
-      else
-      {
-        load_data();
-      }
-    });
-
-  });
-</script>
 <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
 <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script>

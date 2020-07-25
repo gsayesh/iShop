@@ -3,6 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Stock_Actions extends CI_Controller {
 
+	public function dashboard()
+	{
+		//$results = $this->Stock_Model->new_items_view() view_item($id);
+		//$this->load->view('stock/add_item_stock');
+		$this->load->view('stock/stk_dash');
+	}
+
 	public function new_item()
 	{
 
@@ -93,16 +100,18 @@ class Stock_Actions extends CI_Controller {
 		$output .= '
 		<div class="table-responsive">
 					<table class="table">
-						<tr class="thead-light">
-							<th class="col">#</th>
-							<th class="col">Item Code</th>
-							<th class="col">Item Name</th>
-							<th class="col">Description</th>
-							<th class="col">Cost</th>
-							<th class="col">Whole Sale Price</th>
-							<th class="col">Retail Price</th>
-							<th class="col">Actions</th>
-						</tr>
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Item Code</th>
+								<th scope="col">Item Name</th>
+								<th scope="col">Description</th>
+								<th scope="col">Cost</th>
+								<th scope="col">Whole Sale Price</th>
+								<th scope="col">Retail Price</th>
+								<th scope="col">Actions</th>
+							</tr>
+						</thead>
 		';
 		if($data->num_rows() > 0)
 		{
@@ -196,15 +205,17 @@ class Stock_Actions extends CI_Controller {
 		$output .= '
 		<div class="table-responsive">
 					<table class="table">
-						<tr class="thead-light">
-							<th class="col">#</th>
-							<th class="col">Item Code</th>
-							<th class="col">Item Name</th>
-							<th class="col">Description</th>
-							<th class="col">Whole Sale Price</th>
-							<th class="col">Retail Price</th>
-							<th class="col">Quantity</th>
-						</tr>
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Item Code</th>
+								<th scope="col">Item Name</th>
+								<th scope="col">Description</th>
+								<th scope="col">Whole Sale Price</th>
+								<th scope="col">Retail Price</th>
+								<th scope="col">Quantity</th>
+							</tr>
+						</thead>
 		';
 		if($data->num_rows() > 0)
 		{
@@ -298,7 +309,7 @@ class Stock_Actions extends CI_Controller {
 	{
 		//$results = $this->Stock_Model->new_items_view() view_item($id);
 		//$this->load->view('stock/add_item_stock');
-		$this->load->view('stock/StkUiCopy');
+		$this->load->view('stock/add_item_stock');
 	}
 
 	public function temp_main_view()
@@ -313,9 +324,9 @@ class Stock_Actions extends CI_Controller {
 
 	public function temp_main_add($id)
 	{
-		$data = array(
-			'item_code' => $id);
-		$this->Stock_Model->temp_items_in($data);
+		// $data = array(
+		// 	'item_code' => $id);
+		$this->Stock_Model->temp_items_in($id);
 		$this->session->set_flashdata('add_success','Item Added Successfully..!');
 		$results = $this->Stock_Model->temp_items_view();
 		$res_grn = $this->Stock_Model->grn_no();
@@ -351,6 +362,14 @@ class Stock_Actions extends CI_Controller {
 		//$results = $this->Stock_Model->new_items_view() view_item($id);
 		$this->load->view('stock/pending_orders');
 	}
+
+	public function stock_request()
+	{
+		$results = $this->Common_Model->stock_low();
+		
+		$this->load->view('stock/request_stock',['res'=>$results]);
+	}
+
 
 }
 ?>

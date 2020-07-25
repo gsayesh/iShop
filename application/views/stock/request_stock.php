@@ -41,7 +41,7 @@
 				<li class="nav-item">
 					<a class="nav-link" href="<?=base_url('Stock_Actions/new_item'); ?>"><i class="fa fa-cube"></i>Add Product</a>
 				</li>
-				<li class="nav-item active">
+				<li class="nav-item">
 					<a class="nav-link" href="<?=base_url('Stock_Actions/all_item_view'); ?>"><i class="   fa fa-list-alt"></i>View Products</a>
 				</li>
 				<li class="nav-item">
@@ -50,7 +50,7 @@
 				<li class="nav-item">
 					<a class="nav-link" href="<?=base_url('Stock_Actions/all_stock_view'); ?>"><i class="fa fa-cubes"></i>View Stocks</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item active">
 					<a class="nav-link" href="<?=base_url('Stock_Actions/stock_request'); ?>"><i class="   fa fa-cart-arrow-down"></i>Request</a>
 				</li>
 				<li class="nav-item">
@@ -132,18 +132,82 @@
 
 		<div class="main-panel-content ">
 
-			<div class="card" id="sales-summary">
-		 		<div class="title">
-					<h2>All Products</h2>
-					<!-- <p class="subtitle">Sales Performance for the Month</p> -->
-		  		</div>
-		  		<div class="content" id="cntent">
-					<input class="form-control" type="text" name="search_txt" id="search_txt" placeholder="Search" >
-					<?php echo '<label style="color: green">'.$this->session->flashdata("delete_success").'</label>'; ?>
-					<div id="result"></div>
-			 	</div>
-			</div>
+		<div class="card" id="sales-summary">
+		  	<div class="title">
+				<h2>Request from Supplier</h2>
+				<!-- <p class="subtitle">Sales Performance for the Month</p> -->
+		  	</div>
+		  	<div class="content">
+				<div class="table-responsive">
+						<form id="frm-example" action="/path/to/your/script" method="POST">
+    
+						<table class="table" id="example" class="display" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th scope="col"><input name="select_all" value="1" id="example-select-all" type="checkbox" /></th>
+			  						<th scope="col">#</th>
+			  						<th scope="col">Item Code</th>
+			  						<th scope="col">Item Name</th>
+			  						<th scope="col">Cost</th>
+			  						<th scope="col">Low Quantity</th>
+			  						<th scope="col">New Quantity</th>
+			  						<th scope="col">Actions</th>
+								</tr>
+							<thead>
 
+							<?php if($res){?>
+							<?php $i=1; foreach($res as $res) : ?>
+							<tr>
+								<td></td>
+			  					<td><?=$i++ ?></td>
+			  					<td><?=$res->item_code?></td>
+			  					<td><?=$res->item_name?></td>
+			  					<td><?=$res->cost?></td>
+			  					<td><?=$res->main?></td>
+			  					<td><input type="Number" name="qty" id="qtynew" min="0" required="true" ></td>
+			  					<td>
+			  						<!-- <a href="<?php// base_url('Stock_Actions/temp_main_del/'.$res->item_code)?>"><i class="fa fa-times" style="color:red;font-size:150%" aria-hidden="true"></i></a> -->
+			  					</td>
+							</tr>
+							<?php endforeach; ?>
+							<?php }else{echo "<p style='color:red;font-weight: bold;'>Not in Minimum Level to Request</p>";} ?>
+						</table>
+					</div>
+					<!-- <button name="btn_order" id="btn_order" class="btn btn-success">Send</button> -->
+					<p><button>Submit</button></p>
+					<form id="frm-example" action="/path/to/your/script" method="POST">
+    
+<table id="example" class="display" cellspacing="0" width="100%">
+   <thead>
+      <tr>
+          <th><input name="select_all" value="1" id="example-select-all" type="checkbox" /></th>
+         <th>Name</th>
+         <th>Position</th>
+         <th>Office</th>
+         <th>Extn.</th>
+         <th>Start date</th>
+         <th>Salary</th>
+      </tr>
+   </thead>
+   <tfoot>
+      <tr>
+         <th></th>
+         <th>Name</th>
+         <th>Position</th>
+         <th>Office</th>
+         <th>Extn.</th>
+         <th>Start date</th>
+         <th>Salary</th>
+      </tr>
+   </tfoot>
+</table>
+<hr>
+
+<p>Press <b>Submit</b> and check console for URL-encoded form data that would be submitted.</p>
+
+<p><button>Submit</button></p>
+		  	</div>
+		</div>
 		</div>
 		</div>
 		
@@ -153,35 +217,73 @@
 
 <!-- partial -->
 <script>
-  $(document).ready(function(){
+$(document).ready(function (){   
+   var table = $('#example').DataTable({
+      'ajax': 'https://gyrocode.github.io/files/jquery-datatables/arrays_id.json',
+      'columnDefs': [{
+         'targets': 0,
+         'searchable':false,
+         'orderable':false,
+         'className': 'dt-body-center',
+         'render': function (data, type, full, meta){
+             return '<input type="checkbox" name="id[]" value="' 
+                + $('<div/>').text(data).html() + '">';
+         }
+      }],
+      'order': [1, 'asc']
+   });
 
-   load_data();
+   // Handle click on "Select all" control
+   $('#example-select-all').on('click', function(){
+      // Check/uncheck all checkboxes in the table
+      var rows = table.rows({ 'search': 'applied' }).nodes();
+      $('input[type="checkbox"]', rows).prop('checked', this.checked);
+   });
 
-   function load_data(query)
-   {
-      $.ajax({
-        url:"<?php echo base_url('Stock_Actions/item_search'); ?>",
-        method:"POST",
-        data:{query:query},
-        success:function(data){
-          $('#result').html(data);
-        }
-      })
-    }
-
-    $('#search_txt').keyup(function(){
-      var search = $(this).val();
-      if(search != '')
-      {
-        load_data(search);
+   // Handle click on checkbox to set state of "Select all" control
+   $('#example tbody').on('change', 'input[type="checkbox"]', function(){
+      // If checkbox is not checked
+      if(!this.checked){
+         var el = $('#example-select-all').get(0);
+         // If "Select all" control is checked and has 'indeterminate' property
+         if(el && el.checked && ('indeterminate' in el)){
+            // Set visual state of "Select all" control 
+            // as 'indeterminate'
+            el.indeterminate = true;
+         }
       }
-      else
-      {
-        load_data();
-      }
-    });
+   });
+    
+   $('#frm-example').on('submit', function(e){
+      var form = this;
 
-  });
+      // Iterate over all checkboxes in the table
+      table.$('input[type="checkbox"]').each(function(){
+         // If checkbox doesn't exist in DOM
+         if(!$.contains(document, this)){
+            // If checkbox is checked
+            if(this.checked){
+               // Create a hidden element 
+               $(form).append(
+                  $('<input>')
+                     .attr('type', 'hidden')
+                     .attr('name', this.name)
+                     .val(this.value)
+               );
+            }
+         } 
+      });
+
+      // FOR TESTING ONLY
+      
+      // Output form data to a console
+      $('#example-console').text($(form).serialize()); 
+      console.log("Form submission", $(form).serialize()); 
+       
+      // Prevent actual form submission
+      e.preventDefault();
+   });
+});
 </script>
 <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
 <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>

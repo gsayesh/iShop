@@ -103,7 +103,7 @@ class Auth extends CI_Controller {
 							}
 					//echo $encPassowrd;
 							//$this->load->view('stock/add_new_item');
-							redirect('Stock_Actions/item_stock_add');
+							redirect('Stock_Actions/dashboard');
 						}else{
 							$this->session->set_flashdata('branch_error','Invalid Device');
 							redirect('Welcome');

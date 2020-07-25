@@ -10,9 +10,16 @@
     	}
     	
     	public function stock_low(){
-    		$query = $this->db->query('SELECT * FROM stock where main<=50');
-            echo $query->num_rows();
-
+    		$query = $this->db->query('SELECT * FROM stock,item where main<=50 AND stock.item_code=item.item_code');
+            if($query->num_rows()<=5){
+                return $query->result();
+            }else{
+                return false;
+            }
     	}
+
+        public function stock_low_row(){
+            $query = $this->db->query('SELECT * FROM stock where main<=50'); 
+        }
 	}
 ?>

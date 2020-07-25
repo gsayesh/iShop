@@ -358,6 +358,7 @@ display: -webkit-box;
 
 body{
   font-family: 'Roboto', sans-serif;
+  height: 100%;
 }
 * {
   margin: 0;

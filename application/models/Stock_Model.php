@@ -100,8 +100,9 @@
             return $this->db->get();
         }*/
 
-        public function temp_items_in($data){
-            $this->db->insert('temp_main_stock',$data);
+        public function temp_items_in($id){
+            
+            $this->db->insert('temp_main_stock',['item_code'=>$id]);
         }
 
         public function temp_items_view(){
