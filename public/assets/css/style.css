@@ -14,7 +14,10 @@ body {
   font-weight: 200;
   line-height: 1.5em;
   color: #555;
+  background: 
   background: #eee;
+
+  background: url('../images/bg.png') no-repeat center center fixed; background-size: cover;
 }
 
 /* Toggle Styles */
@@ -649,3 +652,6 @@ i {
     overflow-y: scroll;
   }
 }
+
+
+

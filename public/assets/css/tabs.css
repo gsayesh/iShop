@@ -1,0 +1,78 @@
+
+dd{
+   /*background:#e4e5e6;*/
+   font-family: 'Fira Sans', sans-serif;
+}
+.responsive-tabs {    text-align:center;
+   font-family: 'Fira Sans', sans-serif;
+  }
+  .responsive-tabs dt {
+     
+
+background: #cccccc; /* Old browsers */
+background: -moz-linear-gradient(top,  #cccccc 0%, #eeeeee 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cccccc), color-stop(100%,#eeeeee));
+background: -webkit-linear-gradient(top,  #cccccc 0%,#eeeeee 100%);
+background: -o-linear-gradient(top,  #cccccc 0%,#eeeeee 100%);
+background: -ms-linear-gradient(top,  #cccccc 0%,#eeeeee 100%);
+background: linear-gradient(to bottom,  #cccccc 0%,#eeeeee 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cccccc', endColorstr='#eeeeee',GradientType=0 );
+      
+    padding: 0.5em;
+    border-top: 1px solid #ccc;
+    cursor: pointer;
+    }
+  .responsive-tabs dt:first-child {
+    border-top: 0;
+     
+    }
+  .responsive-tabs .active {
+background: #F55555;
+background: -moz-linear-gradient(top,  #F55555 0%, #FCCF31 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#F55555), color-stop(100%,#FCCF31));
+background: -webkit-linear-gradient(top,  #F55555 0%,#FCCF31 100%);
+background: -o-linear-gradient(top,  #F55555 0%,#FCCF31 100%);
+background: -ms-linear-gradient(top,  #F55555 0%,#FCCF31 100%);
+background: linear-gradient(to bottom,  #F55555 0%,#FCCF31 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F55555', endColorstr='#FCCF31',GradientType=0 );
+color:#fff;
+ 
+    }
+  .responsive-tabs .active + dd {
+    display: block;
+    }
+  .responsive-tabs dd {
+    display: none;
+    padding: 0.5em;
+    }
+
+.responsive-tabs-placeholder {
+  display: none;
+  }
+
+
+@media only screen and (min-width: 768px) {
+  dt {
+    width: 25%;
+}
+  .responsive-tabs {
+    }
+    .responsive-tabs dt {
+      float: left;
+      border-top: 0;
+      }
+    .responsive-tabs .active + dd {
+      display: none;
+      }
+ 
+  .responsive-tabs-placeholder {
+    clear: both;
+    display: block;
+    padding: 1em;
+    border-top: 1px solid #ccc;
+    }
+
+}
+
+
+
