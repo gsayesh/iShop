@@ -133,6 +133,7 @@ class Cashier_Model extends CI_Model
 	public function add_gnr_item($table_data, $basic_data)
 	{
 
+
 		$branch = $basic_data['branch'];
 		$bill_no = $basic_data['bill_no'];
 		$grn_no = $basic_data['grn_no'];
@@ -145,14 +146,15 @@ class Cashier_Model extends CI_Model
 			'branch' => $branch
 		);
 
+
 		for ($i=0; $i < count($table_data); $i++) { 
 			$data[] = array(
-				'code' => $table_data[$i]['code'],
-				'name' => $table_data[$i]['name'],
-				'description' => $table_data[$i]['description'],
-				'whole_sale' => $table_data[$i]['whole_sale'],
-				'retail' => $table_data[$i]['retail'],
-				'qty' => $table_data[$i]['qty'],
+				'code' => $table_data[$i]->item_code,
+				'name' => $table_data[$i]->item_name,
+				'description' => $table_data[$i]->item_description,
+				'whole_sale' => $table_data[$i]->whole_sale_price,
+				'retail' => $table_data[$i]->retail_price, 
+				'qty' => $table_data[$i]->qty,
 				'grn_no' => $grn_no,
 				'branch_name' => $branch
 			);
@@ -359,7 +361,78 @@ class Cashier_Model extends CI_Model
 
 //Start the Bill section
 
+	//Start get temp bill table
+	function get_temp_bill_table()
+	{
 
+		return $this->db->get('temp_bill')->result();
+
+	}
+	//END
+
+	//Start get new grn number
+	function get_bill_no($branch)
+	{
+
+		$this->db->select('*');
+		$this->db->from('bill_history');
+		$this->db->where('branch',$branch);
+		$query = $this->db->get();
+		$number = $query->num_rows();
+
+		return $number+1;
+
+	}
+	//End
+
+	function add_to_tempBill($data)
+	{
+		//var_dump($data);
+		$code = $data['item_code'];
+		$qty = $data['qty'];
+		$branch = $data['branch'];
+		$name;
+		$desc;
+		$price;
+		$total;
+		$id = 0;
+
+		$this->db->select('*');
+		$this->db->from('item');
+		$this->db->where('item_code',$code);
+		$query = $this->db->get();
+		$results = $query->result();
+
+		foreach($results as $row){
+			$name =  $row->item_name;
+			$desc = $row->item_description;
+			$price = $row->retail_price;
+			$total = $price * $qty;
+		}
+
+
+		$bill_data = array(
+			'id' => $id,
+			'item_code' => $code,
+			'name' => $name,
+			'description' => $desc,
+			'price' => $price,
+			'qty' => $qty,
+			'total' => $total,
+			'branch' => $branch
+		);
+
+		$this->db->insert('temp_bill',$bill_data);	
+
+	}
+
+
+	function remove_from_temp_bill($id){
+		$this->db->where('id', $id);
+		$this->db->delete('temp_bill');
+	}
+
+	
 
 //End of the Bill section
 

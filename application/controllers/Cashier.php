@@ -4,10 +4,6 @@ class Cashier extends CI_Controller
 {
 
 // Start the Item Section
-	function first_view(){
-		$this->load->view('cashier/item-stock');
-	}
-
 
 	//Start Stock Handling
 		//At the first time open the page search_product
@@ -27,24 +23,6 @@ class Cashier extends CI_Controller
 		array_push($new_grn_no, $current_grn_no);
 
 		$this->load->view('cashier/Item/insert_product',[ 'data'=>$grnValue , 'new_grn_no'=>$new_grn_no ]);
-	}
-
-
-	//At the first time open the page request_product
-	function first_load_request_product(){
-
-		$branch = "branch1";
-
-		$grnValue = $this->Cashier_Model->get_temp_request_table();
-
-
-		//Need to change to the request count
-		$current_grn_no = $this->Cashier_Model->get_grn_no($branch);
-
-		$new_grn_no = array();
-		array_push($new_grn_no, $current_grn_no);
-
-		$this->load->view('cashier/Item/request_product',[ 'data'=>$grnValue , 'new_grn_no'=>$new_grn_no ]);
 	}
 
 		//Show search item
@@ -216,137 +194,52 @@ class Cashier extends CI_Controller
 
 	public function grn_item()
 	{
+		
+		$grnValue = $this->Cashier_Model->get_grn_table();
+		$dump = array();
+		foreach($grnValue as $val) {
+			$dump[$val->item_code] = $_POST['qty_' . $val->item_code];
+		}
+		
+		$bill_no = $this->input->post('bill_no');
+		$user = $this->input->post('user');
+		$branch = $this->input->post('branch');
+		$grn_no = $this->input->post('grn_no');
 
-		$grn_data = $this->input->post('data_table');
-		$basic_data = $this->input->post('basic_data');
+		$extra = array(
+			'bill_no' => $bill_no,
+			'user' => $user,
+			'branch' => $branch,
+			'grn_no' => $grn_no,
+		);
 
-		$status = $this->Cashier_Model->add_gnr_item($grn_data, $basic_data);
+	
+		for ($i=0; $i<sizeof($grnValue); $i++) {
+			foreach ($dump as $key => $value) {
+				if ($grnValue[$i]->item_code == $key) {
+					$grnValue[$i]->qty = $value;
+				}
+			}
+			
+		}
 
-		$this->output->set_content_type('application/json');
-		echo json_encode(array('status' => $status));
+		// $this->output->set_content_type('application/json');
+		// echo json_encode(array('status' => $status));
+		// $this->load->library('PDF');
 
-						
-	}
-
-
-	public function printTest(){
-
-		$this->load->library('grn_table');
-
-
-		$pdf = new grn_table();
-
-		$pdf->AddPage();
-		$pdf->table_header();
-		//$pdf->setData($data);
-		//$pdf->table_content();
+		$pdf = new PDF();
+		$pdf->AliasNbPages();
+		$pdf->AddPage('L');
+		$pdf->SetFont('Arial', 'B', 10);
+		$pdf->BillTable($grnValue, $dump, $extra);
 
 		$pdf->Output();
 
-	}
-
-
-
-	function search_product_request()
-	{
-		  $output = '';
-		  $query = '';
-		  $data = '';
-
-		  if($this->input->post('query'))
-		  {
-		   $query = $this->input->post('query');
-		  }
-		  
-
-		  $data = $this->Cashier_Model->search_in_items($query);
-
-		  $output .= '
-		  <div class="table-responsive">
-		     <table class="table table-bordered table-striped">
-		      <tr>
-		       <th>#</th>
-		       <th>Product Code</th>
-		       <th>Name</th>
-		       <th>Description</th>
-		       <th>Whole Sale Price</th>
-		       <th>Retail Price</th>
-		       <th>Option</th>
-		      </tr>
-		  ';
-		  if($data->num_rows() > 0)
-		  {
-
-		  	$counter = 1;
-
-		   foreach($data->result() as $row)
-		   {
-		    $output .= '
-		      <tr>
-		       <td>'.$counter++.'</td>
-		       <td>'.$row->item_code.'</td>
-		       <td>'.$row->item_name.'</td>
-		       <td>'.$row->item_description.'</td>
-		       <td>'.$row->whole_sale_price.'</td>
-		       <td>'.$row->retail_price.'</td>
-		       <td><a href="add_request_table?code='.$row->item_code.'" class="btn btn-info">ADD</a></td>
-		      </tr>
-		    ';
-		   }
-		  }
-		  else
-		  {
-		   $output .= '<tr>
-		       <td colspan="8">No Data Found</td>
-		      </tr>';
-		  }
-		  $output .= '</table> ';
-		  echo $output;
-	}
-
-	//End
-
-
-
-	public function request_item()
-	{
-
-		$grn_data = $this->input->post('data_table');
-		$basic_data = $this->input->post('basic_data');
-
-		$status = $this->Cashier_Model->add_request_item($grn_data, $basic_data);
-
-		$this->output->set_content_type('application/json');
-		echo json_encode(array('status' => $status));
-
+		$this->Cashier_Model->add_gnr_item($grnValue, $extra);
 						
 	}
 
-
-	function add_request_table()
-	{
-
-		$branch = "branch1";
-		$code = $_GET['code'];
-		$datas = $this->Cashier_Model->get_request_data($code);
-
-		foreach ($datas as $data) {
-			$value = array (
-			'item_code'=>$data->item_code,
-			'item_name'=>$data->item_name,
-			'item_description'=>$data->item_description,
-			'whole_sale_price'=>$data->whole_sale_price,
-			'retail_price'=>$data->retail_price,
-			'branch'=>$branch
-			);
-		}
-
-		$this->Cashier_Model->add_request_table($value);
-
-		redirect('Cashier/first_load_request_product');
-				
-	}
-
+	
 
 // End of the Item section
 
@@ -354,7 +247,51 @@ class Cashier extends CI_Controller
 
 // Start the Bill section
 
+	//Start Bill Handling
+		//At the first time open the page bill-item
+		function first_load_bill(){
+			$branch = "Branch_1";
 
+			$billValue = $this->Cashier_Model->get_temp_bill_table();
+			$current_bill_no = $this->Cashier_Model->get_bill_no($branch);
+
+			$new_bill_no = array();
+			array_push($new_bill_no, $current_bill_no);
+
+			$this->load->view('cashier/Bill/create_bill',[ 'data'=>$billValue , 'new_bill_no'=>$new_bill_no ]);
+		}
+
+
+
+		//add the item to the temp bill table
+		function add_to_tempBill(){
+
+			$item = $this->input->post('item_code');
+			$qty = $this->input->post('qty');
+			$branch = "branch1";
+
+			$data = array(
+				'item_code'=> $item,
+				'qty'=> $qty,
+				'branch'=> $branch
+			);
+
+			$this->Cashier_Model->add_to_tempBill($data);
+
+			redirect('Cashier/first_load_bill');
+
+		}
+
+
+		function remove_from_temp_bill($id){
+
+			$this->Cashier_Model->remove_from_temp_bill($id);
+
+			redirect('Cashier/first_load_bill');
+
+		}
+
+		
 
 // End of the Bill section
 

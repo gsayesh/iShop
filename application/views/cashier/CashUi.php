@@ -40,17 +40,17 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-file-text"></i>Bill</a>
+                <li class="nav-item ">
+                    <a class="nav-link" href="<?= base_url('Cashier/first_load_bill'); ?>"><i class="fa fa-file-text"></i>Bill</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="javascript:void(0);"><i class="fa fa-handshake-o"></i>Customers</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-area-chart"></i>Stocks</a>
+                    <a class="nav-link" href="<?= base_url('Cashier/first_load_insert_product'); ?>"><i class="fa fa-area-chart"></i>Stocks</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="javascript:void(0);"><i class="fa fa-users"></i>Creditors</a>
