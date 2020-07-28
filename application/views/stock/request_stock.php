@@ -138,74 +138,69 @@
 				<!-- <p class="subtitle">Sales Performance for the Month</p> -->
 		  	</div>
 		  	<div class="content">
-				<div class="table-responsive">
-						<form id="frm-example" action="/path/to/your/script" method="POST">
-    
+		  		<?php echo '<label style="color: green">'.$this->session->flashdata("email_done").'</label>'; ?>
+		  		<?php echo '<label style="color: red">'.$this->session->flashdata("email_fail").'</label>'; ?>
+		  		<form id="frm-send" action="<?= base_url().'Stock_Actions/stock_request_send'?>" method="POST">
+		  			<div class="form-group">
+                		<label for="billno">Bill Number</label>
+                		<?php //foreach($bill as $billno) { ?>
+                		<input type="text" class="form-control" name="billno" value="<?=$bill; ?>" readonly>
+                		<?php //} ?>
+              		</div>
+              		<div class="form-group">
+                		<label for="recname">Recipient Name</label>
+                		<input type="text" class="form-control" name="recname" placeholder="John Doe" required="true">
+              		</div>
+              		<div class="form-group">
+                		<label for="recmail">Recipient Email</label>
+                		<input type="email" class="form-control" name="recmail" placeholder="jhondoe@mail.com" required="true">
+              		</div>
+              		<div class="form-group">
+                		<label for="comname">Company Name</label>
+                		<input type="text" class="form-control" name="comname" placeholder="ABC Company" required="true">
+              		</div>
+              		<div class="form-group">
+                		<label for="sdate">Date</label>
+                		<input type="datetime-local" class="form-control" name="sdate" required="true">
+              		</div>
+					<div class="table-responsive">    
 						<table class="table" id="example" class="display" cellspacing="0" width="100%">
 							<thead>
 								<tr>
-									<th scope="col"><input name="select_all" value="1" id="example-select-all" type="checkbox" /></th>
+									<th scope="col"></th>
 			  						<th scope="col">#</th>
 			  						<th scope="col">Item Code</th>
 			  						<th scope="col">Item Name</th>
 			  						<th scope="col">Cost</th>
+			  						<th scope="col">Wholesale Price</th>
+			  						<th scope="col">Retail Price</th>
 			  						<th scope="col">Low Quantity</th>
 			  						<th scope="col">New Quantity</th>
-			  						<th scope="col">Actions</th>
 								</tr>
 							<thead>
 
 							<?php if($res){?>
 							<?php $i=1; foreach($res as $res) : ?>
 							<tr>
-								<td></td>
+								<td><input name="itemch[]" value="<?=$res->item_code?>" id="itemch[]" type="checkbox" /></td>
 			  					<td><?=$i++ ?></td>
 			  					<td><?=$res->item_code?></td>
-			  					<td><?=$res->item_name?></td>
-			  					<td><?=$res->cost?></td>
-			  					<td><?=$res->main?></td>
-			  					<td><input type="Number" name="qty" id="qtynew" min="0" required="true" ></td>
-			  					<td>
-			  						<!-- <a href="<?php// base_url('Stock_Actions/temp_main_del/'.$res->item_code)?>"><i class="fa fa-times" style="color:red;font-size:150%" aria-hidden="true"></i></a> -->
+			  					<td><?=$res->item_name?>
+			  						<input type="hidden" name="itemname_<?=$res->item_code?>" id="qtynew" value="<?=$res->item_name?>">
 			  					</td>
+			  					<td><?=$res->cost?></td>
+			  					<td><?=$res->whole_sale_price?></td>
+			  					<td><?=$res->retail_price?></td>
+			  					<td><?=$res->main?></td>
+			  					<td><input type="Number" name="qty_<?=$res->item_code?>" id="qtynew" min="0"></td>
 							</tr>
 							<?php endforeach; ?>
 							<?php }else{echo "<p style='color:red;font-weight: bold;'>Not in Minimum Level to Request</p>";} ?>
 						</table>
 					</div>
 					<!-- <button name="btn_order" id="btn_order" class="btn btn-success">Send</button> -->
-					<p><button>Submit</button></p>
-					<form id="frm-example" action="/path/to/your/script" method="POST">
-    
-<table id="example" class="display" cellspacing="0" width="100%">
-   <thead>
-      <tr>
-          <th><input name="select_all" value="1" id="example-select-all" type="checkbox" /></th>
-         <th>Name</th>
-         <th>Position</th>
-         <th>Office</th>
-         <th>Extn.</th>
-         <th>Start date</th>
-         <th>Salary</th>
-      </tr>
-   </thead>
-   <tfoot>
-      <tr>
-         <th></th>
-         <th>Name</th>
-         <th>Position</th>
-         <th>Office</th>
-         <th>Extn.</th>
-         <th>Start date</th>
-         <th>Salary</th>
-      </tr>
-   </tfoot>
-</table>
-<hr>
-
-<p>Press <b>Submit</b> and check console for URL-encoded form data that would be submitted.</p>
-
-<p><button>Submit</button></p>
+					<p><button class="btn btn-success">Send</button></p>
+				</form >
 		  	</div>
 		</div>
 		</div>

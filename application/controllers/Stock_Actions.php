@@ -54,7 +54,7 @@ class Stock_Actions extends CI_Controller {
 				$params['data'] = $this->input->post('itemcode');
 				$params['level'] = 'H';
 				$params['size'] = 8;
-				$params['savename'] =FCPATH."public\assets\qr_image/".$qr_image;
+				$params['savename'] ="public/assets/qr_image/".$qr_image;
 				if($this->ciqrcode->generate($params))
 				{
 					$data['img_url']=$qr_image;	
@@ -128,8 +128,8 @@ class Stock_Actions extends CI_Controller {
 							<td>'.$row->whole_sale_price.'</td>
 							<td>'.$row->retail_price.'</td>
 							<td>
-							<a href="one_item/'.$row->item_code.'" class="btn btn-primary ">Edit</a>
-                  			<a href="del_item/'.$row->item_code.'" class="btn btn-danger ">Delete</a>
+							<a href="one_item/'.$row->item_code.'" ><i class="fa fa-edit fa-lg"></i></a>
+                  			<a href="del_item/'.$row->item_code.'" ><i class="fa fa-remove fa-lg" style="color:red;"></i></a>
                   			</td>
 						</tr>
 				';
@@ -324,9 +324,8 @@ class Stock_Actions extends CI_Controller {
 
 	public function temp_main_add($id)
 	{
-		// $data = array(
-		// 	'item_code' => $id);
-		$this->Stock_Model->temp_items_in($id);
+		$data = array('item_code' => $id);
+		$this->Stock_Model->temp_items_in($data);
 		$this->session->set_flashdata('add_success','Item Added Successfully..!');
 		$results = $this->Stock_Model->temp_items_view();
 		$res_grn = $this->Stock_Model->grn_no();
@@ -366,10 +365,68 @@ class Stock_Actions extends CI_Controller {
 	public function stock_request()
 	{
 		$results = $this->Common_Model->stock_low();
+		$billno = $this->Stock_Model->sup_bill_no();
 		
-		$this->load->view('stock/request_stock',['res'=>$results]);
+		$this->load->view('stock/request_stock',['res'=>$results,'bill'=>$billno]);
 	}
 
+
+	public function stock_request_send()
+	{
+		$billno = $this->input->post('billno');
+		$recname = $this->input->post('recname');
+		$recmail = $this->input->post('recmail');
+		$comname = $this->input->post('comname');
+		$sdate = $this->input->post('sdate');
+		$itemch = $this->input->post('itemch[]');
+
+
+		$mailinfo = array('sbill_no' => $billno,
+						'recipient_name' => $recname,
+						'recipient_mail' => $recmail,
+						'company_name' => $comname,
+						'deliver_date' => $sdate );
+
+		$this->Stock_Model->mail_info_insert($mailinfo);
+
+		//$msgdata = array('sbill_no' => $billno);
+		$msg = "";
+
+		foreach($itemch as $itemc){
+			$itemname = $this->input->post('itemname_'.$itemc);
+			$newqty = $this->input->post('qty_'.$itemc);
+
+			$msg .= "\t".$itemc."\t".$itemname."\t".$newqty.".\n";
+			
+			$msgdata[] = array('sbill_no' => $billno,
+							'item_code' => $itemc,
+							'item_name' => $itemname, 
+							'new_qty' => $newqty);
+		}
+
+		$this->Stock_Model->mail_stock_insert($msgdata);
+
+		$this->load->config('email');
+		$from = $this->config->item('smtp_user');
+		$this->email->from($from);
+		$this->email->to($recmail);
+		$this->email->subject($comname);
+		$this->email->message($msg);
+		if($this->email->send()){
+            $this->session->set_flashdata("email_done","Congratulation...! Email Send Successfully.");
+            redirect('Stock_Actions/stock_request');
+		}else{
+         	 $this->session->set_flashdata("email_fail","You have encountered an error");
+        	 redirect('Stock_Actions/stock_request');
+            //show_error($this->email->print_debugger());
+        }
+
+	}
+
+	public function qr_print_view(){
+		$results = $this->Stock_Model->qr_print_data();
+		$this->load->view('stock/print_qr',['result'=>$results]);	
+	}
 
 }
 ?>

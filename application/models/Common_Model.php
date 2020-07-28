@@ -18,8 +18,25 @@
             }
     	}
 
-        public function stock_low_row(){
-            $query = $this->db->query('SELECT * FROM stock where main<=50'); 
+        public function sup_bill_no(){
+            $this->db->select('sbill_no');
+            $this->db->from('request_sup_stock');
+            $query = $this->db->get();
+            $number = $query->num_rows();
+
+            return $number+1;
+        }
+
+        public function mail_info_insert($mailinfo){
+
+            $this->db->insert('request_sup_stock',$mailinfo);
+
+        }
+
+        public function mail_stock_insert($msgdata){
+            foreach($msgdata as $msgarr){
+            $this->db->insert('request_sup_data',$msgarr);
+            }
         }
 	}
 ?>

@@ -138,7 +138,7 @@
 				<!-- <p class="subtitle">Sales Performance for the Month</p> -->
 		  	</div>
 		  	<div class="content">
-				
+				<a href="<?php echo base_url('Stock_Actions/qr_print_view'); ?>"/><button class="btn btn-info" >QR Code Print</button></a>
 		  	</div>
 		</div>
 		</div>

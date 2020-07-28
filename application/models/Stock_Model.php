@@ -100,9 +100,10 @@
             return $this->db->get();
         }*/
 
-        public function temp_items_in($id){
+        public function temp_items_in($data){
             
-            $this->db->insert('temp_main_stock',['item_code'=>$id]);
+            $this->db->insert('temp_main_stock',$data);
+            $this->db->delete('temp_main_stock',['item_code' => 'images']);
         }
 
         public function temp_items_view(){
@@ -213,6 +214,32 @@
 
         return $number+1;
 
+        }
+
+        public function sup_bill_no(){
+            $this->db->select('sbill_no');
+            $this->db->from('request_sup_stock');
+            $query = $this->db->get();
+            $number = $query->num_rows();
+
+            return $number+1;
+        }
+
+        public function mail_info_insert($mailinfo){
+
+            $this->db->insert('request_sup_stock',$mailinfo);
+
+        }
+
+        public function mail_stock_insert($msgdata){
+            foreach($msgdata as $msgarr){
+            $this->db->insert('request_sup_data',$msgarr);
+            }
+        }
+
+        public function qr_print_data(){
+            $query = $this->db->query("SELECT * FROM item where status='active'");
+            return $query->result();
         }
 
     }
