@@ -5,9 +5,21 @@ class Stock_Actions extends CI_Controller {
 
 	public function dashboard()
 	{
-		//$results = $this->Stock_Model->new_items_view() view_item($id);
-		//$this->load->view('stock/add_item_stock');
-		$this->load->view('stock/stk_dash');
+		
+		$record = $this->Stock_Model->chart_data();
+      	$data = [];
+ 
+      	foreach($record as $row) {
+            $data['label'][] = 'Main_Stock';
+            $data['label2'][] = 'Branch_1';
+            $data['label3'][] = 'Branch_2';
+            $data['data'][] = (int) $row->main;
+            $data['data2'][] = (int) $row->branch1;
+            $data['data3'][] = (int) $row->branch2;
+      	}
+      	$data['chart_data'] = json_encode($data);
+      	$_SESSION['results']=$record;
+      	$this->load->view('stock/stk_dash',$data);
 	}
 
 	public function new_item()
@@ -373,6 +385,9 @@ class Stock_Actions extends CI_Controller {
 
 	public function stock_request_send()
 	{
+		$userName = $this->session->userdata('username');
+		$userTyp = $this->session->userdata('usertype');
+
 		$billno = $this->input->post('billno');
 		$recname = $this->input->post('recname');
 		$recmail = $this->input->post('recmail');
@@ -390,42 +405,132 @@ class Stock_Actions extends CI_Controller {
 		$this->Stock_Model->mail_info_insert($mailinfo);
 
 		//$msgdata = array('sbill_no' => $billno);
+		$sub = "Request to Place an Order"; 
 		$msg = "";
-
+		$msg .= "Dear Sir/Madam,\n\n \tHope that this e-mail finds you well.I would like to place an order for some of your products. We are using your products till today. We have not received any complaints from our clients regarding the products that your company manufactures.\n\tKeeping that in mind, we would like to make sure that our relationship keeps getting stronger. I would like to place an order of following products.\n\n\tItem_Code\tItem_Name\tQuantity\n";
 		foreach($itemch as $itemc){
 			$itemname = $this->input->post('itemname_'.$itemc);
 			$newqty = $this->input->post('qty_'.$itemc);
 
-			$msg .= "\t".$itemc."\t".$itemname."\t".$newqty.".\n";
+			$msg .= "\t".$itemc."\t".$itemname."\t".$newqty."\n";
 			
 			$msgdata[] = array('sbill_no' => $billno,
 							'item_code' => $itemc,
 							'item_name' => $itemname, 
 							'new_qty' => $newqty);
 		}
-
+		$msg.="\nI wish to receive them in about 1 week time.Thank you for your generous behavior.\n\nThank You,\n".$userName."\n".$userTyp."\nThis is a system generated request mail.Please contact us for futher information .";
 		$this->Stock_Model->mail_stock_insert($msgdata);
 
 		$this->load->config('email');
 		$from = $this->config->item('smtp_user');
 		$this->email->from($from);
 		$this->email->to($recmail);
-		$this->email->subject($comname);
-		$this->email->message($msg);
+		$this->email->subject($sub);
+		$this->email->message($msg.".");
 		if($this->email->send()){
             $this->session->set_flashdata("email_done","Congratulation...! Email Send Successfully.");
             redirect('Stock_Actions/stock_request');
 		}else{
-         	 $this->session->set_flashdata("email_fail","You have encountered an error");
-        	 redirect('Stock_Actions/stock_request');
-            //show_error($this->email->print_debugger());
+         	 /*$this->session->set_flashdata("email_fail","You have encountered an error");
+        	 redirect('Stock_Actions/stock_request');*/
+            show_error($this->email->print_debugger());
         }
 
 	}
 
 	public function qr_print_view(){
 		$results = $this->Stock_Model->qr_print_data();
-		$this->load->view('stock/print_qr',['result'=>$results]);	
+		$this->load->view('stock/print_qr',['result'=>$results]);
+	}
+
+	public function qr_print_search(){
+
+		$output = '';
+		$query = '';
+		if($this->input->post('query'))
+		{
+			$query = $this->input->post('query');
+		}
+		$data = $this->Stock_Model->qr_search_data($query);
+		$output .= '
+		<form id="frm-send" action="'.base_url("Stock_Actions/qr_print_pdf").'" method="POST">
+		<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col"></th>
+			  					<th scope="col">#</th>
+			  					<th scope="col">Item Code</th>
+			  					<th scope="col">Item Name</th>
+			  					<th scope="col">QR Code</th>
+			  					<th scope="col">Quantity</th>
+							</tr>
+						</thead>
+		';
+		if($data->num_rows() > 0)
+		{
+			$i=1;
+			foreach($data->result() as $row)
+			{
+				$output .= '
+						<tr>
+							<tr>
+								<td><input name="itemch[]" value="'.$row->item_code.'" id="itemch[]" type="checkbox" /></td>
+			  					<td>'.$i++.'</td>
+			  					<td>'.$row->item_code.'</td>
+			  					<td>'.$row->item_name.'
+			  						<input type="hidden" name="itemname_'.$row->item_code.'" id="qtynew" value="'.$row->item_name.'">
+			  					</td>
+			  					<td>
+			  						<img src="'.base_url($row->qr_code).'" alt="QR Code" width="100" height="100"/>
+			  						<input type="hidden" name="qrcode_'.$row->item_code.'" value="'.$row->qr_code.'" />
+			  					</td>
+			  					<td><input type="Number" name="qty_'.$row->item_code.'" id="qtynew" min="0" max="21"></td>
+							</tr>
+						</tr>
+				';
+			}
+		}
+		else
+		{
+			$output .= '<tr>
+							<td colspan="5">No Data Found</td>
+						</tr>';
+		}
+		$output .= '</table></div><button class="btn btn-warning">Print</button>';
+		echo $output;
+
+	}
+
+	public function qr_print_pdf(){
+		$itemch = $this->input->post('itemch[]');
+		//$pdfdata = "";
+		$datapdf = array();
+		foreach($itemch as $itemc){
+			$itemname = $this->input->post('itemname_'.$itemc);
+			$newqty = $this->input->post('qty_'.$itemc);
+			$itemcode = $this->input->post('qrcode_'.$itemc);
+			//$pdfdata .= "\t".$itemc."\t".$itemname."\t".$itemcode."\t".$newqty."\n";
+			
+
+
+			$datapd = array('item_code' => $itemc,
+							'item_name' => $itemname,
+							'qrpath' => $itemcode,
+							'new_qty' => $newqty);
+			array_push($datapdf, $datapd);
+		}
+		// echo $pdfdata;
+		//var_dump($datapdf);
+
+		$pdf = new QRPDF();
+		$pdf->AliasNbPages();
+		$pdf->AddPage('L');
+		$pdf->SetFont('Arial', 'B', 10);
+		$pdf->QRTable($datapdf);
+		$pdf->SetAutoPageBreak(true);
+		$pdf->Output();
 	}
 
 }

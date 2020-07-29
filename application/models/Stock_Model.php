@@ -242,5 +242,24 @@
             return $query->result();
         }
 
+        function qr_search_data($query){
+            $this->db->select("*");
+            $this->db->from("item");
+            if($query != ''){
+                $this->db->like('item_code', $query);
+                $this->db->or_like('item_name', $query);
+            }
+            $this->db->where(['status'=>'active']);
+            $this->db->order_by('item_code', 'DESC');
+            return $this->db->get();
+        }
+
+        public function chart_data(){
+
+            $query =  $this->db->query("SELECT item_code,SUM(main) as main,SUM(branch_1) as branch1,SUM(branch_2) as branch2 FROM stock"); 
+            return $query->result();
+
+        }
+
     }
 ?>

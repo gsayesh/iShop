@@ -138,7 +138,38 @@
 				<!-- <p class="subtitle">Sales Performance for the Month</p> -->
 		  	</div>
 		  	<div class="content">
-				<a href="<?php echo base_url('Stock_Actions/qr_print_view'); ?>"/><button class="btn btn-info" >QR Code Print</button></a>
+				<a href="<?php echo base_url('Stock_Actions/qr_print_view'); ?>"/><button class="btn btn-info" >QR Code Print</button></a><hr>
+				<div class="row">
+						<div class="chart-container col-md-7">
+						    <div class="pie-chart-container">
+						      <canvas id="pie-chart"></canvas>
+						    </div>
+						</div>
+						<div class="chart-container col-md-5">
+						    <!-- <div class="bar-chart-container">
+						      <canvas id="bar-chart"></canvas>
+						    </div> -->
+						    <div class="table-responsive">    
+						<table class="table" id="example" class="display" cellspacing="0" width="100%" >
+							<thead>
+								<tr class="table-secondary">
+			  						<th scope="col">Main Stock</th>
+			  						<th scope="col">Branch 1 Stock</th>
+			  						<th scope="col">Branch 2 Stock</th>
+								</tr>
+							<thead>
+							<?php $results=$_SESSION['results'] ?>
+							<?php foreach($results as $res) : ?>
+							<tr class="table-warning">
+			  					<td><b><?=$res->main ?></b></td>
+			  					<td><b><?=$res->branch1?></b></td>
+			  					<td><b><?=$res->branch2?></b></td>
+							</tr>
+							<?php endforeach; ?>
+						</table>
+					</div>
+						</div>
+				</div>
 		  	</div>
 		</div>
 		</div>
@@ -149,7 +180,145 @@
 </div>
 
 <!-- partial -->
-
+<script>
+  $(function(){
+      //get the pie chart canvas
+      var cData = JSON.parse(`<?php echo $chart_data; ?>`);
+      var ctx = $("#pie-chart");
+ 		// alert(cData.data);
+      //pie chart data
+      var data = {
+        labels: [cData.label,cData.label2,cData.label3],
+        datasets: [
+          {
+            label: [cData.label,cData.label2,cData.label3],
+            data: [cData.data,cData.data2,cData.data3],
+            backgroundColor: [
+              "#DEB887",
+              "#A9A9A9",
+              "#DC143C",
+              "#F4A460",
+              "#2E8B57",
+              "#1D7A46",
+              "#CDA776",
+            ],
+            borderColor: [
+              "#CDA776",
+              "#989898",
+              "#CB252B",
+              "#E39371",
+              "#1D7A46",
+              "#F4A460",
+              "#CDA776",
+            ],
+            borderWidth: [1, 1, 1, 1, 1,1,1]
+          }
+        ]
+      };
+ 
+      //options
+      var options = {
+        responsive: true,
+        title: {
+          display: true,
+          position: "top",
+          text: "Current Stock",
+          fontSize: 18,
+          fontColor: "#111"
+        },
+        legend: {
+          display: true,
+          position: "bottom",
+          labels: {
+            fontColor: "#333",
+            fontSize: 14
+          }
+        }
+      };
+ 
+      //create Pie Chart class object
+      var chart1 = new Chart(ctx, {
+        type: "doughnut",
+        data: data,
+        options: options
+      });
+ 
+  });
+</script>
+<script>
+  $(function(){
+      //get the bar chart canvas
+      var cData = JSON.parse(`<?php echo $chart_data; ?>`);
+      var ctx = $("#bar-chart");
+ 
+      //bar chart data
+      var data = {
+        labels: [cData.label,cData.label2,cData.label3],
+        datasets: [
+          {
+            data: [cData.data,cData.data2,cData.data3],
+            backgroundColor: [
+              "#DEB887",
+              "#A9A9A9",
+              "#DC143C",
+              "#F4A460",
+              "#2E8B57",
+              "#1D7A46",
+              "#CDA776",
+              "#CDA776",
+              "#989898",
+              "#CB252B",
+              "#E39371",
+            ],
+            borderColor: [
+              "#CDA776",
+              "#989898",
+              "#CB252B",
+              "#E39371",
+              "#1D7A46",
+              "#F4A460",
+              "#CDA776",
+              "#DEB887",
+              "#A9A9A9",
+              "#DC143C",
+              "#F4A460",
+              "#2E8B57",
+            ],
+            borderWidth: [1, 1, 1, 1, 1,1,1,1, 1, 1, 1,1,1]
+          }
+        ]
+      };
+ 
+      //options
+      var options = {
+        responsive: true,
+        title: {
+          display: true,
+          position: "top",
+          text: "Current Stock",
+          fontSize: 18,
+          fontColor: "#111"
+        },
+        legend: {
+          display: false,
+          position: "bottom",
+          labels: {
+            fontColor: "#333",
+            fontSize: 16
+          }
+        }
+      };
+ 
+      //create bar Chart class object
+      var chart1 = new Chart(ctx, {
+        type: "bar",
+        data: data,
+        options: options
+      });
+ 
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
 <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
 <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script>

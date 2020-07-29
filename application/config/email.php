@@ -7,7 +7,7 @@ $config = array(
     'smtp_pass' => 'iotshop@15',
     'smtp_crypto' => 'ssl',
     'mailtype' => 'text',
-    'smtp_timeout' => '4', 
+    'smtp_timeout' => '5', 
     'charset' => 'iso-8859-1',
     'wordwrap' => TRUE
 );

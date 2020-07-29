@@ -138,7 +138,9 @@
 				<!-- <p class="subtitle">Sales Performance for the Month</p> -->
 		  	</div>
 		  	<div class="content">
-		  		<div class="table-responsive">    
+		  		<input class="form-control" type="text" name="search_txt" id="search_txt" placeholder="Search" ><br>
+		  		<div id="result"></div>
+		  		<!-- <div class="table-responsive">    
 						<table class="table" id="example" class="display" cellspacing="0" width="100%">
 							<thead>
 								<tr>
@@ -150,20 +152,11 @@
 								</tr>
 							<thead>
 
-							<?php $i=1; foreach($result as $res) : ?>
-							<tr>
-								<td><input name="itemch[]" value="<?=$res->item_code?>" id="itemch[]" type="checkbox" /></td>
-			  					<td><?=$i++ ?></td>
-			  					<td><?=$res->item_code?>
-			  						<input type="hidden" name="itemname_<?=$res->item_code?>" id="qtynew" value="<?=$res->item_name?>">
-			  					</td>
-			  					<td><!-- <?=$res->qr_code?> --><img src="<?php echo base_url('').$res->qr_code?>" alt="QR Code" width="100" height="100"/></td>
-			  					<td><input type="Number" name="qty_<?=$res->item_code?>" id="qtynew" min="0"></td>
-							</tr>
-							<?php endforeach; ?>
+							<?php// $i=1; foreach($result as $res) : ?>
+							
+							<?php// endforeach; ?>
 						</table>
-					</div>
-				<button class="btn btn-warning">Print</button>
+					</div> -->
 		  	</div>
 		</div>
 		</div>
@@ -174,7 +167,37 @@
 </div>
 
 <!-- partial -->
+<script>
+  $(document).ready(function(){
 
+   load_data();
+
+   function load_data(query)
+   {
+      $.ajax({
+        url:"<?php echo base_url('Stock_Actions/qr_print_search'); ?>",
+        method:"POST",
+        data:{query:query},
+        success:function(data){
+          $('#result').html(data);
+        }
+      })
+    }
+
+    $('#search_txt').keyup(function(){
+      var search = $(this).val();
+      if(search != '')
+      {
+        load_data(search);
+      }
+      else
+      {
+        load_data();
+      }
+    });
+
+  });
+</script>
 <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
 <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script>
