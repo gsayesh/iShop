@@ -387,21 +387,19 @@ class Cashier_Model extends CI_Model
 
 	function add_to_tempBill($data)
 	{
-		//var_dump($data);
+		var_dump($data);
 		$code = $data['item_code'];
 		$qty = $data['qty'];
 		$branch = $data['branch'];
-		$name;
-		$desc;
-		$price;
-		$total;
 		$id = 0;
 
-		$this->db->select('*');
+		$this->db->select('item_name, item_description, retail_price');
 		$this->db->from('item');
 		$this->db->where('item_code',$code);
 		$query = $this->db->get();
 		$results = $query->result();
+
+		var_dump($result);
 
 		foreach($results as $row){
 			$name =  $row->item_name;
@@ -431,6 +429,163 @@ class Cashier_Model extends CI_Model
 		$this->db->where('id', $id);
 		$this->db->delete('temp_bill');
 	}
+
+
+	function create_bill($billValue, $billData){
+
+		$date = date("Y-m-d");
+
+		$bill_type = $billData['bill_type'];
+		$customer = $billData['customer'];
+		$user = $billData['user'];
+		$branch = $billData['branch'];
+		$bill_no = $billData['bill_no'];
+		$totalAmount  = $billData['totalAmount'];
+
+			$data[] = array(
+				'bill_no' => $bill_no,
+				'branch' => $branch,
+				'customer_id' => $customer,
+				'cashier_id' => $user,
+				'type' => $bill_type, 
+				'bill_date' => $date,
+				'amount' => $totalAmount
+			);
+		
+			foreach($billValue as $row) { 
+				$items[] = array(
+					'bill_no' => $bill_no,
+					'item_code' => $row->item_code,
+					'quantity' => $row->qty,
+					'branch' => $branch
+				);
+			}
+
+		//Inser data to bill_history table
+		for ($i=0; $i < 1; $i++) { 
+				
+			$this->db->insert('bill_history',$data[$i]);
+
+		}
+
+		//Inser data to bill_item table
+		for ($i=0; $i < count($billValue); $i++) { 
+				
+			$this->db->insert('bill_item',$items[$i]);
+
+		}
+
+		if($branch == "branch1"){
+
+			foreach($billValue as $row){
+
+				$item_code = $row->item_code;
+				$item_qty = $row->qty;
+
+				$this->db->select('*');
+				$this->db->from('stock');
+				$this->db->where('item_code',$item_code);
+				$query = $this->db->get();
+				$result = $query->row_array();
+
+				$old_stock = $result['branch_1'];
+				$new_stock = $old_stock-$item_qty;
+
+				$update = array(
+					'branch_1'=>$new_stock
+				);
+
+				$equal = array(
+					'item_code'=>$item_code
+				);
+
+				$this->db->update('stock', $update, $equal);
+
+			}
+
+		}
+		else{
+
+			foreach($billValue as $row){
+
+				$item_code = $row->item_code;
+				$item_qty = $row->qty;
+
+				$this->db->select('*');
+				$this->db->from('stock');
+				$this->db->where('item_code',$item_code);
+				$query = $this->db->get();
+				$result = $query->row_array();
+
+				$old_stock = $result['branch_1'];
+				$new_stock = $old_stock-$item_qty;
+
+				$update = array(
+					'branch_2'=>$new_stock
+				);
+
+				$equal = array(
+					'item_code'=>$item_code
+				);
+
+				$this->db->update('stock', $update, $equal);
+
+			}
+
+		}
+
+
+		if($bill_type == "Credit"){
+
+				$this->db->select('*');
+				$this->db->from('debitor');
+				$this->db->where('customer_id',$customer);
+				$query = $this->db->get();
+				$result = $query->row_array();
+
+				if ($query->num_rows() > 0) {
+
+						//Update exisist debiter amount
+						$old_amount = $result['amount'];
+						$new_amount = $old_amount+$totalAmount;
+
+						$update = array(
+							'amount'=>$new_amount
+						);
+
+						$equal = array(
+							'customer_id'=>$customer
+						);
+
+						$this->db->update('debitor', $update, $equal);
+					
+				}
+				else{
+
+					//Inser new debitor
+
+					$data = array(
+						'customer_id'=> $customer,
+						'amount'=> $totalAmount
+					);
+
+					for ($i=0; $i < 1; $i++) { 
+							
+						$this->db->insert('debitor',$data);
+
+					}
+
+				}	
+
+		}
+
+	}
+
+
+	function clear_temp_bill_table($branch){
+		$this->db->delete('temp_bill', array('branch' => $branch));
+	}
+
 
 	
 

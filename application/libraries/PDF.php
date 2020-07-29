@@ -51,12 +51,7 @@ class PDF extends FPDF
 		$this->Cell(200,0.2,'',1,0,'C',true);
 		$this->Ln(7);
 
-		$this->Cell(130);
-		$this->SetFont('Arial','B',18);
-		$this->SetTextColor(0, 0, 0);
-		$this->Cell(20,2,'GOODS RECEIVE NOTE',0,0,'C', false, '');
-		//$this->SetTextColor(218, 165, 32);
-		$this->Ln(5);
+		
 
 	}
 
@@ -74,12 +69,18 @@ class PDF extends FPDF
 	function BillTable($grnValue, $qty, $extra)
 	{
 
+		$this->Cell(130);
+		$this->SetFont('Arial','B',18);
+		$this->SetTextColor(0, 0, 0);
+		$this->Cell(20,2,'GOODS RECEIVE NOTE',0,0,'C', false, '');
+		//$this->SetTextColor(218, 165, 32);
+		$this->Ln(5);
 		// Colors, line width and bold font
 		$this->SetFillColor(255,255,0);
 		$this->SetTextColor(0);
 		$this->SetDrawColor(124,0,0);
 		$this->SetLineWidth(.3);
-		$this->SetFont('','B');
+		$this->SetFont('Arial','B',12);
 
 
 		// //$table_columns = array('student_id', 'student_name', 'ICT1214', 'ICT1211');
@@ -120,14 +121,14 @@ class PDF extends FPDF
 		// 	}
 		// }
 		$this->Ln(8);
-		$this->Cell($cen - 15);
+		$this->Cell($cen - 13);
 		$this->Cell(50,7,"GRN No: " . $extra['grn_no'],0,0,'C',false);
 		$this->Ln();
-		$this->Cell($cen - 14);
+		$this->Cell($cen - 8);
 		$this->Cell(50,7,"Invoice No: " . $extra['bill_no'],0,0,'C',false);
 	
 		$this->Ln();
-		$this->Cell($cen - 11);
+		$this->Cell($cen - 8);
 		$dte = date("Y-m-d");
 		//$year = explode('-', $dte);
 		$this->Cell(50,7,"Date: " . $dte,0,0,'C',false);
@@ -170,5 +171,71 @@ class PDF extends FPDF
 		$this->Cell(50,6,"Cashier Signature",0,0,'C',false);
 		// Closing line
 		//$this->Cell(array_sum($w),0,'','T');
+	}
+
+	function InvoiceTable($billData, $billValue)
+	{
+		$this->Cell(130);
+		$this->SetFont('Arial','B',18);
+		$this->SetTextColor(0, 0, 0);
+		$this->Cell(20,2,'SALES INVOICE',0,0,'C', false, '');
+		//$this->SetTextColor(218, 165, 32);
+		$this->Ln(15);
+
+		$this->SetFont('Arial','B',12);
+		$this->Cell(20);
+		$this->Cell(50,2,'Invoice No: ' . $billData['bill_no'],0,0,'C', false, '');
+		$this->Ln(7);
+		$this->Cell(20.5);
+		$this->Cell(50,2,'Bill Type: ' . $billData['bill_type'],0,0,'C', false, '');
+		$this->Ln(7);
+		$this->Cell(30.5);
+		$this->Cell(50,2,'Customer ID: ' . $billData['customer'],0,0,'C', false, '');
+		$this->Ln(7);
+		$this->Cell(21.5);
+		$this->Cell(50,2,'Branch: ' . $billData['branch'],0,0,'C', false, '');
+		$this->Ln(7);
+		$this->Cell(21);
+		$this->Cell(50,2,'Date: ' . date('Y/m/d'),0,0,'C', false, '');
+		$this->Ln(8);
+		$header1 = array('Item Code', 'Name', 'Description', 'Price', 'Quentity', 'Total');
+		$header = array('item_code', 'name', 'description', 'price', 'qty', 'total');
+		$w = array(30, 50, 60, 35, 30, 30);
+		$this->Cell(28, 0, '', 0, 0);
+		for($i=0;$i<count($header1);$i++)
+			$this->Cell($w[$i],7,$header1[$i],1,0,'C',false);
+		$this->Ln(10);
+	
+		foreach ($billValue as $item) {
+			$i = 0;
+			$this->Cell(28, 0, '', 0, 0);
+			foreach ($header as $column) {
+				$this->Cell($w[$i],6,$item->$column,0,0,'C',false);
+				$i++;
+				
+			}
+			$i = 0;
+
+			$this->Ln();
+		}
+		$this->Ln();
+		$this->Ln();
+		$this->Ln();
+		$this->Cell(215);
+		$this->Cell(28, 0, 'Total Amount: ' . $billData['totalAmount'], 0, 0);
+
+		$this->Ln(19);
+		
+		$this->Cell(25, 0, '', 0, 0);
+		$this->Cell(50,6,".....................................",0,0,'C',false);
+		$this->Ln();
+		$this->Cell(25, 0, '', 0, 0);
+		$this->Cell(50,6,"Customer Signature",0,0,'C',false);
+
+		$this->Cell(140, 0, '', 0, 0);
+		$this->Cell(50,6,".....................................",0,0,'C',false);
+		$this->Ln();
+		$this->Cell(215, 0, '', 0, 0);
+		$this->Cell(50,6,"Cashier Signature",0,0,'C',false);
 	}
 }

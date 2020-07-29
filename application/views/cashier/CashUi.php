@@ -41,22 +41,25 @@
             <ul class="navbar-nav ml-auto">
                 <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
                 <li class="nav-item active">
-                    <a class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                    <a class="nav-link" href="<?= base_url('Cashier/first_load_bill'); ?>"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link" href="<?= base_url('Cashier/first_load_bill'); ?>"><i class="fa fa-file-text"></i>Bill</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-handshake-o"></i>Customers</a>
+                    <a class="nav-link" href="<?= base_url('Cashier/first_load_srn'); ?>"><i class="fa fa-backward"></i>SRN</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= base_url('Cashier/first_load_insert_product'); ?>"><i class="fa fa-area-chart"></i>Stocks</a>
+                    <a class="nav-link" href="<?= base_url('Cashier/first_load_insert_product'); ?>"><i class="fa fa-cart-plus"></i>GRN</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-users"></i>Creditors</a>
+                    <a class="nav-link" href="<?= base_url('Cashier/first_load_request'); ?>"><i class="fa fa-anchor"></i>Request</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-user"></i>Profiles</a>
+                    <a class="nav-link" href="<?= base_url('Cashier/first_load_customer'); ?>"><i class="fa fa-user"></i>Customer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url('Cashier/first_load_debitor'); ?>"><i class="fa fa-users"></i>Debitor</a>
                 </li>
             </ul>
         </div>

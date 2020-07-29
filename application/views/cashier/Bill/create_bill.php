@@ -75,22 +75,25 @@
             <ul class="navbar-nav ml-auto">
                 <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
                 <li class="nav-item ">
-                    <a class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                    <a class="nav-link" href="<?= base_url('Cashier/first_load_bill'); ?>"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link active" href="<?= base_url('Cashier/first_load_bill'); ?>"><i class="fa fa-file-text"></i>Bill</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-handshake-o"></i>Customers</a>
+                <li class="nav-item active">
+                    <a class="nav-link" href="<?= base_url('Cashier/first_load_bill'); ?>"><i class="fa fa-file-text"></i>Bill</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-area-chart"></i>Stocks</a>
+                    <a class="nav-link" href="<?= base_url('Cashier/first_load_srn'); ?>"><i class="fa fa-backward"></i>SRN</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-users"></i>Creditors</a>
+                    <a class="nav-link" href="<?= base_url('Cashier/first_load_insert_product'); ?>"><i class="fa fa-cart-plus"></i>GRN</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="fa fa-user"></i>Profiles</a>
+                    <a class="nav-link" href="<?= base_url('Cashier/first_load_request'); ?>"><i class="fa fa-anchor"></i>Request</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url('Cashier/first_load_customer'); ?>"><i class="fa fa-user"></i>Customer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url('Cashier/first_load_debitor'); ?>"><i class="fa fa-users"></i>Debitor</a>
                 </li>
             </ul>
         </div>
@@ -171,7 +174,7 @@
 
             <div class="card" id="sales-summary">
               <div class="title">
-              <h1>Create Bill</h1>
+              <h2>CREATE BILL</h2>
               <!-- <p class="subtitle">Sales Performance for the Month</p> --> 
               </div>
               <div class="content">
@@ -264,33 +267,39 @@
                   </center>
                   <br>
 
+                  
+
+                  <form action="<?=base_url('Cashier/create_bill'); ?>" method="post">
                   <div class="row">
-                    <div class="col-md-9">
+                    <div class="col-md-4">
                     <label>Bill Type </label> 
                     <select id="bill_type" name="bill_type">
                       <option>Cash</option>
                       <option>Credit</option>
                     </select>
+                    </div>
 
-                    
+                    <div class="col-md-4">
                     <label>Customer ID </label>
-                    <input type="text" name="customer" placeholder="111111111v">
+                    <input type="text" name="customer" placeholder="111111111v" required="true">
 
                       <input type="hidden" name="user" id="user" value="user test">
                       <input type="hidden" name="branch" id="branch" value="branch1">
                     </div>
-                    <div class="col-md-3">
+                    
+                   
+                    <div class="col-md-4">
                       <label>Bill Number </label>
                       <?php 
                         foreach ($new_bill_no as $number) :
                       ?>
 
-                      <input type="text" name="grn_no"  id="grn_no" readonly="true" value="<?php echo $number; ?>">
+                      <input type="text" name="bill_no"  id="bill_no" readonly="true" value="<?php echo $number; ?>">
 
                       <?php endforeach; ?>
                     </div>
                   </div>
-
+                  <div class="row">
                   <div class="table-responsive" id="printData_id">
                     
                       <table class="table table-bordered table-striped" id="grn_table">
@@ -300,7 +309,7 @@
                         <th>Name</th>
                         <th>Description</th>
                         <th>Price</th>
-                        <th>Quentity</th>
+                        <th>Quantity</th>
                         <th>Total Price</th>
                         <th>Option</th>
                         </tr>
@@ -308,8 +317,10 @@
                         <?php 
                         $counter=1;
                         $num=1;
+                        $totalAmount=0.00;
 
                         foreach ($data as $row) :
+                          $totalAmount += $row->total;
                         ?>
 
                         <tr>
@@ -328,11 +339,18 @@
                       </table>
 
                       <div class="row">
-                      <div class="col-md-10">
+
+                      <div class="col-md-8">
                       </div>
-                      <div class="col-md-1">
-                        <button name="add_data" id="add_data" class="btn btn-success">Pay Bill</button>
+
+                      <div class="col-md-3">
+                        <label>Total Amount : </label>
+                        <input type="text" name="totalAmount" value="<?php echo $totalAmount; ?>" readonly><br><br>
+                        <input type="submit"  value="Pay Bill" class="btn btn-success btn-lg">
                       </div>
+                    
+                  </form>
+
                     </div>
 
                   </div>

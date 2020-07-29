@@ -3,27 +3,70 @@
 class Cashier extends CI_Controller
 {
 
+//First load pages
+
+		//At the first time open the page search_product
+		function first_load_search_product(){
+			$this->load->view('cashier/Item/search_product');
+		}
+
+		//At the first time open the page insert_product
+		function first_load_insert_product(){
+
+			$branch = "branch1";
+
+			$grnValue = $this->Cashier_Model->get_grn_table();
+			$current_grn_no = $this->Cashier_Model->get_grn_no($branch);
+
+			$new_grn_no = array();
+			array_push($new_grn_no, $current_grn_no);
+
+			$this->load->view('cashier/Item/insert_product',[ 'data'=>$grnValue , 'new_grn_no'=>$new_grn_no ]);
+		}
+
+
+		//At the first time open the page bill-item
+		function first_load_bill(){
+			$branch = "branch1";
+
+			$billValue = $this->Cashier_Model->get_temp_bill_table();
+			$current_bill_no = $this->Cashier_Model->get_bill_no($branch);
+
+			$new_bill_no = array();
+			array_push($new_bill_no, $current_bill_no);
+
+			$this->load->view('cashier/Bill/create_bill',[ 'data'=>$billValue , 'new_bill_no'=>$new_bill_no ]);
+		}
+
+
+		//At the first time open the page srn
+		function first_load_srn(){
+			$this->load->view('cashier/Bill/return_sale');
+		}
+
+
+		//At the first time open the page request
+		function first_load_request(){
+			$this->load->view('cashier/Item/request_product');
+		}
+
+
+		//At the first time open the page customer
+		function first_load_customer(){
+			$this->load->view('cashier/Customer/customer');
+		}
+
+
+		//At the first time open the page debitor
+		function first_load_debitor(){
+			$this->load->view('cashier/Customer/debitor');
+		}
+
+
+
 // Start the Item Section
 
 	//Start Stock Handling
-		//At the first time open the page search_product
-	function first_load_search_product(){
-		$this->load->view('cashier/Item/search_product');
-	}
-
-	//At the first time open the page insert_product
-	function first_load_insert_product(){
-
-		$branch = "branch1";
-
-		$grnValue = $this->Cashier_Model->get_grn_table();
-		$current_grn_no = $this->Cashier_Model->get_grn_no($branch);
-
-		$new_grn_no = array();
-		array_push($new_grn_no, $current_grn_no);
-
-		$this->load->view('cashier/Item/insert_product',[ 'data'=>$grnValue , 'new_grn_no'=>$new_grn_no ]);
-	}
 
 		//Show search item
 	function search_product()
@@ -248,19 +291,7 @@ class Cashier extends CI_Controller
 // Start the Bill section
 
 	//Start Bill Handling
-		//At the first time open the page bill-item
-		function first_load_bill(){
-			$branch = "Branch_1";
-
-			$billValue = $this->Cashier_Model->get_temp_bill_table();
-			$current_bill_no = $this->Cashier_Model->get_bill_no($branch);
-
-			$new_bill_no = array();
-			array_push($new_bill_no, $current_bill_no);
-
-			$this->load->view('cashier/Bill/create_bill',[ 'data'=>$billValue , 'new_bill_no'=>$new_bill_no ]);
-		}
-
+		
 
 
 		//add the item to the temp bill table
@@ -289,6 +320,40 @@ class Cashier extends CI_Controller
 
 			redirect('Cashier/first_load_bill');
 
+		}
+
+
+		function create_bill(){
+			
+			$bill_type = $this->input->post('bill_type');
+			$customer = $this->input->post('customer');
+			$user = $this->input->post('user');
+			$branch = $this->input->post('branch');
+			$bill_no = $this->input->post('bill_no');
+			$totalAmount = $this->input->post('totalAmount');
+
+			$billData = array(
+				'bill_type'=> $bill_type,
+				'customer'=>$customer ,
+				'user'=>$user ,
+				'branch'=>$branch ,
+				'bill_no'=>$bill_no,
+				'totalAmount'=>$totalAmount  
+			);
+
+			$billValue = $this->Cashier_Model->get_temp_bill_table();
+		
+			// $this->Cashier_Model->create_bill($billValue, $billData);
+
+			// $this->Cashier_Model->clear_temp_bill_table($branch);
+			$pdf = new PDF();
+			$pdf->AliasNbPages();
+			$pdf->AddPage('L');
+			$pdf->SetFont('Arial', 'B', 10);
+			$pdf->InvoiceTable($billData, $billValue);
+	
+			$pdf->Output();
+			//redirect('Cashier/first_load_bill');
 		}
 
 		
