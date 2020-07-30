@@ -343,9 +343,11 @@ class Cashier extends CI_Controller
 
 			$billValue = $this->Cashier_Model->get_temp_bill_table();
 		
-			// $this->Cashier_Model->create_bill($billValue, $billData);
+			$this->Cashier_Model->create_bill($billValue, $billData);
 
-			// $this->Cashier_Model->clear_temp_bill_table($branch);
+			$this->Cashier_Model->clear_temp_bill_table($branch);
+
+			//generate the pdf
 			$pdf = new PDF();
 			$pdf->AliasNbPages();
 			$pdf->AddPage('L');
