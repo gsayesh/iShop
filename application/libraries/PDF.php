@@ -1,5 +1,5 @@
 <?php
-require_once('fpdf.php');
+require_once('Fpdf.php');
 class PDF extends FPDF
 {
 	// private $level;
