@@ -28,6 +28,54 @@
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.min.css'>
 <link rel="stylesheet" href="<?php echo base_url('public/assets/css/chat.css'); ?>">
 
+
+
+      <!-- Script for search product -->
+      <script>
+      $(document).ready(function(){
+
+        load_data();
+
+
+        $('#nic').keyup(function(){
+
+              var search = $(this).val();
+              if(search != '')
+              {
+              load_data(search);
+              }
+              else
+              {
+              load_data();
+              }
+          });
+
+
+        });
+
+
+        function load_data(query)
+        {
+
+          $.ajax({
+
+          url:"<?php echo base_url(); ?>Cashier/search_debitor",
+          method:"POST",
+          data:{query:query},
+          success:function(data){
+            $('#result').html(data);
+
+          }
+
+          });
+
+        }
+
+
+      </script>
+
+
+
 </head>
 <body style="background: url('images/bg.png') no-repeat center center fixed; background-size: cover;">
 
@@ -145,6 +193,53 @@
               </div>
               <div class="content">
                 
+
+                <!-- search user area -->
+                <div>
+
+                  <center>
+                  <h4>SEARCH DEBITOR</h4>
+                  </center>
+
+                  <div class="form-group">
+                    <input type="text" name="nic" id="nic" placeholder="NIC Number" class="form-control"><br>
+
+                  </div>
+
+
+                  <div id="result"></div>
+
+                  </div>
+
+                  <hr>
+
+                  <!-- create user section -->
+                  <div>
+
+                  <center>
+                  <h4>SETTLE DEBITOR</h4>
+                  </center>
+
+                  <form action="<?php echo base_url(); ?>Cashier/settle_debiter" method="post">
+
+                  <div class="form-group">
+                    <label class="label label-default">NIC Number</label><br>
+                    <input type="text" name="id_no" placeholder="111111111v" class="form-control" required><br>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="label label-default">Settle Amount</label><br>
+                    <input type="number" name="settle_amount" placeholder="1000.00" class="form-control" ><br>
+                  </div>
+
+                  <input type="submit" value="PAY" class="btn btn-success btn-lg">
+
+                  </form>
+
+
+                  </div>
+
+
               </div>
             </div>
           </div>

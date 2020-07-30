@@ -112,7 +112,7 @@ function read(a)
     var html="<br>";
     if(a.indexOf("http://") === 0 || a.indexOf("https://") === 0)
         html+="<a target='_blank' href='"+a+"'>"+a+"</a><br>";
-    html+="<input type='text' name='item_code' value='"+htmlEntities(a)+"' readonly/></b><br><br>";
+    html+="<input type='text' name='item_code' class='form-control' value='"+htmlEntities(a)+"' readonly/></b>";
     document.getElementById("result2").innerHTML=html;
 
 }	

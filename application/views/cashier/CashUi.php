@@ -28,6 +28,60 @@
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.min.css'>
 <link rel="stylesheet" href="<?php echo base_url('public/assets/css/chat.css'); ?>">
 
+
+<!-- Script for search product -->
+  <script>
+      $(document).ready(function(){
+
+      load_data();
+
+
+      $("#store").change(function(){
+
+              var selectedStore = $(this).children("option:selected").val();
+              alert("You are going to search product in " + selectedStore);
+
+              load_data();
+
+          });
+
+      $('#item_code').keyup(function(){
+      
+            var search = $(this).val();
+            if(search != '')
+            {
+            load_data(search);
+            }
+            else
+            {
+            load_data();
+            }
+        });
+
+
+      });
+
+
+      function load_data(query)
+      {
+
+        $.ajax({
+
+        url:"<?php echo base_url(); ?>Cashier/search_product",
+        method:"POST",
+        data:{query:query,store:$('select#store').val()},
+        success:function(data){
+          $('#result').html(data);
+
+        }
+
+        });
+
+      }
+
+      </script>
+
+
 </head>
 <body style="background: url('images/bg.png') no-repeat center center fixed; background-size: cover;">
 
@@ -140,11 +194,28 @@
 
             <div class="card" id="sales-summary">
               <div class="title">
-                <!-- <h2>Sales Summary - Feb 2020</h2>
-                <p class="subtitle">Sales Performance for the Month</p> -->
+                <h2>DASHBOARD</h2>
+                <!-- <p class="subtitle">Sales Performance for the Month</p> -->
               </div>
               <div class="content">
                 
+                  <!-- Showing area of product search -->
+
+                <h3>Product Search</h3>
+
+                <input type="text" name="item_code" id="item_code" placeholder="Search Items">
+
+                <label>Select Stock:</label>
+
+                <select id="store">
+                  <option>My_Shop</option>
+                  <option>Main_Store</option>
+                <option>Other_Branch</option>
+                </select>
+
+
+                <div id="result"></div>
+
               </div>
             </div>
           </div>

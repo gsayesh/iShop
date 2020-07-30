@@ -197,10 +197,23 @@
 
                   <form action="<?= base_url('Cashier/add_to_tempBill'); ?>" method="post">
 
-                    <input type="text" name="item_code" id="item_code" placeholder="Items Code"><br><br>
-                    <input type="number" name="qty" id="qty" placeholder="Quentity">
-                    <br><br>
-                    <button name="add_manual" class="btn btn-primary">ADD</button>
+                  <div class="form-group">
+
+                    <input type="text" name="item_code" id="item_code" placeholder="Items Code" class="form-control">
+
+                  </div>
+
+                  <div class="form-group">
+
+                    <input type="number" name="qty" id="qty" placeholder="Quantity" class="form-control">
+                  
+                  </div>
+
+                  <div class="form-group">
+
+                    <button name="add_manual" class="btn btn-primary btn-lg">ADD</button>
+
+                  </div>
 
                   </form>
                     
@@ -212,10 +225,23 @@
 
                   <form action="<?= base_url('Cashier/add_to_tempBill'); ?>" method="post">
 
-                    <div id="result2">- scanning -</div>
-                    <input type="number" name="qty" id="qty" placeholder="Quentity">
-                    <br><br>
-                    <button name="add_manual" class="btn btn-primary">ADD</button>
+                  <div class="form-group">
+
+                    <div id="result2" >- scanning -</div>
+
+                  </div>
+
+                  <div class="form-group">
+
+                    <input type="number" name="qty" id="qty" placeholder="Quantity" class="form-control">
+                  
+                  </div>
+
+                  <div class="form-group">
+
+                    <button name="add_manual" class="btn btn-primary btn-lg">ADD</button>
+
+                  </div>
 
                   </form>
 
@@ -271,32 +297,43 @@
 
                   <form action="<?=base_url('Cashier/create_bill'); ?>" method="post">
                   <div class="row">
+
                     <div class="col-md-4">
-                    <label>Bill Type </label> 
-                    <select id="bill_type" name="bill_type">
-                      <option>Cash</option>
-                      <option>Credit</option>
-                    </select>
+
+                      <div class="form-group">
+                        <label class="label label-default">Bill Type </label> 
+                        <select id="bill_type" name="bill_type" class="form-control">
+                          <option>Cash</option>
+                          <option>Credit</option>
+                        </select>
+                      </div>
+
                     </div>
 
                     <div class="col-md-4">
-                    <label>Customer ID </label>
-                    <input type="text" name="customer" placeholder="111111111v" required="true">
 
-                      <input type="hidden" name="user" id="user" value="user test">
-                      <input type="hidden" name="branch" id="branch" value="branch1">
+                      <div class="form-group">
+                        <label class="label label-default">Customer ID </label>
+                        <input type="text" name="customer" placeholder="111111111v" required="true" class="form-control">
+
+                          <input type="hidden" name="user" id="user" value="user test">
+                          <input type="hidden" name="branch" id="branch" value="branch1">
+                      </div>
+
                     </div>
                     
                    
                     <div class="col-md-4">
-                      <label>Bill Number </label>
-                      <?php 
-                        foreach ($new_bill_no as $number) :
-                      ?>
+                      <div class="form-group">
+                        <label class="label label-default">Bill Number </label>
+                        <?php 
+                          foreach ($new_bill_no as $number) :
+                        ?>
 
-                      <input type="text" name="bill_no"  id="bill_no" readonly="true" value="<?php echo $number; ?>">
+                        <input type="text" name="bill_no"  id="bill_no" readonly="true" value="<?php echo $number; ?>" class="form-control">
 
-                      <?php endforeach; ?>
+                        <?php endforeach; ?>
+                      </div>
                     </div>
                   </div>
                   <div class="row">

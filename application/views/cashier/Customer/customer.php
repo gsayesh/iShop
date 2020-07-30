@@ -28,6 +28,52 @@
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.min.css'>
 <link rel="stylesheet" href="<?php echo base_url('public/assets/css/chat.css'); ?>">
 
+
+    <!-- Script for search customer -->
+  <script>
+      $(document).ready(function(){
+
+        load_data();
+
+
+        $('#nic').keyup(function(){
+
+              var search = $(this).val();
+              if(search != '')
+              {
+              load_data(search);
+              }
+              else
+              {
+              load_data();
+              }
+          });
+
+
+        });
+
+
+        function load_data(query)
+        {
+
+          $.ajax({
+
+          url:"<?php echo base_url(); ?>Cashier/search_customer",
+          method:"POST",
+          data:{query:query},
+          success:function(data){
+            $('#result').html(data);
+
+          }
+
+          });
+
+        }
+
+
+      </script>
+
+
 </head>
 <body style="background: url('images/bg.png') no-repeat center center fixed; background-size: cover;">
 
@@ -145,6 +191,95 @@
               </div>
               <div class="content">
                 
+                <!-- search user area -->
+                <div>
+
+                  <center>
+                  <h4>SEARCH CUSTOMER</h4>
+                  </center>
+
+                  <div class="form-group">
+                    <input type="text" name="nic" id="nic" placeholder="NIC Number" class="form-control"><br>
+
+                  </div>
+
+
+                  <div id="result"></div>
+
+                </div>
+
+                <hr>
+
+                <!-- create user section -->
+                <div>
+
+                  <center>
+                  <h4>ADD CUSTOMER</h4>
+                  </center>
+
+                  <form action="<?php echo base_url(); ?>Cashier/add_customer" method="post">
+                  
+                  <div class="form-group">
+                    <label class="label label-default">NIC Number</label><br>
+                    <input type="text" name="id_no" placeholder="111111111v" class="form-control" required><br>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="label label-default">Title</label><br>
+                    <select name="title" class="form-control">
+                      <option value="Mr">Mr</option>
+                      <option value="Mrs">Mrs</option>
+                      <option value="Miss">Miss</option>
+                      <option value="Ms">Ms</option>
+                    </select><br>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="label label-default">Full Name</label><br>
+                    <input type="text" name="name" placeholder="G.P.Kasun Bandara" class="form-control" required><br>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="label label-default">Nick Name</label><br>
+                    <input type="text" name="nick_name" placeholder="Bandara" class="form-control" required><br>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="label label-default">Address</label><br>
+                    <input type="text" name="address" placeholder="No:18 , matara" class="form-control" required><br>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="label label-default">Date of Birth</label><br>
+                    <input type="date" name="dob" class="form-control" required><br>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="label label-default">Gender</label><br>
+                    <select name="gender" class="form-control">
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                    </select><br>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="label label-default">Contact Number 1</label><br>
+                    <input type="number" name="tp_no1" placeholder="0771234567" class="form-control" required><br>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="label label-default">Contact Number 2</label><br>
+                    <input type="number" name="tp_no2" placeholder="0472102245" class="form-control" ><br>
+                  </div>
+
+                  <input type="submit" value="submit" class="btn btn-success btn-lg">
+                  
+                  </form>
+
+
+                </div>
+                
+
               </div>
             </div>
           </div>

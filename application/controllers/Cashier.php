@@ -47,7 +47,16 @@ class Cashier extends CI_Controller
 
 		//At the first time open the page request
 		function first_load_request(){
-			$this->load->view('cashier/Item/request_product');
+
+			$branch = "branch1";
+
+			$requestValue = $this->Cashier_Model->get_before_request_table();
+			$current_bill_no = $this->Cashier_Model->get_request_no($branch);
+
+			$new_bill_no = array();
+			array_push($new_bill_no, $current_bill_no);
+
+			$this->load->view('cashier/Item/request_product',[ 'data'=>$requestValue , 'new_request_no'=>$new_bill_no ]);
 		}
 
 
@@ -343,9 +352,11 @@ class Cashier extends CI_Controller
 
 			$billValue = $this->Cashier_Model->get_temp_bill_table();
 		
-			// $this->Cashier_Model->create_bill($billValue, $billData);
+			$this->Cashier_Model->create_bill($billValue, $billData);
 
-			// $this->Cashier_Model->clear_temp_bill_table($branch);
+			$this->Cashier_Model->clear_temp_bill_table($branch);
+
+			//generate the pdf
 			$pdf = new PDF();
 			$pdf->AliasNbPages();
 			$pdf->AddPage('L');
@@ -359,6 +370,282 @@ class Cashier extends CI_Controller
 		
 
 // End of the Bill section
+
+// Start the hanle customer section 
+
+	function search_customer(){
+		
+		$output = '';
+		$query = '';
+		$data = '';
+
+		
+		$query = $this->input->post('query');
+	
+		$data = $this->Cashier_Model->search_customer($query);
+		
+
+		$output .= '
+		<div class="table-responsive">
+		   <table class="table table-bordered table-striped">
+			<tr>
+			 <th>#</th>
+			 <th>NIC Number</th>
+			 <th>Title</th>
+			 <th>Full Name</th>
+			 <th>Nic Name</th>
+			 <th>Address</th>
+			 <th>DOB</th>
+			 <th>Gender</th>
+			 <th>Contact 1</th>
+			 <th>Contact 2</th>
+			</tr>
+
+		';
+		if($data->num_rows() > 0)
+		{
+
+			$counter = 1;
+
+		 foreach($data->result() as $row)
+		 {
+		  $output .= '
+			<tr>
+			 <td>'.$counter++.'</td>
+			 <td>'.$row->nic.'</td>
+			 <td>'.$row->title.'</td>
+			 <td>'.$row->full_name.'</td>
+			 <td>'.$row->nick_name.'</td>
+			 <td>'.$row->address.'</td>
+			 <td>'.$row->dob.'</td>
+			 <td>'.$row->gender.'</td>
+			 <td>'.$row->contact_no.'</td>
+			 <td>'.$row->contact_no_2.'</td>
+			</tr>
+		  ';
+		 }
+		}
+		else
+		{
+		 $output .= '<tr>
+			 <td colspan="5">No Data Found</td>
+			</tr>';
+		}
+		$output .= '</table>';
+		echo $output;
+
+	}
+
+
+	function add_customer(){
+
+		$id_no = $this->input->post('id_no');
+		$title = $this->input->post('title');
+		$name = $this->input->post('name');
+		$nick_name = $this->input->post('nick_name');
+		$address = $this->input->post('address');
+		$dob = $this->input->post('dob');
+		$gender = $this->input->post('gender');
+		$contact1 = $this->input->post('tp_no1');
+		$contact2 = $this->input->post('tp_no2');
+
+		$customerData = array(
+			'nic'=> $id_no,
+			'title'=>$title ,
+			'full_name'=>$name ,
+			'nick_name'=>$nick_name ,
+			'address'=>$address,
+			'dob'=>$dob,
+			'gender'=>$gender ,
+			'contact_no'=>$contact1,
+			'contact_no_2'=>$contact2   
+		);
+
+		$this->Cashier_Model->create_customer($customerData);
+
+		redirect('Cashier/first_load_customer');
+
+	}
+
+
+	// search the debitors
+	function search_debitor(){
+
+		$output = '';
+		$query = '';
+		$data = '';
+
+		
+		$query = $this->input->post('query');
+	
+		$data = $this->Cashier_Model->search_debitor($query);
+		
+
+		$output .= '
+		<div class="table-responsive">
+		   <table class="table table-bordered table-striped">
+			<tr>
+			 <th>#</th>
+			 <th>NIC Number</th>
+			 <th>Name</th>
+			 <th>Address</th>
+			 <th>Contact Number</th>
+			 <th>Total Amount</th>
+			 
+			</tr>
+
+		';
+		if($data->num_rows() > 0)
+		{
+
+			$counter = 1;
+
+		 foreach($data->result() as $row)
+		 {
+		  $output .= '
+			<tr>
+			 <td>'.$counter++.'</td>
+			 <td>'.$row->customer_id.'</td>
+			 <td>'.$row->name.'</td>
+			 <td>'.$row->address.'</td>
+			 <td>'.$row->contact_no.'</td>
+			 <td>'.$row->amount.'</td>
+			 
+			</tr>
+		  ';
+		 }
+		}
+		else
+		{
+		 $output .= '<tr>
+			 <td colspan="5">No Data Found</td>
+			</tr>';
+		}
+		$output .= '</table>';
+		echo $output;
+
+	}
+
+
+	// Settle the debiter balance
+	function settle_debiter(){
+
+		$id_no = $this->input->post('id_no');
+		$settleAmount = $this->input->post('settle_amount');
+
+		$debit_amount = $this->Cashier_Model->get_debitor_amount($id_no);
+		
+		if($settleAmount == $debit_amount){
+
+			$this->Cashier_Model->remove_debitor($id_no);
+
+		}
+		else{
+
+			$newValue = $debit_amount-$settleAmount;
+			$this->Cashier_Model->update_debitor_amounnt($id_no,$newValue);
+
+		}
+
+		
+		redirect('Cashier/first_load_debitor');
+
+	}
+
+
+	function search_product_request(){
+
+		$output = '';
+		$query = '';
+		$data = '';
+
+		if($this->input->post('query'))
+		{
+		 $query = $this->input->post('query');
+		}
+		
+
+		$data = $this->Cashier_Model->search_in_main($query);
+
+		$output .= '
+		<div class="table-responsive">
+		   <table class="table table-bordered table-striped">
+			<tr>
+			 <th>#</th>
+			 <th>Product Code</th>
+			 <th>Name</th>
+			 <th>Description</th>
+			 <th>Whole Sale Price</th>
+			 <th>Retail Price</th>
+			 <th>Option</th>
+			</tr>
+		';
+		if($data->num_rows() > 0)
+		{
+
+			$counter = 1;
+
+		 foreach($data->result() as $row)
+		 {
+		  $output .= '
+			<tr>
+			 <td>'.$counter++.'</td>
+			 <td>'.$row->item_code.'</td>
+			 <td>'.$row->item_name.'</td>
+			 <td>'.$row->item_description.'</td>
+			 <td>'.$row->whole_sale_price.'</td>
+			 <td>'.$row->retail_price.'</td>
+			 <td><a href="add_before_request_table?code='.$row->item_code.'" class="btn btn-info">ADD</a></td>
+			</tr>
+		  ';
+		 }
+		}
+		else
+		{
+		 $output .= '<tr>
+			 <td colspan="8">No Data Found</td>
+			</tr>';
+		}
+		$output .= '</table> ';
+		echo $output;
+
+	}
+
+
+	function add_before_request_table(){
+
+		$branch = "branch1";
+		$code = $_GET['code'];
+		$datas = $this->Cashier_Model->get_grn_data($code);
+
+		foreach ($datas as $data) {
+			$value = array (
+			'id'=> 0 ,
+			'item_code'=>$data->code,
+			'item_name'=>$data->item_name,
+			'branch'=>$branch
+			);
+		}
+
+		$this->Cashier_Model->add_before_request_table($value);
+
+		redirect('Cashier/first_load_request');
+
+	}
+
+
+	function remove_from_before_request_table($id)
+	{
+
+		$this->Cashier_Model->remove_from_before_request_table($id);
+
+		redirect('Cashier/first_load_request');
+				
+	}
+
+
+
+// End the hanle customer section
 
 
 }
