@@ -733,6 +733,17 @@ class Cashier_Model extends CI_Model
 	}
 
 
+	//Start remove data in before_request_item table
+	function remove_from_before_request_table($id)
+	{
+
+		$this->db->where('id', $id);
+		$this->db->delete('before_request_item');
+
+	}
+	//End
+
+
 // End customer manage area
 
 

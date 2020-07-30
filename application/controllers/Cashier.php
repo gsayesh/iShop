@@ -628,9 +628,21 @@ class Cashier extends CI_Controller
 
 		$this->Cashier_Model->add_before_request_table($value);
 
-		//redirect('Cashier/first_load_insert_product');
+		redirect('Cashier/first_load_request');
 
 	}
+
+
+	function remove_from_before_request_table($id)
+	{
+
+		$this->Cashier_Model->remove_from_before_request_table($id);
+
+		redirect('Cashier/first_load_request');
+				
+	}
+
+
 
 // End the hanle customer section
 
