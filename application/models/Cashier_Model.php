@@ -592,6 +592,35 @@ class Cashier_Model extends CI_Model
 //End of the Bill section
 
 
+// Start the customer manage area 
+
+	//Start get customers
+	function search_customer($query)
+	{
+
+		$this->db->select("*");
+	    $this->db->from("customer");
+	    if($query != '')
+	    {
+		   $this->db->like('nic', $query);
+		   $this->db->or_like('title', $query);
+		   $this->db->or_like('full_name', $query);
+		   $this->db->or_like('nick_name', $query);
+		   $this->db->or_like('address', $query);
+		   $this->db->or_like('dob', $query);
+		   $this->db->or_like('gender', $query);
+		   $this->db->or_like('contact_no', $query);
+		   $this->db->or_like('contact_no_2', $query);
+	    }
+	    $this->db->order_by('full_name', 'DESC');
+	    return $this->db->get();
+
+	}
+	//End
+
+// End customer manage area
+
+
 
 }
 

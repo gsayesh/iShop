@@ -362,6 +362,74 @@ class Cashier extends CI_Controller
 
 // End of the Bill section
 
+// Start the hanle customer section 
+
+	function search_customer(){
+		
+		$output = '';
+		$query = '';
+		$data = '';
+
+		
+		$query = $this->input->post('query');
+	
+		$data = $this->Cashier_Model->search_customer($query);
+		
+
+		$output .= '
+		<div class="table-responsive">
+		   <table class="table table-bordered table-striped">
+			<tr>
+			 <th>#</th>
+			 <th>NIC Number</th>
+			 <th>Title</th>
+			 <th>Full Name</th>
+			 <th>Nic Name</th>
+			 <th>Address</th>
+			 <th>DOB</th>
+			 <th>Gender</th>
+			 <th>Contact 1</th>
+			 <th>Contact 2</th>
+			</tr>
+
+		';
+		if($data->num_rows() > 0)
+		{
+
+			$counter = 1;
+
+		 foreach($data->result() as $row)
+		 {
+		  $output .= '
+			<tr>
+			 <td>'.$counter++.'</td>
+			 <td>'.$row->nic.'</td>
+			 <td>'.$row->title.'</td>
+			 <td>'.$row->full_name.'</td>
+			 <td>'.$row->nick_name.'</td>
+			 <td>'.$row->address.'</td>
+			 <td>'.$row->dob.'</td>
+			 <td>'.$row->gender.'</td>
+			 <td>'.$row->contact_no.'</td>
+			 <td>'.$row->contact_no_2.'</td>
+			</tr>
+		  ';
+		 }
+		}
+		else
+		{
+		 $output .= '<tr>
+			 <td colspan="5">No Data Found</td>
+			</tr>';
+		}
+		$output .= '</table>';
+		echo $output;
+
+	}
+
+
+// End the hanle customer section
+
 
 }
 
