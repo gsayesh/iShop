@@ -261,5 +261,18 @@
 
         }
 
+        public function orders_pending_data(){
+
+            $query =  $this->db->query("SELECT * FROM request_item_temp,request_data_temp"); 
+            return $query->result();
+
+        }
+        
+        public function orders_approve_data(){
+
+
+
+        }
+
     }
 ?>

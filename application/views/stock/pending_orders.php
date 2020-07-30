@@ -138,10 +138,38 @@
 	            	<p class="subtitle"></p>
 	          	</div>
 	          	<div class="content">
-				  	<input class="form-control" type="text" name="search_txt" id="search_txt" placeholder="Search" >
-				  	<?php echo '<label style="color: green">'.$this->session->flashdata("add_success").'</label>'; ?><br>
-				  	<a href="<?= base_url('Stock_Actions/temp_main_view') ?> "class="btn btn-primary">Added Items</a>
-				  	<hr><div id="result"></div>
+				  	
+	          		<div class="table-responsive">    
+						<table class="table" id="example" class="display" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th scope="col"></th>
+			  						<th scope="col">#</th>
+			  						<th scope="col">Item Code</th>
+			  						<th scope="col">Item Name</th>
+			  						<th scope="col">Branch Name</th>
+			  						<th scope="col">Quantity</th>
+								</tr>
+							<thead>
+
+							<?php if($res){?>
+							<?php $i=1; foreach($res as $res) : ?>
+							<tr>
+								<td><input name="itemch[]" value="<?=$res->item_code?>" id="itemch[]" type="checkbox" /></td>
+			  					<td><?=$i++ ?></td>
+			  					<td><?=$res->item_code?></td>
+			  					<td><?=$res->item_name?></td>
+			  					<td><?=$res->branch?></td>
+			  					<td><input name="itemname_<?=$res->item_code?>" id="qtynew" value="<?=$res->qty?>" readonly></td>
+			  					
+							</tr>
+							<?php endforeach; ?>
+							<?php }else{echo "<p style='color:red;font-weight: bold;'>No Pending Orders.</p>";} ?>
+						</table>
+					</div>
+					<!-- <button name="btn_order" id="btn_order" class="btn btn-success">Send</button> -->
+					<p><button class="btn btn-success">Send</button></p>
+
 	          	</div>
 	        </div>
 

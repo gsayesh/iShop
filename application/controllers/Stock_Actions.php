@@ -370,8 +370,8 @@ class Stock_Actions extends CI_Controller {
 
 	public function orders_pending()
 	{
-		//$results = $this->Stock_Model->new_items_view() view_item($id);
-		$this->load->view('stock/pending_orders');
+		$results = $this->Stock_Model->orders_pending_data();
+		$this->load->view('stock/pending_orders',['res'=>$results]);
 	}
 
 	public function stock_request()
@@ -532,6 +532,13 @@ class Stock_Actions extends CI_Controller {
 		$pdf->SetAutoPageBreak(true);
 		$pdf->Output();
 	}
+
+	
+	public function orders_approve(){
+
+
+
+    }
 
 }
 ?>
