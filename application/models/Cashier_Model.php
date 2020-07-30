@@ -564,8 +564,22 @@ class Cashier_Model extends CI_Model
 
 					//Inser new debitor
 
+
+					$this->db->select('*');
+					$this->db->from('customer');
+					$this->db->where('nic',$customer);
+					$query = $this->db->get();
+					$result2 = $query->row_array();
+
+					$name = $result2['full_name'];
+					$address = $result2['address'];
+					$contact = $result2['contact_no'];
+
 					$data = array(
 						'customer_id'=> $customer,
+						'name'=> $name,
+						'address'=> $address,
+						'contact_no'=> $contact,
 						'amount'=> $totalAmount
 					);
 
@@ -627,6 +641,97 @@ class Cashier_Model extends CI_Model
 
 	}
 	//End
+
+
+	//Start search debitors
+	function search_debitor($query)
+	{
+
+		$this->db->select("*");
+	    $this->db->from("debitor");
+	    if($query != '')
+	    {
+		   $this->db->like('customer_id', $query);
+		   $this->db->or_like('name', $query);
+		   $this->db->or_like('address', $query);
+		   $this->db->or_like('contact_no', $query);
+		   $this->db->or_like('amount', $query);
+	    }
+	    $this->db->order_by('name', 'DESC');
+	    return $this->db->get();
+
+	}
+	//End
+
+
+	//Start get debitors
+	function get_debitor_amount($id)
+	{
+
+		$this->db->select('*');
+		$this->db->from('debitor');
+		$this->db->where('customer_id',$id);
+		$query = $this->db->get();
+		$result = $query->row_array();
+
+		$amount = $result['amount'];
+
+	    return $amount;
+
+	}
+	//End
+
+
+	function remove_debitor($id){
+
+		$this -> db -> where('customer_id', $id);
+    	$this -> db -> delete('debitor');
+
+	}
+
+
+	function update_debitor_amounnt($id,$newAmount){
+		
+		$data = array(
+			'amount' => $newAmount
+		);
+
+		$this -> db -> where('customer_id', $id);
+    	$this -> db -> update('debitor',$data);
+
+	}
+
+
+	function add_before_request_table($value){
+
+		$this->db->insert('before_request_item',$value);
+
+	}
+
+
+	function get_before_request_table(){
+		return $this->db->get('before_request_item')->result();
+	}
+
+	function get_request_no($branch){
+
+		$this->db->select('*');
+		$this->db->from('request_data');
+		$this->db->where('branch',$branch);
+		$query = $this->db->get();
+		$number1 = $query->num_rows();
+
+		$this->db->select('*');
+		$this->db->from('request_data_temp');
+		$this->db->where('branch',$branch);
+		$query = $this->db->get();
+		$number2 = $query->num_rows();
+
+		$number = $number1+$number2+1;
+
+		return $number;
+	}
+
 
 // End customer manage area
 

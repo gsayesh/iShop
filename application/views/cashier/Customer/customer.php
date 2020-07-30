@@ -29,7 +29,7 @@
 <link rel="stylesheet" href="<?php echo base_url('public/assets/css/chat.css'); ?>">
 
 
-    <!-- Script for search product -->
+    <!-- Script for search customer -->
   <script>
       $(document).ready(function(){
 
@@ -220,12 +220,12 @@
                   <form action="<?php echo base_url(); ?>Cashier/add_customer" method="post">
                   
                   <div class="form-group">
-                    <label>NIC Number</label><br>
+                    <label class="label label-default">NIC Number</label><br>
                     <input type="text" name="id_no" placeholder="111111111v" class="form-control" required><br>
                   </div>
 
                   <div class="form-group">
-                    <label>Title</label><br>
+                    <label class="label label-default">Title</label><br>
                     <select name="title" class="form-control">
                       <option value="Mr">Mr</option>
                       <option value="Mrs">Mrs</option>
@@ -235,27 +235,27 @@
                   </div>
                   
                   <div class="form-group">
-                    <label>Full Name</label><br>
+                    <label class="label label-default">Full Name</label><br>
                     <input type="text" name="name" placeholder="G.P.Kasun Bandara" class="form-control" required><br>
                   </div>
 
                   <div class="form-group">
-                    <label>Nick Name</label><br>
+                    <label class="label label-default">Nick Name</label><br>
                     <input type="text" name="nick_name" placeholder="Bandara" class="form-control" required><br>
                   </div>
 
                   <div class="form-group">
-                    <label>Address</label><br>
+                    <label class="label label-default">Address</label><br>
                     <input type="text" name="address" placeholder="No:18 , matara" class="form-control" required><br>
                   </div>
 
                   <div class="form-group">
-                    <label>Date of Birth</label><br>
+                    <label class="label label-default">Date of Birth</label><br>
                     <input type="date" name="dob" class="form-control" required><br>
                   </div>
 
                   <div class="form-group">
-                    <label>Gender</label><br>
+                    <label class="label label-default">Gender</label><br>
                     <select name="gender" class="form-control">
                       <option value="male">Male</option>
                       <option value="female">Female</option>
@@ -263,12 +263,12 @@
                   </div>
 
                   <div class="form-group">
-                    <label>Contact Number 1</label><br>
+                    <label class="label label-default">Contact Number 1</label><br>
                     <input type="number" name="tp_no1" placeholder="0771234567" class="form-control" required><br>
                   </div>
 
                   <div class="form-group">
-                    <label>Contact Number 2</label><br>
+                    <label class="label label-default">Contact Number 2</label><br>
                     <input type="number" name="tp_no2" placeholder="0472102245" class="form-control" ><br>
                   </div>
 

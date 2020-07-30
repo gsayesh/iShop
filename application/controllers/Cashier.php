@@ -47,7 +47,16 @@ class Cashier extends CI_Controller
 
 		//At the first time open the page request
 		function first_load_request(){
-			$this->load->view('cashier/Item/request_product');
+
+			$branch = "branch1";
+
+			$requestValue = $this->Cashier_Model->get_before_request_table();
+			$current_bill_no = $this->Cashier_Model->get_request_no($branch);
+
+			$new_bill_no = array();
+			array_push($new_bill_no, $current_bill_no);
+
+			$this->load->view('cashier/Item/request_product',[ 'data'=>$requestValue , 'new_request_no'=>$new_bill_no ]);
 		}
 
 
@@ -458,6 +467,170 @@ class Cashier extends CI_Controller
 
 	}
 
+
+	// search the debitors
+	function search_debitor(){
+
+		$output = '';
+		$query = '';
+		$data = '';
+
+		
+		$query = $this->input->post('query');
+	
+		$data = $this->Cashier_Model->search_debitor($query);
+		
+
+		$output .= '
+		<div class="table-responsive">
+		   <table class="table table-bordered table-striped">
+			<tr>
+			 <th>#</th>
+			 <th>NIC Number</th>
+			 <th>Name</th>
+			 <th>Address</th>
+			 <th>Contact Number</th>
+			 <th>Total Amount</th>
+			 
+			</tr>
+
+		';
+		if($data->num_rows() > 0)
+		{
+
+			$counter = 1;
+
+		 foreach($data->result() as $row)
+		 {
+		  $output .= '
+			<tr>
+			 <td>'.$counter++.'</td>
+			 <td>'.$row->customer_id.'</td>
+			 <td>'.$row->name.'</td>
+			 <td>'.$row->address.'</td>
+			 <td>'.$row->contact_no.'</td>
+			 <td>'.$row->amount.'</td>
+			 
+			</tr>
+		  ';
+		 }
+		}
+		else
+		{
+		 $output .= '<tr>
+			 <td colspan="5">No Data Found</td>
+			</tr>';
+		}
+		$output .= '</table>';
+		echo $output;
+
+	}
+
+
+	// Settle the debiter balance
+	function settle_debiter(){
+
+		$id_no = $this->input->post('id_no');
+		$settleAmount = $this->input->post('settle_amount');
+
+		$debit_amount = $this->Cashier_Model->get_debitor_amount($id_no);
+		
+		if($settleAmount == $debit_amount){
+
+			$this->Cashier_Model->remove_debitor($id_no);
+
+		}
+		else{
+
+			$newValue = $debit_amount-$settleAmount;
+			$this->Cashier_Model->update_debitor_amounnt($id_no,$newValue);
+
+		}
+
+		
+		redirect('Cashier/first_load_debitor');
+
+	}
+
+
+	function search_product_request(){
+
+		$output = '';
+		$query = '';
+		$data = '';
+
+		if($this->input->post('query'))
+		{
+		 $query = $this->input->post('query');
+		}
+		
+
+		$data = $this->Cashier_Model->search_in_main($query);
+
+		$output .= '
+		<div class="table-responsive">
+		   <table class="table table-bordered table-striped">
+			<tr>
+			 <th>#</th>
+			 <th>Product Code</th>
+			 <th>Name</th>
+			 <th>Description</th>
+			 <th>Whole Sale Price</th>
+			 <th>Retail Price</th>
+			 <th>Option</th>
+			</tr>
+		';
+		if($data->num_rows() > 0)
+		{
+
+			$counter = 1;
+
+		 foreach($data->result() as $row)
+		 {
+		  $output .= '
+			<tr>
+			 <td>'.$counter++.'</td>
+			 <td>'.$row->item_code.'</td>
+			 <td>'.$row->item_name.'</td>
+			 <td>'.$row->item_description.'</td>
+			 <td>'.$row->whole_sale_price.'</td>
+			 <td>'.$row->retail_price.'</td>
+			 <td><a href="add_before_request_table?code='.$row->item_code.'" class="btn btn-info">ADD</a></td>
+			</tr>
+		  ';
+		 }
+		}
+		else
+		{
+		 $output .= '<tr>
+			 <td colspan="8">No Data Found</td>
+			</tr>';
+		}
+		$output .= '</table> ';
+		echo $output;
+
+	}
+
+
+	function add_before_request_table($item_code){
+
+		$branch = "branch1";
+		$code = $_GET['code'];
+		$datas = $this->Cashier_Model->get_grn_data($code);
+
+		foreach ($datas as $data) {
+			$value = array (
+			'item_code'=>$data->item_code,
+			'item_name'=>$data->item_name,
+			'branch'=>$branch
+			);
+		}
+
+		$this->Cashier_Model->add_before_request_table($value);
+
+		//redirect('Cashier/first_load_insert_product');
+
+	}
 
 // End the hanle customer section
 
