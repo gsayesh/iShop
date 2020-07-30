@@ -257,7 +257,7 @@
                           <td><?= $row->code; ?></td>
                           <td><?= $row->name; ?></td>
                           <td><input type="Number" name="qty_<?= $row->code; ?>" id="quantity1" min="0" required="true" ></td>
-                          <td><a href="remove_from_gnr_table/<?= $row->id ?>" class="btn btn-danger">REMOVE</a></td>
+                          <td><a href="remove_from_before_request_table/<?= $row->id ?>" class="btn btn-danger">REMOVE</a></td>
                           </tr>
 
                           <?php endforeach; ?>

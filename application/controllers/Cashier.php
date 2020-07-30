@@ -612,7 +612,7 @@ class Cashier extends CI_Controller
 	}
 
 
-	function add_before_request_table($item_code){
+	function add_before_request_table(){
 
 		$branch = "branch1";
 		$code = $_GET['code'];
@@ -620,7 +620,8 @@ class Cashier extends CI_Controller
 
 		foreach ($datas as $data) {
 			$value = array (
-			'item_code'=>$data->item_code,
+			'id'=> 0 ,
+			'item_code'=>$data->code,
 			'item_name'=>$data->item_name,
 			'branch'=>$branch
 			);
