@@ -428,6 +428,37 @@ class Cashier extends CI_Controller
 	}
 
 
+	function add_customer(){
+
+		$id_no = $this->input->post('id_no');
+		$title = $this->input->post('title');
+		$name = $this->input->post('name');
+		$nick_name = $this->input->post('nick_name');
+		$address = $this->input->post('address');
+		$dob = $this->input->post('dob');
+		$gender = $this->input->post('gender');
+		$contact1 = $this->input->post('tp_no1');
+		$contact2 = $this->input->post('tp_no2');
+
+		$customerData = array(
+			'nic'=> $id_no,
+			'title'=>$title ,
+			'full_name'=>$name ,
+			'nick_name'=>$nick_name ,
+			'address'=>$address,
+			'dob'=>$dob,
+			'gender'=>$gender ,
+			'contact_no'=>$contact1,
+			'contact_no_2'=>$contact2   
+		);
+
+		$this->Cashier_Model->create_customer($customerData);
+
+		redirect('Cashier/first_load_customer');
+
+	}
+
+
 // End the hanle customer section
 
 

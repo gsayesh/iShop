@@ -618,6 +618,16 @@ class Cashier_Model extends CI_Model
 	}
 	//End
 
+
+	//Start add customer
+	function create_customer($data)
+	{
+
+		$this->db->insert('customer',$data);
+
+	}
+	//End
+
 // End customer manage area
 
 

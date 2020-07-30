@@ -217,11 +217,11 @@
                   <h4>ADD CUSTOMER</h4>
                   </center>
 
-                  <form action="">
+                  <form action="<?php echo base_url(); ?>Cashier/add_customer" method="post">
                   
                   <div class="form-group">
                     <label>NIC Number</label><br>
-                    <input type="text" name="id_no" placeholder="111111111v" class="form-control"><br>
+                    <input type="text" name="id_no" placeholder="111111111v" class="form-control" required><br>
                   </div>
 
                   <div class="form-group">
@@ -236,22 +236,22 @@
                   
                   <div class="form-group">
                     <label>Full Name</label><br>
-                    <input type="text" name="name" placeholder="G.P.Kasun Bandara" class="form-control"><br>
+                    <input type="text" name="name" placeholder="G.P.Kasun Bandara" class="form-control" required><br>
                   </div>
 
                   <div class="form-group">
-                    <label>Nic Name</label><br>
-                    <input type="text" name="nic_name" placeholder="Bandara" class="form-control"><br>
+                    <label>Nick Name</label><br>
+                    <input type="text" name="nick_name" placeholder="Bandara" class="form-control" required><br>
                   </div>
 
                   <div class="form-group">
                     <label>Address</label><br>
-                    <input type="text" name="address" placeholder="No:18 , matara" class="form-control"><br>
+                    <input type="text" name="address" placeholder="No:18 , matara" class="form-control" required><br>
                   </div>
 
                   <div class="form-group">
                     <label>Date of Birth</label><br>
-                    <input type="date" name="dob" class="form-control"><br>
+                    <input type="date" name="dob" class="form-control" required><br>
                   </div>
 
                   <div class="form-group">
@@ -264,12 +264,12 @@
 
                   <div class="form-group">
                     <label>Contact Number 1</label><br>
-                    <input type="number" name="tp_no1" placeholder="0771234567" class="form-control"><br>
+                    <input type="number" name="tp_no1" placeholder="0771234567" class="form-control" required><br>
                   </div>
 
                   <div class="form-group">
                     <label>Contact Number 2</label><br>
-                    <input type="number" name="tp_no1" placeholder="0472102245" class="form-control"><br>
+                    <input type="number" name="tp_no2" placeholder="0472102245" class="form-control" ><br>
                   </div>
 
                   <input type="submit" value="submit" class="btn btn-success btn-lg">

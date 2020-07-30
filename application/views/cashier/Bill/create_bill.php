@@ -197,10 +197,23 @@
 
                   <form action="<?= base_url('Cashier/add_to_tempBill'); ?>" method="post">
 
-                    <input type="text" name="item_code" id="item_code" placeholder="Items Code"><br><br>
-                    <input type="number" name="qty" id="qty" placeholder="Quentity">
-                    <br><br>
-                    <button name="add_manual" class="btn btn-primary">ADD</button>
+                  <div class="form-group">
+
+                    <input type="text" name="item_code" id="item_code" placeholder="Items Code" class="form-control">
+
+                  </div>
+
+                  <div class="form-group">
+
+                    <input type="number" name="qty" id="qty" placeholder="Quantity" class="form-control">
+                  
+                  </div>
+
+                  <div class="form-group">
+                  
+                    <button name="add_manual" class="btn btn-primary btn-lg">ADD</button>
+
+                  </div>
 
                   </form>
                     
@@ -212,10 +225,23 @@
 
                   <form action="<?= base_url('Cashier/add_to_tempBill'); ?>" method="post">
 
-                    <div id="result2">- scanning -</div>
-                    <input type="number" name="qty" id="qty" placeholder="Quentity">
-                    <br><br>
-                    <button name="add_manual" class="btn btn-primary">ADD</button>
+                  <div class="form-group">
+
+                    <div id="result2" >- scanning -</div>
+
+                  </div>
+
+                  <div class="form-group">
+
+                    <input type="number" name="qty" id="qty" placeholder="Quantity" class="form-control">
+                  
+                  </div>
+
+                  <div class="form-group">
+
+                    <button name="add_manual" class="btn btn-primary btn-lg">ADD</button>
+
+                  </div>
 
                   </form>
 
