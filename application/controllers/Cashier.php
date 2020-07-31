@@ -41,7 +41,19 @@ class Cashier extends CI_Controller
 
 		//At the first time open the page srn
 		function first_load_srn(){
-			$this->load->view('cashier/Bill/return_sale');
+
+			$branch = "branch1";
+
+			$srnValue = $this->Cashier_Model->get_temp_srn_table($branch);
+			$current_srn_no = $this->Cashier_Model->get_srn_no($branch);
+
+			$new_srn_no = array();
+			array_push($new_srn_no, $current_srn_no);
+
+			$this->load->view('cashier/Bill/return_sale',[ 'data'=>$srnValue , 'new_srn_no'=>$new_srn_no ]);
+
+
+			//$this->load->view('cashier/Bill/return_sale');
 		}
 
 
@@ -650,6 +662,134 @@ class Cashier extends CI_Controller
 
 		$branch = $this->input->post('branch');
 		$req_no = $this->input->post('request_no');
+
+		foreach($reqValue as $val) {
+			$dump[$val->code] = $_POST['qty_' . $val->code];
+			$dump[$val->request_no] = $req_no;
+		}
+		
+		
+
+		$extra = array(
+			'request_no' => $req_no,
+			'user_id' => $this->input->post('user'),
+			'branch' => $branch,
+			'request_date' => date("Y-m-d"),
+			'status' => 'pending',
+		);
+
+		
+	
+		for ($i=0; $i<sizeof($reqValue); $i++) {
+			foreach ($dump as $key => $value) {
+				if ($reqValue[$i]->code == $key) {
+					$reqValue[$i]->qty = $value;
+					$reqValue[$i]->request_no = $req_no;
+				}
+			}
+			
+		}
+
+		$this->Cashier_Model->add_request_item($reqValue, $extra);
+
+		$this->Cashier_Model->clear_before_request($branch);
+
+		redirect('Cashier/first_load_request');
+						
+	}
+
+
+	function search_product_srn()
+	{
+		  $output = '';
+		  $query = '';
+		  $data = '';
+
+		  if($this->input->post('query'))
+		  {
+		   $query = $this->input->post('query');
+		  }
+		  
+
+		  $data = $this->Cashier_Model->search_in_items($query);
+
+		  $output .= '
+		  <div class="table-responsive">
+		     <table class="table table-bordered table-striped">
+		      <tr>
+		       <th>#</th>
+		       <th>Product Code</th>
+		       <th>Name</th>
+		       <th>Description</th>
+		       <th>Whole Sale Price</th>
+		       <th>Retail Price</th>
+		       <th>Option</th>
+		      </tr>
+		  ';
+		  if($data->num_rows() > 0)
+		  {
+
+		  	$counter = 1;
+
+		   foreach($data->result() as $row)
+		   {
+		    $output .= '
+		      <tr>
+		       <td>'.$counter++.'</td>
+		       <td>'.$row->item_code.'</td>
+		       <td>'.$row->item_name.'</td>
+		       <td>'.$row->item_description.'</td>
+		       <td>'.$row->whole_sale_price.'</td>
+		       <td>'.$row->retail_price.'</td>
+		       <td><a href="add_srn_data_temp?code='.$row->item_code.'" class="btn btn-info">ADD</a></td>
+		      </tr>
+		    ';
+		   }
+		  }
+		  else
+		  {
+		   $output .= '<tr>
+		       <td colspan="8">No Data Found</td>
+		      </tr>';
+		  }
+		  $output .= '</table> ';
+		  echo $output;
+	}
+
+
+
+	function add_srn_data_temp(){
+
+		$branch = "branch1";
+		$code = $_GET['code'];
+		$datas = $this->Cashier_Model->get_item_details($code);
+
+		$item_code = $datas['item_code'];
+		$item_name = $datas['item_name'];
+
+		$value = array (
+		'item_code'=>$item_code,
+		'name'=>$item_name,
+		'branch'=>$branch
+		);
+		
+
+		$this->Cashier_Model->add_srn_data_temp($value);
+
+		redirect('Cashier/first_load_srn');
+
+	}
+
+	public function add_srn()
+	{
+		
+		$branch = $this->input->post('branch');
+		$req_no = $this->input->post('request_no');
+
+		$reqValue = $this->Cashier_Model->get_temp_srn_table($branch);
+		$dump = array();
+		$arr = array();
+
 
 		foreach($reqValue as $val) {
 			$dump[$val->code] = $_POST['qty_' . $val->code];

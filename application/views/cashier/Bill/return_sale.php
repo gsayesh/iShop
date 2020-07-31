@@ -28,6 +28,49 @@
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.min.css'>
 <link rel="stylesheet" href="<?php echo base_url('public/assets/css/chat.css'); ?>">
 
+
+<script>
+      $(function(){
+
+      load_data();
+
+      $('#item_code').keyup(function(){
+      
+            var search = $(this).val();
+            if(search != '')
+            {
+            load_data(search);
+            }
+            else
+            {
+            load_data();
+            }
+        });
+
+      function load_data(query)
+      {
+
+        $.ajax({
+
+        url:"<?php echo base_url(); ?>Cashier/search_product_srn",
+        method:"POST",
+        data:{query:query},
+        success:function(data){
+          $('#result').html(data);
+
+        }
+
+        });
+
+      }
+
+
+
+    });
+
+    </script>
+
+
 </head>
 <body style="background: url('images/bg.png') no-repeat center center fixed; background-size: cover;">
 
@@ -145,6 +188,96 @@
               </div>
               <div class="content">
                 
+
+                                <!-- Function UI Eliment -->
+
+                 <div class="row">
+                    <div class="col-md-9">
+                    </div>
+                    <div class="col-md-2">
+                      <input type="text" id="item_code" placeholder="Type Item Code Here..">
+                    </div>
+                  </div>
+                  
+                  
+                  <hr>
+
+                  <div id="result"></div>
+
+                  <hr>
+
+                  <div>
+                    <center>    
+                    <h3>Return Sales</h3>
+                    </center>
+                    <br>
+
+                    <div class="row">
+
+                    <form action="<?= base_url(); ?>cashier/add_srn" method="post">
+
+                      <div class="col-md-9">
+                        <input type="hidden" name="user" id="user" value="user test">
+                        <input type="hidden" name="branch" id="branch" value="branch1">
+                      </div>
+
+                      <div class="col-md-3">
+                        <label>SRN Number </label>
+                        <?php 
+                          foreach ($new_srn_no as $number) :
+                        ?>
+
+                        <input type="text" name="request_no"  id="request_no" readonly="true" value="<?= $number; ?>">
+
+                        <?php endforeach; ?>
+                      </div>
+                    </div>
+
+                    <div class="table-responsive" id="printData_id">
+                    
+                            <input type="hidden" value="aaa" name="data">
+                        <table class="table table-bordered table-striped" id="grn_table">
+                          <tr>
+                          <th>#</th>
+                          <th>Product Code</th>
+                          <th>Name</th>
+                          <th>Quentity</th>
+                          <th>Option</th>
+                          </tr>
+
+                          <?php 
+                          $counter=1;
+                          $num=1;
+
+                          foreach ($data as $row) :
+                          ?>
+
+                          <tr>
+                          <td><?= $counter++; ?></td>
+                          <td><?= $row->item_code; ?></td>
+                          <td><?= $row->name; ?></td>
+                          <td><input type="Number" name="qty_<?= $row->item_code; ?>" id="quantity1" min="0" required="true" ></td>
+                          <td><a href="remove_from_before_request_table/<?= $row->id ?>" class="btn btn-danger">REMOVE</a></td>
+                          </tr>
+
+                          <?php endforeach; ?>
+
+                        </table>
+
+                        <div class="row">
+                        <div class="col-md-10">
+                        </div>
+                        <div class="col-md-1">
+                          <input type="submit" name="add_data" id="" class="btn btn-success" value="submit">
+                        </div>
+                          </form>
+
+                      </div>
+
+                    </div>
+
+
+
               </div>
             </div>
           </div>

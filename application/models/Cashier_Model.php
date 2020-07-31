@@ -775,6 +775,36 @@ class Cashier_Model extends CI_Model
 	}
 
 
+	function get_temp_srn_table($branch){
+		
+		$this->db->select('*');
+		$this->db->from('return_sale_temp');
+		$this->db->where('branch',$branch);
+		$query = $this->db->get();
+		$result = $query->result();
+
+		return $result;
+
+	}
+
+	function get_srn_no($branch){
+
+		$this->db->select('*');
+		$this->db->from('return_sale_temp');
+		$this->db->where('branch',$branch);
+		$query = $this->db->get();
+		$number = $query->num_rows();
+
+		return $number+1;
+
+	}
+
+
+	function add_srn_data_temp($value){
+		$this->db->insert('return_sale_temp',$value);
+	}
+
+
 // End customer manage area
 
 

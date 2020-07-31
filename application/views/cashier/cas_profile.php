@@ -20,21 +20,27 @@
     </header>
     <ul class="nav">
       <li>
-        <a href="#">
+        <a href="<?= base_url('Cashier/first_load_bill'); ?>">
           <i class="fa fa-tachometer" aria-hidden="true"> </i> Dashboard
         </a>
       </li>
       <li>
-        <a href="#"><i class="fa fa-file-text" aria-hidden="true"> </i><p>Bill</p></a>
+        <a href="<?= base_url('Cashier/first_load_bill'); ?>"><i class="fa fa-file-text" aria-hidden="true"> </i><p>Bill</p></a>
       </li>
       <li>
-       <a href="#"><i class="fa fa-handshake-o" aria-hidden="true"> </i><p>Customers</p></a>
+       <a href="<?= base_url('Cashier/first_load_srn'); ?>"><i class="fa fa-handshake-o" aria-hidden="true"> </i><p>SRN</p></a>
       </li>
       <li>
-      <a href="<?= base_url('Cashier/first_view'); ?>"><i class="fa fa-area-chart" aria-hidden="true"> </i><p>Stocks</p></a>
+      <a href="<?= base_url('Cashier/first_load_insert_product'); ?>"><i class="fa fa-area-chart" aria-hidden="true"> </i><p>GRN</p></a>
       </li>
       <li>
-      <a href="#"><i class="fa fa-users" aria-hidden="true"> </i><p>Creditors</p></a>
+      <a href="<?= base_url('Cashier/first_load_request'); ?>"><i class="fa fa-users" aria-hidden="true"> </i><p>Request</p></a>
+      </li>
+      <li>
+      <a href="<?= base_url('Cashier/first_load_customer'); ?>"><i class="fa fa-area-chart" aria-hidden="true"> </i><p>Customer</p></a>
+      </li>
+      <li>
+      <a href="<?= base_url('Cashier/first_load_debitor'); ?>"><i class="fa fa-users" aria-hidden="true"> </i><p>Debitor</p></a>
       </li>
       <li>
         <hr>
