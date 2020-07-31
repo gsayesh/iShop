@@ -20,7 +20,7 @@
     </header>
     <ul class="nav">
       <li>
-        <a href="<?= base_url('Cashier/first_load_bill'); ?>">
+        <a href="<?= base_url('Cashier/first_load_search_product'); ?>">
           <i class="fa fa-tachometer" aria-hidden="true"> </i> Dashboard
         </a>
       </li>

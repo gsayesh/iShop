@@ -75,7 +75,7 @@
             <ul class="navbar-nav ml-auto">
                 <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
                 <li class="nav-item ">
-                    <a class="nav-link" href="<?= base_url('Cashier/first_load_bill'); ?>"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                    <a class="nav-link" href="<?= base_url('Cashier/first_load_search_product'); ?>"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="<?= base_url('Cashier/first_load_bill'); ?>"><i class="fa fa-file-text"></i>Bill</a>

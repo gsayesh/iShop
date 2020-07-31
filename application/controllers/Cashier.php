@@ -7,7 +7,7 @@ class Cashier extends CI_Controller
 
 		//At the first time open the page search_product
 		function first_load_search_product(){
-			$this->load->view('cashier/Item/search_product');
+			$this->load->view('cashier/CashUi');
 		}
 
 		//At the first time open the page insert_product
@@ -784,50 +784,55 @@ class Cashier extends CI_Controller
 	{
 		
 		$branch = $this->input->post('branch');
-		$req_no = $this->input->post('request_no');
+		// $bill_no = $this->input->post('bill_no');
+		// $srn_no = $this->input->post('srn_no');
+		// $reason = $this->input->post('reason');
 
-		$reqValue = $this->Cashier_Model->get_temp_srn_table($branch);
-		$dump = array();
-		$arr = array();
+		// $reqValue = $this->Cashier_Model->get_temp_srn_table($branch);
+		// $dump = array();
+		// $arr = array();
 
 
-		foreach($reqValue as $val) {
-			$dump[$val->code] = $_POST['qty_' . $val->code];
-			$dump[$val->request_no] = $req_no;
-		}
+		// foreach($reqValue as $val) {
+		// 	$dump[$val->item_code] = $_POST['qty_' . $val->item_code];
+		// 	//$dump[$val->request_no] = $req_no;
+		// }
 		
 		
 
-		$extra = array(
-			'request_no' => $req_no,
-			'user_id' => $this->input->post('user'),
-			'branch' => $branch,
-			'request_date' => date("Y-m-d"),
-			'status' => 'pending',
-		);
+		// $extra = array(
+		// 	'srn_no' => $srn_no,
+		// 	'bill_no' => $bill_no,
+		// 	'branch' => $branch,
+		// 	'reason' => $reason,
+		// );
 
 		
 	
-		for ($i=0; $i<sizeof($reqValue); $i++) {
-			foreach ($dump as $key => $value) {
-				if ($reqValue[$i]->code == $key) {
-					$reqValue[$i]->qty = $value;
-					$reqValue[$i]->request_no = $req_no;
-				}
-			}
+		// for ($i=0; $i<sizeof($reqValue); $i++) {
+		// 	foreach ($dump as $key => $value) {
+		// 		if ($reqValue[$i]->item_code == $key) {
+		// 			$reqValue[$i]->quantity = $dump[$key];
+		// 			$reqValue[$i]->item_code = $reqValue[$i]->item_code;
+		// 		}
+		// 	}
 			
-		}
+		// }
 
-		$this->Cashier_Model->add_request_item($reqValue, $extra);
+		// $this->Cashier_Model->add_request_item($reqValue, $extra);
 
-		$this->Cashier_Model->clear_before_request($branch);
+		$this->Cashier_Model->clear_tepm_srn($branch);
 
-		redirect('Cashier/first_load_request');
+		redirect('Cashier/first_load_srn');
 						
 	}
 
 
 	function remove_from_temp_srn_table($id){
+
+		$this->Cashier_Model->remove_from_temp_srn_table($id);
+
+		redirect('Cashier/first_load_srn');
 
 	}
 

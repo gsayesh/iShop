@@ -805,6 +805,16 @@ class Cashier_Model extends CI_Model
 	}
 
 
+	function remove_from_temp_srn_table($id){
+		$this->db->where('id', $id);
+		$this->db->delete('return_sale_temp');
+	}
+
+	function clear_tepm_srn($branch){
+		$this->db->truncate('return_sale_temp');
+	}
+
+
 // End customer manage area
 
 

@@ -84,7 +84,7 @@
             <ul class="navbar-nav ml-auto">
                 <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
                 <li class="nav-item ">
-                    <a class="nav-link" href="<?= base_url('Cashier/first_load_bill'); ?>"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                    <a class="nav-link" href="<?= base_url('Cashier/first_load_search_product'); ?>"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link" href="<?= base_url('Cashier/first_load_bill'); ?>"><i class="fa fa-file-text"></i>Bill</a>
@@ -189,13 +189,13 @@
               <div class="content">
                 
 
-                                <!-- Function UI Eliment -->
+                <!-- Function UI Eliment -->
 
                  <div class="row">
                     <div class="col-md-9">
                     </div>
                     <div class="col-md-2">
-                      <input type="text" id="item_code" placeholder="Type Item Code Here..">
+                      <input type="text" id="item_code" placeholder="Type Item Code Here.." class="form-control">
                     </div>
                   </div>
                   
@@ -217,23 +217,24 @@
                     <form action="<?= base_url(); ?>cashier/add_srn" method="post">
 
                     <div class="form-group">
-                      <div class="col-md-8">
+                      
                         <label class="label label-default">Bill Number </label>
-                        <input type="text" name="bill_no" placeholder="Bill Number" >
+                        <input type="text" name="bill_no" placeholder="Bill Number" required class="form-control">
                         <input type="hidden" name="user" id="user" value="user test">
                         <input type="hidden" name="branch" id="branch" value="branch1">
-                      </div>
+                        <label class="label label-default">Reason </label>
+                        <input type="text" name="reason" placeholder="Reason" required class="form-control">                      
 
-                      <div class="col-md-3">
+                      
                         <label class="label label-default">SRN Number </label>
                         <?php 
                           foreach ($new_srn_no as $number) :
                         ?>
 
-                        <input type="text" name="request_no"  id="request_no" readonly="true" value="<?= $number; ?>" >
+                        <input type="text" name="srn_no"  id="srn_no" readonly="true" value="<?= $number; ?>" class="form-control">
 
                         <?php endforeach; ?>
-                      </div>
+                      
                       </div>
                     </div>
 
@@ -261,7 +262,7 @@
                           <td><?= $row->item_code; ?></td>
                           <td><?= $row->name; ?></td>
                           <td><input type="Number" name="qty_<?= $row->item_code; ?>" id="quantity1" min="0" required="true" ></td>
-                          <td><a href="remove_from_before_request_table/<?= $row->id ?>" class="btn btn-danger">REMOVE</a></td>
+                          <td><a href="remove_from_temp_srn_table/<?= $row->id ?>" class="btn btn-danger">REMOVE</a></td>
                           </tr>
 
                           <?php endforeach; ?>
