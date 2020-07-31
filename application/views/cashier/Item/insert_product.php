@@ -225,7 +225,9 @@
 
                     <div class="row">
                       <div class="col-md-9">
+                      
                         <form action="<?= base_url(); ?>cashier/grn_item" method="post">
+
                         <label>Invoice Number </label>
                         <input type="text" name="bill_no" id="bill_no" required="true">
                         <input type="hidden" name="user" id="user" value="user test">

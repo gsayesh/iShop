@@ -216,6 +216,9 @@
                     <br>
 
                     <div class="row">
+
+                    <form action="<?= base_url(); ?>cashier/add_request" method="post">
+
                       <div class="col-md-9">
                         <input type="hidden" name="user" id="user" value="user test">
                         <input type="hidden" name="branch" id="branch" value="branch1">

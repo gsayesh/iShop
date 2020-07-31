@@ -287,50 +287,50 @@ class Cashier_Model extends CI_Model
 	//End
 
 
-	public function add_request_item($table_data, $basic_data)
-	{
+	// public function add_request_item($table_data, $basic_data)
+	// {
 
-		$branch = $basic_data['branch'];
-		$grn_no = $basic_data['grn_no'];
-		$user = $basic_data['user'];
+	// 	$branch = $basic_data['branch'];
+	// 	$grn_no = $basic_data['grn_no'];
+	// 	$user = $basic_data['user'];
 
-		$grn_details = array(
-			'grn_no' => $grn_no,
-			'user_id' => $user,
-			'branch' => $branch
-		);
+	// 	$grn_details = array(
+	// 		'grn_no' => $grn_no,
+	// 		'user_id' => $user,
+	// 		'branch' => $branch
+	// 	);
 
-		for ($i=0; $i < count($table_data); $i++) { 
-			$data[] = array(
-				'code' => $table_data[$i]['code'],
-				'name' => $table_data[$i]['name'],
-				'description' => $table_data[$i]['description'],
-				'whole_sale' => $table_data[$i]['whole_sale'],
-				'retail' => $table_data[$i]['retail'],
-				'qty' => $table_data[$i]['qty'],
-				'request_no' => $grn_no,
-				'branch_name' => $branch
-			);
-		}
+	// 	for ($i=0; $i < count($table_data); $i++) { 
+	// 		$data[] = array(
+	// 			'code' => $table_data[$i]['code'],
+	// 			'name' => $table_data[$i]['name'],
+	// 			'description' => $table_data[$i]['description'],
+	// 			'whole_sale' => $table_data[$i]['whole_sale'],
+	// 			'retail' => $table_data[$i]['retail'],
+	// 			'qty' => $table_data[$i]['qty'],
+	// 			'request_no' => $grn_no,
+	// 			'branch_name' => $branch
+	// 		);
+	// 	}
 
 
-		try{
+	// 	try{
 
-			//Inser data to grn_item table
-			for ($i=0; $i < count($table_data); $i++) { 
+	// 		//Inser data to grn_item table
+	// 		for ($i=0; $i < count($table_data); $i++) { 
 				
-				$this->db->insert('request_item',$data[$i]);
+	// 			$this->db->insert('request_item',$data[$i]);
 
-			}
+	// 		}
 
-			return 'success';
+	// 		return 'success';
 
-		}
-		catch(Exception $e){
-			return 'failed';
-		}
+	// 	}
+	// 	catch(Exception $e){
+	// 		return 'failed';
+	// 	}
 
-	}
+	// }
 	//End
 
 
@@ -742,6 +742,37 @@ class Cashier_Model extends CI_Model
 
 	}
 	//End
+
+
+	function get_item_details($code){
+
+		$this->db->select('*');
+		$this->db->from('item');
+		$this->db->where('item_code',$code);
+		$query = $this->db->get();
+		$result = $query->row_array();
+
+		return $result;
+
+	}
+
+	function add_request_item($item,$data){
+
+		$this->db->insert('request_data_temp', $data);
+
+		foreach($item as $single) {
+			$this->db->insert('request_item_temp', $single);
+		}
+	}
+
+
+
+	function clear_before_request($branch){
+
+		$this->db->where('branch_name', $branch);
+		$this->db->delete('before_request_item');
+
+	}
 
 
 // End customer manage area

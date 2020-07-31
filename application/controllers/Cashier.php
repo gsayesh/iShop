@@ -275,10 +275,6 @@ class Cashier extends CI_Controller
 			
 		}
 
-		// $this->output->set_content_type('application/json');
-		// echo json_encode(array('status' => $status));
-		// $this->load->library('PDF');
-
 		$pdf = new PDF();
 		$pdf->AliasNbPages();
 		$pdf->AddPage('L');
@@ -616,16 +612,17 @@ class Cashier extends CI_Controller
 
 		$branch = "branch1";
 		$code = $_GET['code'];
-		$datas = $this->Cashier_Model->get_grn_data($code);
+		$datas = $this->Cashier_Model->get_item_details($code);
 
-		foreach ($datas as $data) {
-			$value = array (
-			'id'=> 0 ,
-			'item_code'=>$data->code,
-			'item_name'=>$data->item_name,
-			'branch'=>$branch
-			);
-		}
+		$item_code = $datas['item_code'];
+		$item_name = $datas['item_name'];
+
+		$value = array (
+		'code'=>$item_code,
+		'name'=>$item_name,
+		'branch_name'=>$branch
+		);
+		
 
 		$this->Cashier_Model->add_before_request_table($value);
 
@@ -643,6 +640,51 @@ class Cashier extends CI_Controller
 				
 	}
 
+
+	public function add_request()
+	{
+		
+		$reqValue = $this->Cashier_Model->get_before_request_table();
+		$dump = array();
+		$arr = array();
+
+		$branch = $this->input->post('branch');
+		$req_no = $this->input->post('request_no');
+
+		foreach($reqValue as $val) {
+			$dump[$val->code] = $_POST['qty_' . $val->code];
+			$dump[$val->request_no] = $req_no;
+		}
+		
+		
+
+		$extra = array(
+			'request_no' => $req_no,
+			'user_id' => $this->input->post('user'),
+			'branch' => $branch,
+			'request_date' => date("Y-m-d"),
+			'status' => 'pending',
+		);
+
+		
+	
+		for ($i=0; $i<sizeof($reqValue); $i++) {
+			foreach ($dump as $key => $value) {
+				if ($reqValue[$i]->code == $key) {
+					$reqValue[$i]->qty = $value;
+					$reqValue[$i]->request_no = $req_no;
+				}
+			}
+			
+		}
+
+		$this->Cashier_Model->add_request_item($reqValue, $extra);
+
+		$this->Cashier_Model->clear_before_request($branch);
+
+		redirect('Cashier/first_load_request');
+						
+	}
 
 
 // End the hanle customer section
