@@ -370,8 +370,8 @@ class Stock_Actions extends CI_Controller {
 
 	public function orders_pending()
 	{
-		$results = $this->Stock_Model->orders_pending_data();
-		$this->load->view('stock/pending_orders',['res'=>$results]);
+		//$results = $this->Stock_Model->orders_pending_data();
+		$this->load->view('stock/pending_orders');
 	}
 
 	public function stock_request()
@@ -533,11 +533,159 @@ class Stock_Actions extends CI_Controller {
 		$pdf->Output();
 	}
 
-	
+
+	function orders_pending_search()
+	{
+		$output = '';
+		$branch = '';
+		if($this->input->post('branch'))
+		{
+			$branch = $this->input->post('branch');
+		}
+		
+		if($branch == 'branch1'){
+			$data = $this->Stock_Model->orders_pending_data($branch);
+			$item = $this->Stock_Model->orders_pending_item($branch);
+		}else if($branch == 'branch2'){
+			$data = $this->Stock_Model->orders_pending_data($branch);
+			$item = $this->Stock_Model->orders_pending_item($branch);
+		}
+
+
+
+		$output .= '
+		<div class="table-responsive">
+			<table class="table table-secondary">
+				<thead>
+					<tr>
+						<th scope="col">Request No</th>
+			  			<th scope="col">Date</th>
+			  			<th scope="col">User</th>
+			  			<th scope="col">Status</th>
+					</tr>
+				</thead>
+		';
+		if($data->num_rows() > 0)
+		{
+			foreach($data->result() as $res)
+			{
+				$output .= '
+					<tr>
+					<td>'.$res->request_no.'
+					<input type="hidden" name="req_no" id="req_no" value="'.$res->request_no.'" readonly>
+					<input type="hidden" name="branch" id="branch" value="'.$res->branch.'" readonly>
+					</td>
+					<td>'.$res->request_date.'
+					<input type="hidden" name="req_date" id="req_date" value="'.$res->request_date.'" readonly>
+					</td>
+					<td>'.$res->user_id.'
+					<input type="hidden" name="req_user" id="req_user" value="'.$res->user_id.'" readonly>
+					</td>
+					<td>'.$res->status.'
+					<input type="hidden" name="req_stat" id="req_stat" value="'.$res->status.'" readonly>
+					</td>
+					<tr>
+				</table>
+			</div>	
+				';
+		$output .= '
+		
+		<hr>
+		<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col"></th>
+			  					<th scope="col">#</th>
+			  					<th scope="col">Item Code</th>
+			  					<th scope="col">Item Name</th>
+			  					<th scope="col">Quantity</th>
+							</tr>
+						</thead>
+		';
+		if($item->num_rows() > 0)
+		{
+			$i=1;
+			foreach($item->result() as $row)
+			{
+				if($res->request_no == $row->request_no){
+					$mainqty= NUll;
+					$mainres = $this->Stock_Model->main_stock($row->code);
+					foreach ($mainres as $mres) {
+						$mainqty = $mres->main;
+				$output .= '
+						<tr>
+							<td><input name="itemch[]" value="'.$row->code.'" id="itemch[]" type="checkbox" /></td>
+			  				<td>'.$i++ .'</td>
+			  				<td>'.$row->code.'</td>
+			  				<td>'.$row->name.'
+			  				<input type="hidden" name="itemname_'.$row->code.'" id="itemname" value="'.$row->name.'" readonly>
+			  				</td>';
+
+			  				if($mainqty<$row->qty){
+			  		$output .= '
+			  				<td><input  class="form-control"type="number" name="itemqty_'.$row->code.'" id="itemqty" value="'.$row->qty.'" max="'.$mainqty.'"><sapn><p style="color:red;">You have '.$mainqty.'</p></span></td>';
+
+			  				}else{
+			  		$output .= '
+			  				<td>'.$row->qty.'<input type="hidden" name="itemqty_'.$row->code.'" id="itemqty" value="'.$row->qty.'" readonly></td>';
+
+			  				}
+			  		$output .= '
+						</tr>
+				';
+					}
+				}
+			}
+		}
+			}
+		}
+		else
+		{
+			$output .= '<tr>
+							<td colspan="5">No Data Found</td>
+						</tr>';
+		}
+		$output .= '</table></div>';
+		echo $output;
+	}
+
 	public function orders_approve(){
+		$reqno = $this->input->post('req_no');
+		$reqdate = $this->input->post('req_date');
+		$requser = $this->input->post('req_user');
+		$branch = $this->input->post('branch');
+		$itemch = $this->input->post('itemch[]');
 
+		$datareq = array();
+		foreach($itemch as $itemc){
+			$itemname = $this->input->post('itemname_'.$itemc);
+			$newqty = $this->input->post('itemqty_'.$itemc);
+			
+			$item = array('code' => $itemc,
+							'name' => $itemname,
+							'qty' => $newqty,
+							'request_no' => $reqno,
+							'branch_name' => $branch);
+			array_push($datareq, $item);
+		}
+		$date = date('Y-m-d');
+		$data = array('request_no' => $reqno, 
+					'user_id' => $requser,
+					'branch' => $branch,
+					'request_date' => $reqdate,
+					'approved_date' => $date,
+					'status' => 'Settled',);
 
+		$this->Stock_Model->orders_approve_data($datareq,$data);
 
+		$pdf = new STKPDF();
+		$pdf->AliasNbPages();
+		$pdf->AddPage('L');
+		$pdf->SetFont('Arial', 'B', 10);
+		$pdf->ReqTable($datareq,$data);
+		$pdf->SetAutoPageBreak(true);
+		$pdf->Output();
     }
 
 }

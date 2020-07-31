@@ -1,6 +1,6 @@
 <?php
 require_once('Fpdf.php');
-class PDF extends FPDF
+class STKPDF extends FPDF
 {
 	// private $level;
 	// private $semester;
@@ -25,7 +25,7 @@ class PDF extends FPDF
 		 $this->Image($url,90,2,55,-750);
 		// Title
 		$this->SetTextColor(238, 61, 0);
-		$this->Cell(30,2,'IOT Shop',0,0,'C', false, 'https://www.iotshop.lk/');
+		$this->Cell(30,2,'IOT Shop',0,0,'C', false, 'https://www.iotshop.tk/');
 		//$this->SetTextColor(218, 165, 32);
 		$this->Ln(5);
 
@@ -66,13 +66,13 @@ class PDF extends FPDF
 		$this->Cell(0,10,'POS System (#IOT Shop)',0,0,'R');
 	}
 
-	function BillTable($grnValue, $qty, $extra)
+	function ReqTable($datareq,$data)
 	{
 
 		$this->Cell(130);
 		$this->SetFont('Arial','B',18);
 		$this->SetTextColor(0, 0, 0);
-		$this->Cell(20,2,'GOODS RECEIVE NOTE',0,0,'C', false, '');
+		$this->Cell(20,2,'Delivery Note',0,0,'C', false, '');
 		//$this->SetTextColor(218, 165, 32);
 		$this->Ln(5);
 		// Colors, line width and bold font
@@ -89,8 +89,8 @@ class PDF extends FPDF
 		// $table_columns = $c->get_final_format($level, $semester);
 		// // Header
 		// $header = $table_columns;
-		 $header1 = array('Product Code', 'Name', 'Description', 'Whole Sale Price', 'Retail Price', 'Quentity');
-		 $header = array('item_code', 'item_name', 'item_description', 'whole_sale_price', 'retail_price', 'quantity');
+		 $header1 = array('Product Code', 'Name', 'Quantity');
+		 $header = array('code', 'name', 'qty');
 		 $w = array(30, 50, 60, 35, 30, 20);
 		// $tc = 0;
 		// foreach ($table_columns as $column) {
@@ -121,11 +121,11 @@ class PDF extends FPDF
 		// 	}
 		// }
 		$this->Ln(8);
-		$this->Cell($cen - 13);
-		$this->Cell(50,7,"GRN No: " . $extra['grn_no'],0,0,'C',false);
+		$this->Cell($cen - 10);
+		$this->Cell(50,7,"Request No: " . $data['request_no'],0,0,'C',false);
 		$this->Ln();
 		$this->Cell($cen - 8);
-		$this->Cell(50,7,"Invoice No: " . $extra['bill_no'],0,0,'C',false);
+		$this->Cell(50,7,"Branch : " . $data['branch'],0,0,'C',false);
 	
 		$this->Ln();
 		$this->Cell($cen - 8);
@@ -144,26 +144,33 @@ class PDF extends FPDF
 		// // Data
 		// $query = $c->get_final_details($level, $semester);
 
-
-		foreach ($grnValue as $item) {
-			$i = 0;
+		$i = 0;
+		foreach ($datareq as $row) {
+			
 			$this->Cell($cen, 0, '', 0, 0);
-			foreach ($header as $column) {
-				if ($column == 'quantity') {
-					$this->Cell($w[$i],6,$qty[$item->item_code],0,0,'C',false);
-					$i++;
-				} else {
-					$this->Cell($w[$i],6,$item->$column,0,0,'C',false);
-					$i++;
-				}
+			$this->Cell($w[$i],6,$row['code'],0,0,'C',false);
+			$this->Cell(10);
+			$this->Cell($w[$i],6,$row['name'],0,0,'C',false);
+			$this->Cell(15);
+			$this->Cell($w[$i],6,$row['qty'],0,0,'C',false);
 				
-			}
-			$i = 0;
-
+			$i = $i+$row['qty'];
 			$this->Ln();
 
 		}
 		$this->Ln(20);
+		$this->Cell(70);
+		$this->Cell(50,6,'____________________________________________________________',0,0,'C',false);
+		$this->Ln(8);
+		$this->Cell(105);
+		$this->Cell(35,6,$i,0,0,'C',false);
+		$this->Ln(5);
+		$this->Cell(115);
+		$this->Cell(35,6,'______________________________',0,0,'C',false);
+		$this->Ln(2);
+		$this->Cell(115);
+		$this->Cell(35,6,'______________________________',0,0,'C',false);
+		$this->Ln(50);
 		$this->Cell(200, 0, '', 0, 0);
 		$this->Cell(50,6,"..............................",0,0,'C',false);
 		$this->Ln();

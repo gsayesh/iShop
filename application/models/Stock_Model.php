@@ -261,17 +261,84 @@
 
         }
 
-        public function orders_pending_data(){
+        public function orders_pending_data($branch){
+            $status ="Pending";
 
-            $query =  $this->db->query("SELECT * FROM request_item_temp,request_data_temp"); 
+            $this->db->select("*");
+            $this->db->from("request_data_temp");
+            $this->db->where('branch',$branch);
+            $this->db->where('status',$status);
+            $this->db->order_by('request_no', 'DESC');
+            $this->db->limit('1');
+            return $this->db->get();
+            // $query =  $this->db->query("SELECT * FROM request_data_temp"); 
+            // return $query->result();
+
+        }
+
+        public function orders_pending_item($branch){
+
+            $this->db->select("*");
+            $this->db->from("request_item_temp");
+            $this->db->where('branch_name',$branch);
+            $this->db->order_by('code', 'DESC');
+            return $this->db->get();
+            /*$query =  $this->db->query("SELECT * FROM request_item_temp WHERE branch_name='".$branch."'"); 
+            return $query->result();*/
+
+        }
+
+
+        public function main_stock($id){
+
+            $query =  $this->db->query("SELECT main FROM stock WHERE item_code='".$id."'"); 
             return $query->result();
 
         }
-        
-        public function orders_approve_data(){
 
 
+        public function orders_approve_data($datareq,$data){
 
+            $this->db->insert('request_data',$data);
+            foreach($datareq as $itemarr){
+                $this->db->insert('request_item',$itemarr);
+
+                $item_code = $itemarr['code'];
+                $send_qty = $itemarr['qty'];
+                $this->db->select('*');
+                $this->db->from('stock');
+                $this->db->where('item_code',$item_code);
+                $query = $this->db->get();
+                $result = $query->row_array();
+
+                if ($query->num_rows() > 0) {
+
+                $old_stock = $result['main'];
+                $new_stock = $old_stock-$send_qty;
+
+                $update = array(
+                        'main'=>$new_stock
+                        );
+
+                $equal = array(
+                        'item_code'=>$item_code
+                        );
+
+                $this->db->update('stock', $update, $equal);
+
+                }
+
+                $this->db->where('request_no', $itemarr['request_no']);
+                $this->db->where('branch_name', $itemarr['branch_name']);
+                $this->db->delete('request_item_temp' );
+
+                $this->db->where('request_no', $data['request_no']);
+                $this->db->where('branch', $data['branch']);
+                $this->db->delete('request_data_temp' );
+            }
+
+            
+            
         }
 
     }

@@ -138,38 +138,18 @@
 	            	<p class="subtitle"></p>
 	          	</div>
 	          	<div class="content">
-				  	
-	          		<div class="table-responsive">    
-						<table class="table" id="example" class="display" cellspacing="0" width="100%">
-							<thead>
-								<tr>
-									<th scope="col"></th>
-			  						<th scope="col">#</th>
-			  						<th scope="col">Item Code</th>
-			  						<th scope="col">Item Name</th>
-			  						<th scope="col">Branch Name</th>
-			  						<th scope="col">Quantity</th>
-								</tr>
-							<thead>
+	          		<form id="frm-send" action="<?= base_url().'Stock_Actions/orders_approve'?>" method="POST">
+				  	<div class="form-group">
+              			<label for="branchstk">Branch</label>
+              			<select class="form-control" id="branch_drop">
+                			<option value="branch1">Branch 1</option>
+                			<option value="branch2">Branch 2</option>
+              			</select>
+            		</div>
+            		<div id="result"></div>
 
-							<?php if($res){?>
-							<?php $i=1; foreach($res as $res) : ?>
-							<tr>
-								<td><input name="itemch[]" value="<?=$res->item_code?>" id="itemch[]" type="checkbox" /></td>
-			  					<td><?=$i++ ?></td>
-			  					<td><?=$res->item_code?></td>
-			  					<td><?=$res->item_name?></td>
-			  					<td><?=$res->branch?></td>
-			  					<td><input name="itemname_<?=$res->item_code?>" id="qtynew" value="<?=$res->qty?>" readonly></td>
-			  					
-							</tr>
-							<?php endforeach; ?>
-							<?php }else{echo "<p style='color:red;font-weight: bold;'>No Pending Orders.</p>";} ?>
-						</table>
-					</div>
-					<!-- <button name="btn_order" id="btn_order" class="btn btn-success">Send</button> -->
-					<p><button class="btn btn-success">Send</button></p>
-
+            		<button class="btn btn-success">Approve</button>
+            		</form>
 	          	</div>
 	        </div>
 
@@ -182,35 +162,30 @@
 
 <!-- partial -->
 <script>
-	$(document).ready(function(){
+  $(document).ready(function(){
 
-		load_data();
+   load_data();
 
-		function load_data(query)
-		{
-			$.ajax({
-				url:"<?php echo base_url('Stock_Actions/item_search_stock'); ?>",
-				method:"POST",
-				data:{query:query},
-				success:function(data){
-					$('#result').html(data);
-				}
-			})
-		}
+   function load_data()
+   {
+      $.ajax({
+        url:"<?php echo base_url('Stock_Actions/orders_pending_search'); ?>",
+        method:"POST",
+        data:{branch:$('#branch_drop').val()},
+        success:function(data){
+          $('#result').html(data);
+        }
+      })
+    }
 
-		$('#search_txt').keyup(function(){
-			var search = $(this).val();
-			if(search != '')
-			{
-				load_data(search);
-			}
-			else
-			{
-				load_data();
-			}
-		});
+    $('#branch_drop').on('change', function() {
+        load_data();
+    });
 
-	});
+
+  });
+
+
 </script>
 <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
 <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
