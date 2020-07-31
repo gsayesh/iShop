@@ -1,5 +1,5 @@
 <?php
-require_once('fpdf.php');
+require_once('Fpdf.php');
 class QRPDF extends FPDF
 {
 	// private $level;
