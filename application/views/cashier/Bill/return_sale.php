@@ -216,20 +216,24 @@
 
                     <form action="<?= base_url(); ?>cashier/add_srn" method="post">
 
-                      <div class="col-md-9">
+                    <div class="form-group">
+                      <div class="col-md-8">
+                        <label class="label label-default">Bill Number </label>
+                        <input type="text" name="bill_no" placeholder="Bill Number" >
                         <input type="hidden" name="user" id="user" value="user test">
                         <input type="hidden" name="branch" id="branch" value="branch1">
                       </div>
 
                       <div class="col-md-3">
-                        <label>SRN Number </label>
+                        <label class="label label-default">SRN Number </label>
                         <?php 
                           foreach ($new_srn_no as $number) :
                         ?>
 
-                        <input type="text" name="request_no"  id="request_no" readonly="true" value="<?= $number; ?>">
+                        <input type="text" name="request_no"  id="request_no" readonly="true" value="<?= $number; ?>" >
 
                         <?php endforeach; ?>
+                      </div>
                       </div>
                     </div>
 

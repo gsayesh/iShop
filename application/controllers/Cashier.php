@@ -827,6 +827,11 @@ class Cashier extends CI_Controller
 	}
 
 
+	function remove_from_temp_srn_table($id){
+
+	}
+
+
 // End the hanle customer section
 
 
