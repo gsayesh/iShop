@@ -1,3 +1,5 @@
+<?php $userid = $this->session->userdata('user_id'); ?>
+<?php if($userid==""){redirect('Welcome/index');} ?>
 <!DOCTYPE html>
 <html lang="en" >
 <head>
